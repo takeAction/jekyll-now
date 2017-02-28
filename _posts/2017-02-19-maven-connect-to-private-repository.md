@@ -8,86 +8,86 @@ categories: [maven]
 ---
 Take nexus oss 3 for example, maven settings.xml looks like:
 
-[code]
+```
 
-&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&amp;gt;
+<?xml version="1.0" encoding="UTF-8"?>
 
-&amp;lt;settings xmlns=&quot;http://maven.apache.org/SETTINGS/1.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot;http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd&quot;&amp;gt;
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
 
-&amp;lt;servers&amp;gt;
+<servers>
 
-&amp;lt;!-- used for deploy artifact to nexus release or snapshots repository --&amp;gt;
-&amp;lt;server&amp;gt;
-&amp;lt;id&amp;gt;nexus&amp;lt;/id&amp;gt;
-&amp;lt;username&amp;gt;admin&amp;lt;/username&amp;gt;
-&amp;lt;password&amp;gt;admin123&amp;lt;/password&amp;gt;
-&amp;lt;/server&amp;gt;
-&amp;lt;/servers&amp;gt;
+<!-- used for deploy artifact to nexus release or snapshots repository -->
+<server>
+<id>nexus</id>
+<username>admin</username>
+<password>admin123</password>
+</server>
+</servers>
 
-&amp;lt;mirrors&amp;gt;
-&amp;lt;mirror&amp;gt;
-&amp;lt;id&amp;gt;nexus&amp;lt;/id&amp;gt;
-&amp;lt;mirrorOf&amp;gt;*&amp;lt;/mirrorOf&amp;gt;
-&amp;lt;url&amp;gt;http://192.168.2.102:8081/repository/maven-public&amp;lt;/url&amp;gt;
-&amp;lt;/mirror&amp;gt;
-&amp;lt;/mirrors&amp;gt;
+<mirrors>
+<mirror>
+<id>nexus</id>
+<mirrorOf>*</mirrorOf>
+<url>http://192.168.2.102:8081/repository/maven-public</url>
+</mirror>
+</mirrors>
 
-&amp;lt;profiles&amp;gt;
+<profiles>
 
-&amp;lt;!-- set maven default java compiler version --&amp;gt;
-&amp;lt;profile&amp;gt;
-&amp;lt;id&amp;gt;jdk-1.8&amp;lt;/id&amp;gt;
-&amp;lt;activation&amp;gt;
-&amp;lt;activeByDefault&amp;gt;true&amp;lt;/activeByDefault&amp;gt;
-&amp;lt;jdk&amp;gt;1.8&amp;lt;/jdk&amp;gt;
-&amp;lt;/activation&amp;gt;
-&amp;lt;properties&amp;gt;
-&amp;lt;maven.compiler.source&amp;gt;1.8&amp;lt;/maven.compiler.source&amp;gt;
-&amp;lt;maven.compiler.target&amp;gt;1.8&amp;lt;/maven.compiler.target&amp;gt;
-&amp;lt;maven.compiler.compilerVersion&amp;gt;1.8&amp;lt;/maven.compiler.compilerVersion&amp;gt;
-&amp;lt;/properties&amp;gt;
-&amp;lt;/profile&amp;gt;
+<!-- set maven default java compiler version -->
+<profile>
+<id>jdk-1.8</id>
+<activation>
+<activeByDefault>true</activeByDefault>
+<jdk>1.8</jdk>
+</activation>
+<properties>
+<maven.compiler.source>1.8</maven.compiler.source>
+<maven.compiler.target>1.8</maven.compiler.target>
+<maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
+</properties>
+</profile>
 
-&amp;lt;profile&amp;gt;
-&amp;lt;id&amp;gt;nexus&amp;lt;/id&amp;gt;
-&amp;lt;repositories&amp;gt;
-&amp;lt;repository&amp;gt;
-&amp;lt;id&amp;gt;central&amp;lt;/id&amp;gt;
-&amp;lt;url&amp;gt;http://central&amp;lt;/url&amp;gt;
-&amp;lt;releases&amp;gt;&amp;lt;enabled&amp;gt;true&amp;lt;/enabled&amp;gt;&amp;lt;/releases&amp;gt;
-&amp;lt;snapshots&amp;gt;&amp;lt;enabled&amp;gt;true&amp;lt;/enabled&amp;gt;&amp;lt;/snapshots&amp;gt;
-&amp;lt;/repository&amp;gt;
-&amp;lt;/repositories&amp;gt;
-&amp;lt;pluginRepositories&amp;gt;
-&amp;lt;pluginRepository&amp;gt;
-&amp;lt;id&amp;gt;central&amp;lt;/id&amp;gt;
-&amp;lt;url&amp;gt;http://central&amp;lt;/url&amp;gt;
-&amp;lt;releases&amp;gt;&amp;lt;enabled&amp;gt;true&amp;lt;/enabled&amp;gt;&amp;lt;/releases&amp;gt;
-&amp;lt;snapshots&amp;gt;&amp;lt;enabled&amp;gt;true&amp;lt;/enabled&amp;gt;&amp;lt;/snapshots&amp;gt;
-&amp;lt;/pluginRepository&amp;gt;
-&amp;lt;/pluginRepositories&amp;gt;
-&amp;lt;/profile&amp;gt;
-&amp;lt;/profiles&amp;gt;
+<profile>
+<id>nexus</id>
+<repositories>
+<repository>
+<id>central</id>
+<url>http://central</url>
+<releases><enabled>true</enabled></releases>
+<snapshots><enabled>true</enabled></snapshots>
+</repository>
+</repositories>
+<pluginRepositories>
+<pluginRepository>
+<id>central</id>
+<url>http://central</url>
+<releases><enabled>true</enabled></releases>
+<snapshots><enabled>true</enabled></snapshots>
+</pluginRepository>
+</pluginRepositories>
+</profile>
+</profiles>
 
-&amp;lt;activeProfiles&amp;gt;
-&amp;lt;activeProfile&amp;gt;nexus&amp;lt;/activeProfile&amp;gt;
-&amp;lt;/activeProfiles&amp;gt;
+<activeProfiles>
+<activeProfile>nexus</activeProfile>
+</activeProfiles>
 
-&amp;lt;/settings&amp;gt;
+</settings>
 
-[/code]
+```
 
-&lt;servers&gt; tag is a list of authentication profiles, keyed by the server-id used within the system.  Authentication profiles can be used whenever maven must make a connection to a remote server.
+`<servers`> tag is a list of authentication profiles, keyed by the server-id used within the system.  Authentication profiles can be used whenever maven must make a connection to a remote server.
 
-&lt;server&gt; specifies the authentication information to use when connecting to a particular server, identified by a unique name within the system (referred to by the 'id' attribute below).
+`<server`> specifies the authentication information to use when connecting to a particular server, identified by a unique name within the system (referred to by the 'id' attribute below).
 NOTE: You should either specify username/password OR privateKey/passphrase, since these pairings are used together.
 
-&lt;mirrors&gt;  is a list of mirrors to be used in downloading artifacts from remote repositories.
+`<mirrors`>  is a list of mirrors to be used in downloading artifacts from remote repositories.
 It works like this: a POM may declare a repository to use in resolving certain artifacts.
 However, this repository may have problems with heavy traffic at times, so people have mirrored it to several places.
 That repository definition will have a unique id, so we can create a mirror reference for that repository, to be used as an alternate download site. The mirror site will be the preferred server for that repository.
 
-&lt;mirror&gt; specifies a repository mirror site to use instead of a given repository. The repository that this mirror serves has an ID that matches the mirrorOf element of this mirror. IDs are used for inheritance and direct lookup purposes, and must be unique across the set of mirrors.
+`<mirror`> specifies a repository mirror site to use instead of a given repository. The repository that this mirror serves has an ID that matches the mirrorOf element of this mirror. IDs are used for inheritance and direct lookup purposes, and must be unique across the set of mirrors.
 
 profiles is a list of profiles which can be activated in a variety of ways, and which can modify the build process. Profiles provided in the settings.xml are intended to provide local machine-specific paths and repository locations which allow the build to work in the local environment.
 For example, if you have an integration testing plugin - like cactus - that needs to know where your Tomcat instance is installed, you can provide a variable here such that the variable is dereferenced during the build process to configure the cactus plugin.
@@ -120,21 +120,21 @@ maven-central is proxy repository which means nexus look for jars from it, if it
 
 Upload own artifact to nexus by following configuration in project pom.xml:
 
-[code]
+```
 
-&amp;lt;distributionManagement&amp;gt;
-&amp;lt;repository&amp;gt;
-&amp;lt;id&amp;gt;nexus&amp;lt;/id&amp;gt;
-&amp;lt;name&amp;gt;Releases&amp;lt;/name&amp;gt;
-&amp;lt;url&amp;gt;http://192.168.2.102:8081/repository/maven-releases/&amp;lt;/url&amp;gt;
-&amp;lt;/repository&amp;gt;
-&amp;lt;snapshotRepository&amp;gt;
-&amp;lt;id&amp;gt;nexus&amp;lt;/id&amp;gt;
-&amp;lt;name&amp;gt;Snapshot&amp;lt;/name&amp;gt;
-&amp;lt;url&amp;gt;http://192.168.2.102:8081/repository/maven-snapshots/&amp;lt;/url&amp;gt;
-&amp;lt;/snapshotRepository&amp;gt;
-&amp;lt;/distributionManagement&amp;gt;
+<distributionManagement>
+<repository>
+<id>nexus</id>
+<name>Releases</name>
+<url>http://192.168.2.102:8081/repository/maven-releases/</url>
+</repository>
+<snapshotRepository>
+<id>nexus</id>
+<name>Snapshot</name>
+<url>http://192.168.2.102:8081/repository/maven-snapshots/</url>
+</snapshotRepository>
+</distributionManagement>
 
-[/code]
+```
 
 then run maven deploy command.
