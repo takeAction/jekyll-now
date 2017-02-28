@@ -3,8 +3,8 @@ layout: post
 title: maven connect to private repository
 date: 2017-02-19 22:46
 author: 2freesky
-comments: true
-categories: [maven]
+category: Dev
+tags: [web, jekyll]
 ---
 Take nexus oss 3 for example, maven settings.xml looks like:
 
