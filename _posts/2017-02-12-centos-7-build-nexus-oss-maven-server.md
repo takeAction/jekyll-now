@@ -3,7 +3,7 @@ layout: post
 title: centos 7 build nexus oss maven server
 date: 2017-02-12 22:53
 categories: [linux, maven]
-comments: true
+author: frank
 ---
 ## Installation
 
