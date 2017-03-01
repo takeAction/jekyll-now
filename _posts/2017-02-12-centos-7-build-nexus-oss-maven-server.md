@@ -8,10 +8,12 @@ categories: [linux, maven]
 
 1. install oracle idk 8 and configure JAVA_HOME, make it as default
 2. download nexus oss 3.2
- ```sudo tar xvzf nexus-3.2.0-01-unix.tar.gz -C /opt
+
+ ```
+sudo tar xvzf nexus-3.2.0-01-unix.tar.gz -C /opt
 sudo chmod -R 777 sonatype-work
 ```
-3. to start it from terminal manually, just enter nexus installation home/bin, then run command : 
+3. to start it from terminal manually, just enter nexus installation home/bin, then run command
 `./nexus run`
 In this case, we need to press ctrl+c keys to stop it.
 4. access it by : 
