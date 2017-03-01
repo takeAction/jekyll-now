@@ -27,4 +27,4 @@ for client, it only knows reverse proxy and reverse proxy is target server for i
 
 No configuration in client is necessary.
 
-A typical usage is load balance.
+A typical usage is load balance
