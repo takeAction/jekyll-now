@@ -2,6 +2,8 @@
    As its name implies, it is a wiki which can be used in a company to share knowldege.  
    It's web-based and database is not required.
    
+   Another is MediaWiki.
+   
 ## System requirements:
 - web server, e.g. apache, ngnix, not tomcat
 - php >= 5.2
@@ -11,6 +13,13 @@
 1. install apache
    * `sudo yum install httpd openssl mod_ssl`
    * make it automatically start when your system start-up : `systemctl enable httpd`
+   * if you need to change default port 80 to others, then sudo vi /etc/httpd/conf/httpd.conf, change 
+     > List 80
+     ```
+     sudo firewall-cmd --zone=public --add-port=8090/tcp --permanent
+     sudo firewall-cmd --reload
+     restart httpd to make it take effect
+     ```
 2. install php
    * `sudo yum install php php-gd`
    * `sudo vi /etc/php.ini`, change it likes `expose_php = Off`
