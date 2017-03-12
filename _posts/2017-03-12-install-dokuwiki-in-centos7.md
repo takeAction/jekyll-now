@@ -22,7 +22,14 @@
    * sudo yum install policycoreutils-python
    * sudo semanage permissive -a httpd_t
    
-5. restart apache
+5. modify firewall if necessary
+   Incoming traffic on port 80 maybe blocked by default. If so, we must create a permanent firewall rule to accept it.
+   ```
+   sudo firewall-cmd --permanent --zone=public --add-service=http 
+   sudo firewall-cmd --reload
+   ```
+   
+6. restart apache
    * sudo systemctl restart httpd
    
 ## Usage
