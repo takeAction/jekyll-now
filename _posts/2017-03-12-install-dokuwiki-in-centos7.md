@@ -23,6 +23,7 @@
    * sudo semanage permissive -a httpd_t
    
 5. modify firewall if necessary
+   
    Incoming traffic on port 80 maybe blocked by default. If so, we must create a permanent firewall rule to accept it.
    ```
    sudo firewall-cmd --permanent --zone=public --add-service=http 
