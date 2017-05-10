@@ -62,10 +62,13 @@ public class Student {
   it usually is List
 - for the sake of performance, `<id>` should be declared even it is not required.
 - if column name are the same in sql, then we have to take a alias, otherwise, we cannot get correct result
+
   e.g. select t.id, s.id from ..., they are id, and if we write 
-  `<id property="id" column="id" /><collection ..><id property="id" column="id" />`, in this case,
+  `<id property="id" column="id" /><collection ..><id property="id" column="id" />`, 
+  in this case,
   we are not able to get right one-to-many, that is if there is one teacher and two students, 
   this config will return two teachers.
+  
   or there is one teacher and two students, if we don't name a alias for teacher age and student age in sql, and
   just set column="age" in `<resultMap>`, then the age of each student is equal to student1 age + student2 age.
 
