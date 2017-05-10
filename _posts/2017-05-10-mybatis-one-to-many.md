@@ -25,6 +25,7 @@ public class Student {
 ```
 
 1. Nested result for collection
+
 ```
 <resultMap id="teacherResultMap" type="teacher">
 
@@ -71,5 +72,6 @@ public class Student {
   
   or there is one teacher and two students, if we don't name a alias for teacher age and student age in sql, and
   just set column="age" in `<resultMap>`, then the age of each student is equal to student1 age + student2 age.
+
 
 2. Nested select for collection
