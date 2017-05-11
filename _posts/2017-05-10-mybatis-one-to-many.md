@@ -75,3 +75,30 @@ public class Student {
 
 
 2. Nested select for collection
+
+in this case, configuration looks like:
+```
+<resultMap id="tResult" type="teacher">
+		<collection property="students" ofType="student" select="selectStudents4Teacher" 
+		column="id" />
+	</resultMap>
+	
+	<select id="selectTeacher" resultMap="tResult">
+		select * from teacher;
+	</select>
+	
+	<select id="selectStudents4Teacher" resultType="student">
+		select * from student where teacher_id = #{id}
+	</select>
+  ```
+  unlike nested result for collection, it has 2 sqls, one is used to get teachers, and another is for students
+  base on teacher id.
+  
+  In `<resultMap>`, there is no necessary to define `<id>` or `<result>`.
+  
+  In `<collection>`, value of select is the id of nested select, 
+  and **column** is the column name or column alias
+  of outter query(here is select teacher sql) which its value need to be passed to nested query(select student sql).
+  And if this column not in the outer query, then nested query will not be executed.
+  
+  In select student sql, the `#{id}` can be any name, e.g. `#{t_id}`, it is not necessary to match column name of `<collection>`
