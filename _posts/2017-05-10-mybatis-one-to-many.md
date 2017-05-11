@@ -24,7 +24,7 @@ public class Student {
 }
 ```
 
-1. Nested result for collection
+### Nested result for collection
 
 ```
 <resultMap id="teacherResultMap" type="teacher">
@@ -74,22 +74,22 @@ public class Student {
   just set column="age" in `<resultMap>`, then the age of each student is equal to student1 age + student2 age.
 
 
-2. Nested select for collection
+### Nested select for collection
 
 in this case, configuration looks like:
 ```
 <resultMap id="tResult" type="teacher">
-		<collection property="students" ofType="student" select="selectStudents4Teacher" 
-		column="id" />
-	</resultMap>
+    <collection property="students" ofType="student" select="selectStudents4Teacher" 
+	column="id" />
+</resultMap>
 	
-	<select id="selectTeacher" resultMap="tResult">
-		select * from teacher;
-	</select>
+<select id="selectTeacher" resultMap="tResult">
+    select * from teacher;
+</select>
 	
-	<select id="selectStudents4Teacher" resultType="student">
-		select * from student where teacher_id = #{id}
-	</select>
+<select id="selectStudents4Teacher" resultType="student">
+    select * from student where teacher_id = #{id}
+</select>
   ```
   unlike nested result for collection, it has 2 sqls, one is used to get teachers, and another is for students
   base on teacher id.
