@@ -1,4 +1,4 @@
-1. Configure the spring listener and struts2 filter in web.xml
+### Configure the spring listener and struts2 filter in web.xml
 
 ```
 <context-param>
@@ -46,7 +46,7 @@ org.apache.struts2.dispatcher.filter.StrutsPrepareAndExecuteFilter
 </filter-mapping>
 ```
 
-2. define struts2 action bean, data source and mybatis sql session in applicationContext.xml
+### define struts2 action bean, data source and mybatis sql session in applicationContext.xml
 
 ```
 <bean id="helloworld" class="example.my.integration.struts.HelloWorld">
@@ -86,7 +86,7 @@ class="org.mybatis.spring.SqlSessionFactoryBean">
 </bean>
 ```
 
-3. In struts.xml, the value of action class should be bean id which declared in applicationContext.xml
+### In struts.xml, the value of action class should be bean id which declared in applicationContext.xml
 
 
-4. add struts2-spring-plugin, mybatis-spring jars in pom.xml
+### add struts2-spring-plugin, mybatis-spring jars in pom.xml
