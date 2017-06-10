@@ -1,4 +1,5 @@
 1. Configure the spring listener and struts2 filter in web.xml
+
 ```
 <context-param>
 
@@ -46,6 +47,7 @@ org.apache.struts2.dispatcher.filter.StrutsPrepareAndExecuteFilter
 ```
 
 2. define struts2 action bean, data source and mybatis sql session in applicationContext.xml
+
 ```
 <bean id="helloworld" class="example.my.integration.struts.HelloWorld">
 
