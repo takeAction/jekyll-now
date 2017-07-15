@@ -1,3 +1,8 @@
+---
+layout: post
+title: mybatis-one-to-many
+categories: mybatis
+---
 There are two implementations for one-to-many relationship, one is nested result, another is nested select.
 
 Take teacher and student for example,
