@@ -4,7 +4,7 @@ title: About
 permalink: /about/
 ---
 
-Some information about you!
+A Java Software Engineer with 6+ experience, mainly on back end.
 
 ### More Information
 
@@ -12,4 +12,6 @@ A place to include any other types of information that you'd like to include abo
 
 ### Contact me
 
-[email@domain.com](mailto:email@domain.com)
+[Lindedin](http://www.linkedin.com/in/frank-ho-8a72b891)
+
+[hwl@windowslive.com](mailto:hwl@windowslive.com)
