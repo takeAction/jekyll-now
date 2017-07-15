@@ -1,3 +1,8 @@
+---
+layout: post
+title: Mybatis Pagination
+categories: mybatis
+---
 Pagination consist of logical and physical.
 1. logical means get all data first then page them in memory
 2. physical represents database level subset query, e.g. mysql limit
@@ -47,7 +52,7 @@ or in spring application.xml :
   </property>
 </bean>
 ```
-**Note : In order to get query record count automatically, property `rowBoundsWithCount` should be set true
-and `PageRowBounds` is required instead of `RowBounds`.**
+**Note : In order to get query record count automatically, property     `rowBoundsWithCount`     should be set true
+and     `PageRowBounds`     is required instead of     `RowBounds` .   **
 
 For more usages, please refer to its [document](https://github.com/pagehelper/Mybatis-PageHelper/blob/master/wikis/en/HowToUse.md)
