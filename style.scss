@@ -110,7 +110,9 @@ img {
   max-width: 100%;
 }
 
-
+.tablelines table, .tablelines td, .tablelines th {
+        border: 1px solid black;
+        }
 
 // Fixes images in popup boxes from Google Translate
 .gmnoprint img {
