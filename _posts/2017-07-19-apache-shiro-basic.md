@@ -39,6 +39,10 @@ Permission check has two approaches :
       In this example, the first token is the domain that is being operated on and the second token is the action being performed, for "newsletter:new,edit,delete", subject.isPermitted("newsletter:edit") will return true
      
      - for "newsletter:edit:12,13,18", it is instance level.  Assume 12,13 and 18 are the system's ID of the newsletter, that would allow the user to edit the newsletter 12, 13 and 18.
+     
+     user:view = user:view:*
+     
+     *:view cannot match system:user:view while *:*:view can match
 
 ### Authorization methods
 
