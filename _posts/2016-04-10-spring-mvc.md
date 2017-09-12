@@ -15,27 +15,30 @@ categories: [spring, spring]
 2.code
 
 2.1 web.xml
-<blockquote>&lt;display-name&gt;springMVCExample&lt;/display-name&gt;
-&lt;welcome-file-list&gt;
-&lt;welcome-file&gt;index.jsp&lt;/welcome-file&gt;
-&lt;/welcome-file-list&gt;
+```
+<display-name>springMVCExample</display-name>
+<welcome-file-list>
+<welcome-file>index.jsp</welcome-file>
+</welcome-file-list>
 
-&lt;servlet&gt;
-&lt;!-- Once DispatcherServlet is initialized, it will look for file
-&lt;servlet-name&gt;-servlet.xml in WEB-INF folder of web application
---&gt;
-&lt;servlet-name&gt;helloworld&lt;/servlet-name&gt;
-&lt;servlet-class&gt;org.springframework.web.servlet.DispatcherServlet&lt;/servlet-class&gt;
-&lt;load-on-startup&gt;1&lt;/load-on-startup&gt;
-&lt;/servlet&gt;
+<servlet>
+<!-- Once DispatcherServlet is initialized, it will look for file
+<servlet-name>-servlet.xml in WEB-INF folder of web application
+-->
+<servlet-name>helloworld</servlet-name>
+<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+<load-on-startup>1</load-on-startup>
+</servlet>
 
-&lt;servlet-mapping&gt;
-&lt;servlet-name&gt;helloworld&lt;/servlet-name&gt;
-&lt;!-- this servlet will handle all http request --&gt;
-&lt;url-pattern&gt;/&lt;/url-pattern&gt;
-&lt;/servlet-mapping&gt;</blockquote>
+<servlet-mapping>
+<servlet-name>helloworld</servlet-name>
+<!-- this servlet will handle all http request -->
+<url-pattern>/</url-pattern>
+</servlet-mapping>
+```
 2.2 spring mvc config xml
-<blockquote>&lt;beans xmlns="http://www.springframework.org/schema/beans"
+```
+<beans xmlns="http://www.springframework.org/schema/beans"
 xmlns:mvc="http://www.springframework.org/schema/mvc"
 xmlns:context="http://www.springframework.org/schema/context"
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -44,33 +47,35 @@ http://www.springframework.org/schema/beans/spring-beans.xsd
 http://www.springframework.org/schema/mvc
 http://www.springframework.org/schema/mvc/spring-mvc.xsd
 http://www.springframework.org/schema/context
-http://www.springframework.org/schema/context/spring-context.xsd"&gt;
+http://www.springframework.org/schema/context/spring-context.xsd">
 
-&lt;context:component-scan base-package="cn.example.spring.mvc.controller" /&gt;
+<context:component-scan base-package="cn.example.spring.mvc.controller" />
 
-&lt;bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver"&gt;
-&lt;property name="viewClass" value="org.springframework.web.servlet.view.JstlView" /&gt;
-&lt;property name="prefix" value="/WEB-INF/jsp/" /&gt;
-&lt;property name="suffix" value=".jsp" /&gt;
-&lt;/bean&gt;
+<bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+<property name="prefix" value="/WEB-INF/jsp/" />
+<property name="suffix" value=".jsp" />
+</bean>
 
-&lt;bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver"&gt;
+<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
 
-&lt;!-- this property means if there is SpringException thrown, then ExceptionPage.jsp will be called
-&lt;property name="exceptionMappings"&gt;
-&lt;props&gt;
-&lt;prop key="cn.example.spring.mvc.exception.SpringException"&gt;
+<!-- this property means if there is SpringException thrown, then ExceptionPage.jsp will be called
+<property name="exceptionMappings">
+<props>
+<prop key="cn.example.spring.mvc.exception.SpringException">
 ExceptionPage
-&lt;/prop&gt;
-&lt;/props&gt;
-&lt;/property&gt; --&gt;
-&lt;!-- next line means the defautl exception page is error.jsp --&gt;
-&lt;property name="defaultErrorView" value="error" /&gt;
-&lt;/bean&gt;
+</prop>
+</props>
+</property> -->
+<!-- next line means the defautl exception page is error.jsp -->
+<property name="defaultErrorView" value="error" />
+</bean>
 
-&lt;/beans&gt;</blockquote>
+</beans>
+```
 2.3 controller class
-<blockquote>@Controller
+```
+@Controller
 public class HelloWorldController {
 
 //@RequestMapping(value = "/welcome") tells spring that this controller should process
@@ -94,7 +99,7 @@ return new ModelAndView("student","command", new Student());
 @ExceptionHandler({SpringException.class})
 public String addStudent(@ModelAttribute("springweb")Student stu,ModelMap model) {
 
-if(stu.getName().length()&lt;2) {
+if(stu.getName().length()<2) {
 throw new SpringException("name is too less");
 }
 model.addAttribute("name", stu.getName());
@@ -104,24 +109,26 @@ model.addAttribute("id", stu.getId());
 return "result";
 }
 
-}</blockquote>
+}
+```
 2.4 view (jsp page)
-<blockquote>&lt;%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-pageEncoding="ISO-8859-1"%&gt;
-&lt;!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"&gt;
-&lt;html&gt;
-&lt;head&gt;
-&lt;meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"&gt;
-&lt;title&gt;Insert title here&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
+```
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+
+<title>Insert title here</title>
+</head>
+<body>
 ${message}
-&lt;/body&gt;
-&lt;/html&gt;</blockquote>
+</body>
+</html>
+```
 2.5 custom exception
-<ul>
-	<li>define an exception which extending RuntimeException</li>
-	<li>state exception and corresponding error view in spring mvc config xml file like 2.2 above</li>
-	<li>throw this exception in controller class</li>
-	<li>create error view</li>
-</ul>
+
+- define an exception which extending RuntimeException
+- state exception and corresponding error view in spring mvc config xml file like 2.2 above
+- throw this exception in controller class
+- create error view
+
