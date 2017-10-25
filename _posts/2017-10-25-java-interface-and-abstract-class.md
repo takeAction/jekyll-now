@@ -34,6 +34,7 @@ Abstract class similar normal class except that:
   
 ### Comparison
 According to the Oracle doc, 
+
 consider using abstract classes if any of these statements apply to your situation:
 - You want to share code among several closely related classes.
 - You expect that classes that extend your abstract class have many common methods or fields, or require access modifiers other than public (such as protected and private).
