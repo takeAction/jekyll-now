@@ -98,7 +98,7 @@ public class SUV implements Car {
 
 - for web project, add this context file in web.xml
 
-```
+```Java
 <context-param>
     <param-name>contextConfigLocation</param-name>
     <param-value>classpath:beans.xml</param-value>
