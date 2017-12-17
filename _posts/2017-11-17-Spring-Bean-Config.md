@@ -7,7 +7,7 @@ There are three approaches to config bean in spring:
 
 - Create a config class, add `@Configuration` and `@ComponnetScan` for it,
 
-```Java
+```
 @Configuration
 @ComponentScan(basePackages="example.my.spring")
 public class CarConfig {
