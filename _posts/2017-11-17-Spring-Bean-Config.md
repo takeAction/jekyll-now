@@ -21,7 +21,7 @@ context xml file.
 
 - Create bean, add `@Component` for it
 
-```
+```Java
 @Component("suv")
 public class SUV implements Car {
 
@@ -39,7 +39,7 @@ public class SUV implements Car {
 Create a config class, add `@Configuration` for it, 
 then define a method to return a bean instance and add `@Bean` for this method
 
-```
+```Java
 @Configuration
 public class CarConfig {
 	
@@ -52,7 +52,7 @@ public class CarConfig {
 }
 ```
 
-```
+```Java
 public class SUV implements Car {
 
 	
@@ -70,7 +70,7 @@ public class SUV implements Car {
 - Define POJO
 - Create a spring context xml file and define beans in it
 
-```
+```XML
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xmlns:context="http://www.springframework.org/schema/context"
