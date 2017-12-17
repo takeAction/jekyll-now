@@ -9,14 +9,14 @@ There are three approaches to config bean in spring:
 
 ```Java
 @Configuration
-@ComponentScan(basePackages="example.my.spring")
+@ComponentScan(basePackages={"packageA", "packageB"})
 public class CarConfig {
 
 }
 ```
 
 By default, spring only scan the classes whose package is the same as config class'.
-Alternatively, `<context:component-scan base-package="example.my.spring"></context:component-scan>` can be used in spring
+Alternatively, `<context:component-scan base-package="packageA"></context:component-scan>` can be used in spring
 context xml file.
 
 - Create bean, add `@Component` for it
@@ -65,6 +65,20 @@ public class SUV implements Car {
 }
 ```
 
+For above two methods, the web.xml is suppose to be
+
+```Java
+<context-param>
+  	<param-name>contextClass</param-name>
+  	<param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+  </context-param>
+  
+  <context-param>
+  	<param-name>contextConfigLocation</param-name>
+  	<param-value>example.my.spring.config.CarConfig</param-value>
+  </context-param>
+```
+
 ### Explicit by xml
 
 - Define POJO
@@ -96,7 +110,7 @@ public class SUV implements Car {
   </bean>
 ```	
 
-- for web project, add this context file in web.xml
+- the web.xml should be
 
 ```XML
 <context-param>
