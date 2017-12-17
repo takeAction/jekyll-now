@@ -5,7 +5,7 @@ There are three approaches to config bean in spring:
 
 ### Implict
 
-- Create a config class, add `@Configuration` and `@ComponnetScan` for it, e.g.
+- Create a config class, add `@Configuration` and `@ComponnetScan` for it,
 ```
 @Configuration
 @ComponentScan(basePackages="example.my.spring")
