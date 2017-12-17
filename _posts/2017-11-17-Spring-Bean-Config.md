@@ -6,6 +6,7 @@ There are three approaches to config bean in spring:
 ### Implict
 
 - Create a config class, add `@Configuration` and `@ComponnetScan` for it,
+
 ```
 @Configuration
 @ComponentScan(basePackages="example.my.spring")
@@ -13,10 +14,13 @@ public class CarConfig {
 
 }
 ```
+
 By default, spring only scan the classes whose package is the same as config class'.
 Alternatively, `<context:component-scan base-package="example.my.spring"></context:component-scan>` can be used in spring
 context xml file.
+
 - Create bean, add `@Component` for it
+
 ```
 @Component("suv")
 public class SUV implements Car {
@@ -34,6 +38,7 @@ public class SUV implements Car {
 
 Create a config class, add `@Configuration` for it, 
 then define a method to return a bean instance and add `@Bean` for this method
+
 ```
 @Configuration
 public class CarConfig {
@@ -46,6 +51,7 @@ public class CarConfig {
 
 }
 ```
+
 ```
 public class SUV implements Car {
 
@@ -63,6 +69,7 @@ public class SUV implements Car {
 
 - Define POJO
 - Create a spring context xml file and define beans in it
+
 ```
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
@@ -88,4 +95,5 @@ public class SUV implements Car {
     <property name="property-name-of-bean" value="property-value" />
   </bean>
 ```	
+
 - for web project, add this context file in web.xml
