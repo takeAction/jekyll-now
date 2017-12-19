@@ -1,3 +1,7 @@
+## Bean Life Cycle
+
+## Config Bean
+
 There are three approaches to config bean in spring:
 1. Implict
 2. Explict by java
@@ -14,6 +18,8 @@ public class CarConfig {
 
 }
 ```
+
+**Component scan only scans @Component**
 
 By default, spring only scan the classes whose package is the same as config class'.
 
@@ -34,6 +40,52 @@ public class SUV implements Car {
 
 }
 ```
+
+#### @Component, @Controller, @Service and @Repository
+
+- With these annotation, spring is able to import beans into the container so that developer don't have to define them
+  explicitly in xml after enabling component scan. These annotations are called stereotype annotation as well.
+  
+- @Controller, @Service and @Repository are annotaed with @Component, e.g.
+
+```
+@Target({ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Component
+public @interface Repository {
+    ....
+}
+```
+
+- @Component is a general purpose stereotype annotation, is equal to `<bean>` of xml, 
+  while @Controller, @Service and @Repository are specialized annotation of @Component, they are equal @Component + some more
+  special functionality
+  
+  By annotating class with @Controller, @Service or @Repository, your classes are more properly suited for processing by tools or 
+  associating with aspects. For example, these stereotype annotations make ideal targets for pointcuts.
+  
+- @Repository is used for DAO layer, it provides additional benefits : makes the unchecked exceptions(thrown from DAO methods) 
+  eligible for translation into spring `DataAccessException`
+  
+  And for this, we’re provided with PersistenceExceptionTranslationPostProcessor, that we are required to add in our Spring’s
+  application context like this:
+
+  `<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>`
+   This bean post processor adds an advisor to any bean that’s annotated with @Repository so that any platform-specific exceptions are  
+   caught and then rethrown as one of Spring’s unchecked data access exceptions.
+  
+- @Service is uesed in service layer
+
+- @Controller indicates this class is a controller, like spring web mvc controller class
+
+**A good practice is using @Controller, @Service and @Repository at most of the time, @Component should be used when your class
+does not fall into either of controller, service or DAO**
+
+When component scan is declared, developer no longer need to declare context:annotation-config, because autowiring is implicitly
+enabled in this case.
+
+**Always use these annotations over concrete classes rather than interfaces**
 
 ### Explicit by java
 
