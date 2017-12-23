@@ -1,10 +1,7 @@
 ---
 layout: post
 title: div popup window
-date: 2016-06-26 14:24
-author: 2freesky
-comments: true
-categories: [css, javascript, Uncategorized]
+categories: [front-end]
 ---
 There are three ways to make a div as a popup window.
 <ol>
