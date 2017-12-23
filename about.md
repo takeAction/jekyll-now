@@ -4,7 +4,7 @@ title: About
 permalink: /about/
 ---
 
-A Java Software Engineer with 6+ experience, mainly on back end.
+Java Software Engineer.
 
 ### Contact me
 
