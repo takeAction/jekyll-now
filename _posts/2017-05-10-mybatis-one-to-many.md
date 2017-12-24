@@ -3,6 +3,7 @@ layout: post
 title: mybatis-one-to-many
 categories: mybatis
 ---
+
 There are two implementations for one-to-many relationship, one is nested result, another is nested select.
 
 Take teacher and student for example,
@@ -107,3 +108,15 @@ in this case, configuration looks like:
   And if this column not in the outer query, then nested query will not be executed.
   
   In select student sql, the `#{id}` can be any name, e.g. `#{t_id}`, it is not necessary to match column name of `<collection>`
+  
+### Lazy load
+  
+   Lazy load only works in **Nested Select**.
+   
+   Developer can add **fetchType = 'lazy'** for `<collection select=>` or `<association select=>`to achieve it, 
+   this will override the global setting:
+   ```XML
+   <settings>
+       <setting name="lazyLoadingEnabled" value="true"/>
+   </settings>
+   ```
