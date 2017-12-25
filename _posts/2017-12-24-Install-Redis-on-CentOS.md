@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Redis
-categories: [Redis]
+categories: [Redis, Linux]
 ---
 
 ### Install Redis
@@ -41,34 +41,28 @@ categories: [Redis]
 ### Config redis
 
   redis configuration file is **/etc/redis.conf**
-  ```
-  requirepass your_redis_master_password
-  # line 142: save caching Datase on Disk
-  # the default settings below means like follows
-  # after 900 sec if at least 1 key changed
-  # after 300 sec if at least 10 keys changed
-  # after 60 sec if at least 10000 keys changed
-  # if you'd like to disable this function, comment out all lines fo "save ***" or specify [save ""]
-  save 900 1
-  save 300 10
-  save 60 10000
-  # line 392: authorization password
-  requirepass password
-  # line 501: alternative persistence mode ("yes" means enabled)
-  # if enabled, Redis loses high performance but get more safety
-  appendonly no
-  # line 531: if enabled "appendonly yes" when wirting data on Disk
-  # no means do not fsync by Redis (just let the OS flush the data)
-  # appendfsync always
-  appendfsync everysec
-  # appendfsync no
-  ```
   
-### Redis cluster
+  There is a article describes some redis configuration, following sections Persistence Option and Basic System Tuning 
+  are part of this site, please refer [it](https://linode.com/docs/databases/redis/install-and-configure-redis-on-centos-7/).
+  
+#### Persistence Options
+  
+  Redis provides two options for disk persistence:
+  
+  1. Point-in-time snapshots of the dataset, made at specified intervals (RDB)
+  
+  2. Append-only logs of all the write operations performed by the server (AOF)
+  
+  For the greatest level of data safety, consider running both persistence methods. 
+  
+  Because the Point-in-time snapshot persistence is enabled by default, you only need to set up AOF persistence.
+  
+#### Basic System Tuning
 
-  redis master/slave
+  To improve Redis performance, set the Linux kernel overcommit memory setting to 1 `sudo sysctl vm.overcommit_memory=1`,
+  then add `vm.overcommit_memory = 1` to `/etc/sysctl.conf`
   
-### Bound redis to local IP
+#### Bound redis to local IP
 
   We need to ensure that Redis is bounded to the local IP. Unless you are running a full Redis cluster, this is the best way 
   to secure your Redis store from unauthorized access.
