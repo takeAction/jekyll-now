@@ -276,3 +276,27 @@ column value is case insensitive, column="id" is the same as column="ID", while 
 ```
     
 here, age has to be defined under `<collection>`, otherwise student.getAge() return null even all fields of teacher and student are different, they all have to be defined in resultMap, otherwise their values are null in this case
+
+### Use sql of another xml file
+
+  For instance, there are two sql xml files sql1.xml and sql2.xml
+  
+```XML
+<mapper namespace="sql1">
+    
+    <select id="select1" resultType="student">
+	....
+    </select>
+</mapper>
+```
+
+```XML
+<mapper namespace="sql2">
+    
+    <select id="select2" resultType="student">
+	....
+    </select>
+</mapper>
+```
+
+If developer want to use **select1** in sql2.xml, then he/she just use qualified name of select1, that is **sql1.select1**
