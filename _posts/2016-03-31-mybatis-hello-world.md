@@ -1,143 +1,213 @@
 ---
 layout: post
 title: mybatis hello world
-date: 2016-03-31 21:35
-author: 2freesky
-comments: true
 categories: [mybatis]
 ---
+
 mybatis : 3.3.1
 
-jdk          : 1.7
+jdk     : 1.7
 
-mysql     : 5.6
+mysql   : 5.6
 
 In this example, the steps as follows :
-<ul>
-	<li>define mybatis configuration xml file</li>
-	<li>create POJO class which standing for table columns</li>
-	<li>generate mapper interface which representing the operations for table, e.g. insert, for annotation usage, developer should write sql statement in mapper interface, while for xml, mapper xml configuration file needed to be created which containing sql  statements.</li>
-</ul>
-<ol>
-	<li>
-<p class="western">Mybatis configuration xml file</p>
-</li>
-</ol>
-<blockquote>
-<p class="western"><span style="color:#008080;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;">&lt;?</span></span></span><span style="color:#3f7f7f;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;">xml</span></span></span> <span style="color:#7f007f;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;">version</span></span></span><span style="color:#000000;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;">=</span></span></span><span style="color:#2a00ff;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"><i>"1.0"</i></span></span></span> <span style="color:#7f007f;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;">encoding</span></span></span><span style="color:#000000;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;">=</span></span></span><span style="color:#2a00ff;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"><i>"UTF-8"</i></span></span></span> <span style="color:#008080;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;">?&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="color:#3f5fbf;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;">&lt;!-- <u>doctype</u> is required and has to the same as following for configuration file --&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"><span style="color:#008080;">&lt;!</span><span style="color:#3f7f7f;">DOCTYPE</span> <span style="color:#008080;">configuration</span> <span style="color:#808080;">PUBLIC</span> <span style="color:#008080;">"-//mybatis.org//DTD Config 3.0//EN"</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#3f7f5f;">"http://mybatis.org/dtd/mybatis-3-config.dtd"</span><span style="color:#008080;">&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"><span style="color:#008080;">&lt;</span><span style="color:#3f7f7f;">configuration</span><span style="color:#008080;">&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#3f5fbf;">&lt;!-- The elements under configuration has order, e.g. if we change the order </span></span></span></p>
-<p class="western" align="LEFT"><span style="color:#3f5fbf;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> of settings and typeAliases, then there is error tip.</span></span></span></p>
-<p class="western" align="LEFT"><span style="color:#3f5fbf;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> --&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#008080;">&lt;</span><span style="color:#3f7f7f;">settings</span><span style="color:#008080;">&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#008080;">&lt;</span><span style="color:#3f7f7f;">setting</span> <span style="color:#7f007f;">name</span><span style="color:#000000;">=</span><span style="color:#2a00ff;"><i>"logImpl"</i></span> <span style="color:#7f007f;">value</span><span style="color:#000000;">=</span><span style="color:#2a00ff;"><i>"SLF4J"</i></span> <span style="color:#008080;">/&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#008080;">&lt;/</span><span style="color:#3f7f7f;">settings</span><span style="color:#008080;">&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#3f5fbf;">&lt;!-- typeAliases has to be defined such that mapper.xml can use Address to represent</span></span></span><span style="color:#3f5fbf;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> cn.example.mybatis.model.Address.</span></span></span></p>
-<p class="western" align="LEFT"><span style="color:#3f5fbf;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> --&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#008080;">&lt;</span><span style="color:#3f7f7f;">typeAliases</span><span style="color:#008080;">&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#008080;">&lt;</span><span style="color:#3f7f7f;">typeAlias</span> <span style="color:#7f007f;">alias</span><span style="color:#000000;">=</span><span style="color:#2a00ff;"><i>"Address"</i></span> <span style="color:#7f007f;">type</span><span style="color:#000000;">=</span><span style="color:#2a00ff;"><i>"cn.example.mybatis.model.Address"</i></span> <span style="color:#008080;">/&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#008080;">&lt;/</span><span style="color:#3f7f7f;">typeAliases</span><span style="color:#008080;">&gt;</span> </span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#008080;">&lt;</span><span style="color:#3f7f7f;">environments</span> <span style="color:#7f007f;">default</span><span style="color:#000000;">=</span><span style="color:#2a00ff;"><i>"development"</i></span><span style="color:#008080;">&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#008080;">&lt;</span><span style="color:#3f7f7f;">environment</span> <span style="color:#7f007f;">id</span><span style="color:#000000;">=</span><span style="color:#2a00ff;"><i>"development"</i></span><span style="color:#008080;">&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#008080;">&lt;</span><span style="color:#3f7f7f;">transactionManager</span> <span style="color:#7f007f;">type</span><span style="color:#000000;">=</span><span style="color:#2a00ff;"><i>"JDBC"</i></span> <span style="color:#008080;">/&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#008080;">&lt;</span><span style="color:#3f7f7f;">dataSource</span> <span style="color:#7f007f;">type</span><span style="color:#000000;">=</span><span style="color:#2a00ff;"><i>"POOLED"</i></span><span style="color:#008080;">&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#008080;">&lt;</span><span style="color:#3f7f7f;">property</span> <span style="color:#7f007f;">name</span><span style="color:#000000;">=</span><span style="color:#2a00ff;"><i>"driver"</i></span> <span style="color:#7f007f;">value</span><span style="color:#000000;">=</span><span style="color:#2a00ff;"><i>"com.mysql.jdbc.Driver"</i></span> <span style="color:#008080;">/&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#008080;">&lt;</span><span style="color:#3f7f7f;">property</span> <span style="color:#7f007f;">name</span><span style="color:#000000;">=</span><span style="color:#2a00ff;"><i>"url"</i></span> <span style="color:#7f007f;">value</span><span style="color:#000000;">=</span><span style="color:#2a00ff;"><i>"jdbc:mysql://localhost:3306/test"</i></span> <span style="color:#008080;">/&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#008080;">&lt;</span><span style="color:#3f7f7f;">property</span> <span style="color:#7f007f;">name</span><span style="color:#000000;">=</span><span style="color:#2a00ff;"><i>"username"</i></span> <span style="color:#7f007f;">value</span><span style="color:#000000;">=</span><span style="color:#2a00ff;"><i>"root"</i></span> <span style="color:#008080;">/&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#008080;">&lt;</span><span style="color:#3f7f7f;">property</span> <span style="color:#7f007f;">name</span><span style="color:#000000;">=</span><span style="color:#2a00ff;"><i>"password"</i></span> <span style="color:#7f007f;">value</span><span style="color:#000000;">=</span><span style="color:#2a00ff;"><i>""</i></span> <span style="color:#008080;">/&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#008080;">&lt;/</span><span style="color:#3f7f7f;">dataSource</span><span style="color:#008080;">&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#008080;">&lt;/</span><span style="color:#3f7f7f;">environment</span><span style="color:#008080;">&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#008080;">&lt;/</span><span style="color:#3f7f7f;">environments</span><span style="color:#008080;">&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#008080;">&lt;</span><span style="color:#3f7f7f;">mappers</span><span style="color:#008080;">&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#3f5fbf;">&lt;!-- resource for annotation approach and class for annotation --&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#3f5fbf;">&lt;!-- </span></span></span><span style="font-size:small;font-family:'Courier New', monospace;color:#3f5fbf;line-height:1.7;">&lt;mapper resource="AddressMapper.xml" /&gt;</span><span style="color:#3f5fbf;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> --&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#008080;">&lt;</span><span style="color:#3f7f7f;">mapper</span> <span style="color:#7f007f;">class</span><span style="color:#000000;">=</span><span style="color:#2a00ff;"><i>"cn.example.mybatis.annotation.AuthorMapper"</i></span> <span style="color:#008080;">/&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#008080;">&lt;/</span><span style="color:#3f7f7f;">mappers</span><span style="color:#008080;">&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="color:#008080;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;">&lt;/</span></span></span><span style="color:#3f7f7f;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;">configuration</span></span></span><span style="color:#008080;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;">&gt;</span></span></span></p>
-</blockquote>
-<ol start="2">
-	<li>
-<p class="western">POJO class</p>
-</li>
-</ol>
-<p class="western">          General POJO class</p>
 
-<ol start="3">
-	<li>
-<p class="western">mapper interface</p>
-</li>
-</ol>
-<blockquote>
-<p class="western"><span style="color:#7f0055;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"><b>public</b></span></span></span> <span style="color:#7f0055;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"><b>interface</b></span></span></span><span style="color:#000000;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> AddressMapper {</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#7f0055;"><b>public</b></span> <span style="color:#7f0055;"><b>void</b></span><span style="color:#000000;"> insertAddress(String </span><span style="color:#6a3e3e;">zipCode</span><span style="color:#000000;">);</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#7f0055;"><b>public</b></span><span style="color:#000000;"> List&lt;Address&gt; getAddressByIdList();</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#7f0055;"><b>public</b></span><span style="color:#000000;"> Address getAddress(</span><span style="color:#646464;">@Param</span><span style="color:#000000;">(</span><span style="color:#2a00ff;">"id"</span><span style="color:#000000;">) </span><span style="color:#7f0055;"><b>int</b></span> <span style="color:#6a3e3e;">id</span><span style="color:#000000;">,</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"><span style="color:#646464;">@Param</span><span style="color:#000000;">(</span><span style="color:#2a00ff;">"zipCode"</span><span style="color:#000000;">) String </span><span style="color:#6a3e3e;">zipCode</span><span style="color:#000000;">);</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#7f0055;"><b>public</b></span> <span style="color:#7f0055;"><b>void</b></span><span style="color:#000000;"> updateAddress(); </span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#7f0055;"><b>public</b></span> <span style="color:#7f0055;"><b>void</b></span><span style="color:#000000;"> updateAddressById(Address </span><span style="color:#6a3e3e;">a</span><span style="color:#000000;">);</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#7f0055;"><b>public</b></span> <span style="color:#7f0055;"><b>void</b></span><span style="color:#000000;"> deleteAddressById(</span><span style="color:#7f0055;"><b>int</b></span> <span style="color:#6a3e3e;">id</span><span style="color:#000000;">);</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#7f0055;"><b>public</b></span> <span style="color:#7f0055;"><b>void</b></span><span style="color:#000000;"> insertAddress(Address </span><span style="color:#6a3e3e;">a</span><span style="color:#000000;">);</span></span></span></p>
-<p class="western" align="LEFT"><span style="color:#000000;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;">} </span></span></span></p>
-</blockquote>
-<p class="western" align="LEFT"><span style="color:#000000;"> <span style="font-family:'Courier New', monospace;"><span style="font-size:small;">with mapper configuration xml file :</span></span></span></p>
+- define mybatis configuration xml file
+- create POJO class which standing for table columns
+- generate mapper interface which representing the operations for table, e.g. insert, for annotation usage, developer should write sql statement in mapper interface, while for xml, mapper xml configuration file needed to be created which containing sql  statements.
 
-<blockquote>
-<p class="western" align="LEFT"><span style="color:#008080;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;">&lt;?</span></span></span><span style="color:#3f7f7f;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;">xml</span></span></span> <span style="color:#7f007f;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;">version</span></span></span><span style="color:#000000;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;">=</span></span></span><span style="color:#2a00ff;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"><i>"1.0"</i></span></span></span> <span style="color:#7f007f;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;">encoding</span></span></span><span style="color:#000000;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;">=</span></span></span><span style="color:#2a00ff;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"><i>"UTF-8"</i></span></span></span> <span style="color:#008080;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;">?&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="color:#3f5fbf;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;">&lt;!-- <u>doctype</u> is required and has to the same as following for <u>mapper</u> file --&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"><span style="color:#008080;">&lt;!</span><span style="color:#3f7f7f;">DOCTYPE</span> <span style="color:#008080;">mapper</span> <span style="color:#808080;">PUBLIC</span> <span style="color:#008080;">"-//mybatis.org//DTD Mapper 3.0//EN"</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#3f7f5f;">"http://mybatis.org/dtd/mybatis-3-mapper.dtd"</span><span style="color:#008080;">&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="color:#3f5fbf;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;">&lt;!-- The value of <u>namesapce</u> should be with package name --&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"><span style="color:#008080;">&lt;</span><span style="color:#3f7f7f;">mapper</span> <span style="color:#7f007f;">namespace</span><span style="color:#000000;">=</span><span style="color:#2a00ff;"><i>"cn.example.mybatis.xml.AddressMapper"</i></span><span style="color:#008080;">&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#3f5fbf;">&lt;!-- resultType still is 'Address' even it returns a list --&gt;</span> </span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#008080;">&lt;</span><span style="color:#3f7f7f;">select</span> <span style="color:#7f007f;">id</span><span style="color:#000000;">=</span><span style="color:#2a00ff;"><i>"getAddressByIdList"</i></span> <span style="color:#7f007f;">resultType</span><span style="color:#000000;">=</span><span style="color:#2a00ff;"><i>"Address"</i></span><span style="color:#008080;">&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="color:#000000;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> select * from address;</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#008080;">&lt;/</span><span style="color:#3f7f7f;">select</span><span style="color:#008080;">&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#3f5fbf;">&lt;!-- multiple parameters should be use parameterType="map" --&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#008080;">&lt;</span><span style="color:#3f7f7f;">select</span> <span style="color:#7f007f;">id</span><span style="color:#000000;">=</span><span style="color:#2a00ff;"><i>"getAddress"</i></span> <span style="color:#7f007f;">parameterType</span><span style="color:#000000;">=</span><span style="color:#2a00ff;"><i>"map"</i></span> <span style="color:#7f007f;">resultType</span><span style="color:#000000;">=</span><span style="color:#2a00ff;"><i>"Address"</i></span><span style="color:#008080;">&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="color:#000000;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> select * from address where id=#{id} and zipCode=#{zipCode};</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#008080;">&lt;/</span><span style="color:#3f7f7f;">select</span><span style="color:#008080;">&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#3f5fbf;">&lt;!-- parameterType is optional in this case --&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#008080;">&lt;</span><span style="color:#3f7f7f;">update</span> <span style="color:#7f007f;">id</span><span style="color:#000000;">=</span><span style="color:#2a00ff;"><i>"updateAddressById"</i></span> <span style="color:#7f007f;">parameterType</span><span style="color:#000000;">=</span><span style="color:#2a00ff;"><i>"Address"</i></span><span style="color:#008080;">&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="color:#000000;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> update address set zipCode=#{zipCode} where id=#{id}</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#008080;">&lt;/</span><span style="color:#3f7f7f;">update</span><span style="color:#008080;">&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#008080;">&lt;</span><span style="color:#3f7f7f;">delete</span> <span style="color:#7f007f;">id</span><span style="color:#000000;">=</span><span style="color:#2a00ff;"><i>"deleteAddressById"</i></span><span style="color:#008080;">&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="color:#000000;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> delete from address where id=#{id}</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#008080;">&lt;/</span><span style="color:#3f7f7f;">delete</span><span style="color:#008080;">&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#3f5fbf;">&lt;!-- the 'id' of address is auto increment in DB, but developer don't need to care its value</span></span></span><span style="color:#3f5fbf;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> when executing insert statement, the <u>sql</u> just as follows.</span></span></span><span style="color:#3f5fbf;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> --&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#008080;">&lt;</span><span style="color:#3f7f7f;">insert</span> <span style="color:#7f007f;">id</span><span style="color:#000000;">=</span><span style="color:#2a00ff;"><i>"insertAddress"</i></span> <span style="color:#7f007f;">parameterType</span><span style="color:#000000;">=</span><span style="color:#2a00ff;"><i>"Address"</i></span><span style="color:#008080;">&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="color:#000000;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> insert into address(zipCode) values(#{zipCode});</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#008080;">&lt;/</span><span style="color:#3f7f7f;">insert</span><span style="color:#008080;">&gt;</span></span></span></p>
-<p class="western" align="LEFT"><span style="color:#008080;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;">&lt;/</span></span></span><span style="color:#3f7f7f;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;">mapper</span></span></span><span style="color:#008080;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;">&gt;</span></span></span></p>
-</blockquote>
-<p class="western" align="LEFT"><span style="color:#000000;"> <span style="font-family:'Courier New', monospace;"><span style="font-size:small;">or for annotation without mapper configuration: </span></span></span></p>
+### Mybatis configuration xml file
 
-<blockquote>
-<p class="western" align="LEFT"><span style="color:#7f0055;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"><b>public</b></span></span></span> <span style="color:#7f0055;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"><b>interface</b></span></span></span><span style="color:#000000;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> AuthorMapper {</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#646464;">@Select</span><span style="color:#000000;">(</span><span style="color:#2a00ff;">"select * from author where id=#{id} and name=#{name}"</span><span style="color:#000000;">)</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#7f0055;"><b>public</b></span><span style="color:#000000;"> Author getAuthor(</span><span style="color:#646464;">@Param</span><span style="color:#000000;">(</span><span style="color:#2a00ff;">"id"</span><span style="color:#000000;">) </span><span style="color:#7f0055;"><b>int</b></span> <span style="color:#6a3e3e;">id</span><span style="color:#000000;">,</span><span style="color:#646464;">@Param</span><span style="color:#000000;">(</span><span style="color:#2a00ff;">"name"</span><span style="color:#000000;">) String </span><span style="color:#6a3e3e;">name</span><span style="color:#000000;">);</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#646464;">@Select</span><span style="color:#000000;">(</span><span style="color:#2a00ff;">"select * from author"</span><span style="color:#000000;">)</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#7f0055;"><b>public</b></span><span style="color:#000000;"> List&lt;Author&gt; getAuthors();</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#646464;">@Insert</span><span style="color:#000000;">(</span><span style="color:#2a00ff;">"insert into author(name) values(#{name})"</span><span style="color:#000000;">)</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#7f0055;"><b>public</b></span> <span style="color:#7f0055;"><b>void</b></span><span style="color:#000000;"> insertAuthor(Author </span><span style="color:#6a3e3e;">a</span><span style="color:#000000;">);</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#646464;">@Update</span><span style="color:#000000;">(</span><span style="color:#2a00ff;">"update author set name=#{name} where id=#{id}"</span><span style="color:#000000;">)</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#7f0055;"><b>public</b></span> <span style="color:#7f0055;"><b>void</b></span><span style="color:#000000;"> updateAuthor(Author </span><span style="color:#6a3e3e;">a</span><span style="color:#000000;">);</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#646464;">@Delete</span><span style="color:#000000;">(</span><span style="color:#2a00ff;">"delete from author where id=#{id}"</span><span style="color:#000000;">)</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> <span style="color:#7f0055;"><b>public</b></span> <span style="color:#7f0055;"><b>void</b></span><span style="color:#000000;"> deleteAuthor(</span><span style="color:#7f0055;"><b>int</b></span> <span style="color:#6a3e3e;">id</span><span style="color:#000000;">);</span></span></span></p>
-<p class="western" align="LEFT"><span style="color:#000000;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;">}</span></span></span></p>
-</blockquote>
-<ol start="4">
-	<li>
-<p class="western">test class</p>
-</li>
-</ol>
-<blockquote>
-<p class="western"><span style="color:#000000;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;">InputStream </span></span></span><span style="color:#6a3e3e;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;">is</span></span></span><span style="color:#000000;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> = Resources.</span></span></span><span style="color:#000000;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"><i>getResourceAsStream</i></span></span></span><span style="color:#000000;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;">(</span></span></span><span style="color:#2a00ff;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;">"mybatis-config.xml"</span></span></span><span style="color:#000000;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;">);</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"><span style="color:#000000;"> SqlSessionFactory </span><span style="color:#0000c0;"><i>factory</i></span><span style="color:#000000;"> = </span><span style="color:#7f0055;"><b>new</b></span><span style="color:#000000;"> SqlSessionFactoryBuilder().build(</span><span style="color:#6a3e3e;">is</span><span style="color:#000000;">);</span></span></span></p>
-<p class="western" align="LEFT"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"><span style="color:#000000;"> SqlSession </span><span style="color:#6a3e3e;">session</span><span style="color:#000000;"> = </span><span style="color:#0000c0;"><i>factory</i></span><span style="color:#000000;">.openSession();</span></span></span></p>
-<p class="western" align="LEFT"><span style="color:#000000;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> AuthorMapper </span></span></span><span style="color:#6a3e3e;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;">mapper</span></span></span><span style="color:#000000;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"> = </span></span></span><span style="color:#6a3e3e;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;">session</span></span></span><span style="color:#000000;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;">.getMapper(AuthorMapper.</span></span></span><span style="color:#7f0055;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;"><b>class</b></span></span></span><span style="color:#000000;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;">);</span></span></span></p>
-<p class="western" align="LEFT"><span style="color:#6a3e3e;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;">mapper</span></span></span><span style="color:#000000;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;">.deleteAuthor(10); </span></span></span></p>
-<p class="western" align="LEFT"><span style="color:#6a3e3e;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;">session</span></span></span><span style="color:#000000;"><span style="font-family:'Courier New', monospace;"><span style="font-size:small;">.commit();</span></span></span></p>
-</blockquote>
+```XML
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- doctype is required and has to the same as following for configuration file -->
+
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+<!-- The elements under configuration has order, e.g. if we change the order
+
+of settings and typeAliases, then there is error tip.
+
+-->
+
+<settings>
+
+<setting name="logImpl" value="SLF4J" />
+
+</settings>
+
+<!-- use Address to represent cn.example.mybatis.model.Address. via typeAlias-->
+
+<typeAliases>
+
+<typeAlias alias="Address" type="cn.example.mybatis.model.Address" />
+
+</typeAliases>
+
+<environments default="development">
+
+<environment id="development">
+
+<transactionManager type="JDBC" />
+
+<dataSource type="POOLED">
+
+<property name="driver" value="com.mysql.jdbc.Driver" />
+
+<property name="url" value="jdbc:mysql://localhost:3306/test" />
+
+<property name="username" value="root" />
+
+<property name="password" value="" />
+
+</dataSource>
+
+</environment>
+
+</environments>
+
+<mappers>
+
+<!-- resource for xml approach and class for annotation -->
+
+<!-- <mapper resource="AddressMapper.xml" /> -->
+
+<mapper class="cn.example.mybatis.annotation.AuthorMapper" />
+
+</mappers>
+
+</configuration>
+```
+
+### POJO class
+
+  general pojo class
+  
+### mapper interface
+
+```Java
+public interface AddressMapper {
+
+public void insertAddress(String zipCode);
+
+public List<Address> getAddressByIdList();
+
+public Address getAddress(@Param("id") int id,
+
+@Param("zipCode") String zipCode);
+
+public void updateAddress();
+
+public void updateAddressById(Address a);
+
+public void deleteAddressById(int id);
+
+public void insertAddress(Address a);
+
+}
+```
+
+with mapper configuration xml file :
+
+```XML
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- doctype is required and has to the same as following for mapper file -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- The value of namesapce should be with package name -->
+
+<mapper namespace="cn.example.mybatis.xml.AddressMapper">
+
+<!-- resultType still is 'Address' even it returns a list -->
+
+<select id="getAddressByIdList" resultType="Address">
+
+select * from address;
+
+</select>
+
+<!-- multiple parameters should be use parameterType="map" -->
+
+<select id="getAddress" parameterType="map" resultType="Address">
+
+select * from address where id=#{id} and zipCode=#{zipCode};
+
+</select>
+
+<!-- parameterType is optional in this case -->
+
+<update id="updateAddressById" parameterType="Address">
+
+update address set zipCode=#{zipCode} where id=#{id}
+
+</update>
+
+<delete id="deleteAddressById">
+
+delete from address where id=#{id}
+
+</delete>
+
+<!-- the 'id' of address is auto increment in DB, but developer don't need to care its value when executing insert statement, the sql just as follows. -->
+
+<insert id="insertAddress" parameterType="Address">
+
+insert into address(zipCode) values(#{zipCode});
+
+</insert>
+
+</mapper>
+```
+
+or for annotation without mapper configuration:
+
+```Java
+public interface AuthorMapper {
+
+@Select("select * from author where id=#{id} and name=#{name}")
+
+public Author getAuthor(@Param("id") int id,@Param("name") String name);
+
+@Select("select * from author")
+
+public List<Author> getAuthors();
+
+@Insert("insert into author(name) values(#{name})")
+
+public void insertAuthor(Author a);
+
+@Update("update author set name=#{name} where id=#{id}")
+
+public void updateAuthor(Author a);
+
+@Delete("delete from author where id=#{id}")
+
+public void deleteAuthor(int id);
+
+}
+```
+
+### Test Class
+
+```Java
+InputStream is = Resources.getResourceAsStream("mybatis-config.xml");
+
+SqlSessionFactory factory = new SqlSessionFactoryBuilder().build(is);
+
+SqlSession session = factory.openSession();
+
+AuthorMapper mapper = session.getMapper(AuthorMapper.class);
+
+mapper.deleteAuthor(10);
+
+session.commit();
+```
