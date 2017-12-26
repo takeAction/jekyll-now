@@ -275,4 +275,4 @@ column value is case insensitive, column="id" is the same as column="ID", while 
 	</select>
 ```
     
-here, age has to be defined under <collection>, otherwise student.getAge() return null even all fields of teacher and student are different, they all have to be defined in resultMap, otherwise their values are null in this case
+here, age has to be defined under `<collection>`, otherwise student.getAge() return null even all fields of teacher and student are different, they all have to be defined in resultMap, otherwise their values are null in this case
