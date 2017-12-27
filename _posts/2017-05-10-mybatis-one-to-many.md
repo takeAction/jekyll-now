@@ -107,7 +107,12 @@ in this case, configuration looks like:
   of outter query(here is select teacher sql) which its value need to be passed to nested query(select student sql).
   And if this column not in the outer query, then nested query will not be executed.
   
-  In select student sql, the `#{id}` can be any name, e.g. `#{t_id}`, it is not necessary to match column name of `<collection>`
+  For example, if sql is `select id, name from teacher`, then the value of `column` in `<collection>` should be **id**.
+  While if sql is `select id as t_id, name from teacher`, then the value of `column` in `<collection>` should be **t_id**.
+  
+  **Even there is no id property in java bean Teacher, only it is in select sql, then it can be passed to select student**
+  
+  In select student sql, the `#{id}` can be any name, e.g. `#{teacher_id}`, it is not necessary to match value of `column`  of `<collection>`
   
 ### Lazy load
   
@@ -120,3 +125,50 @@ in this case, configuration looks like:
        <setting name="lazyLoadingEnabled" value="true"/>
    </settings>
    ```
+
+### Auto Mapping
+
+Auto mapping means mybatis can auto map the db columns to properties of java bean, such that there is no need for developer to define the mapping between column and property, this works if all columns of one sql belongs to one bean.
+
+However, if in one sql, some columns belong to one bean, some columns are another bean's, then developer has to define all what you need columns in **resultMap**.
+
+For example, 
+```XML
+<resultMap id="studentResultMap" type="student">
+	
+</resultMap>
+<select id="selectStudent" resultMap = "studentResultMap" >
+select id, name, age from student where id = #{id};
+</select>
+```
+
+columns id, name and age are properties of student, thus developr can ignore the mapping in resultMap.
+
+But for follwing sql:
+ 
+```XML
+    <resultMap id="selectTeacherResultMap" type="teacher">
+		<id property="id" column="id" />
+		<result property="name" column="t_name" />
+		<collection property="students" ofType="student">
+			<id property="id" column="s_id" />
+			<result property="name" column="s_name" />
+			<result property="age" column="age" />
+		</collection>
+	</resultMap>
+	<select id="selectTeacher" resultMap="selectTeacherResultMap">
+		select 
+			t.id,
+			t.name as t_name,
+			s.id as s_id,
+			s.name as s_name,
+			s.age
+		from
+			teacher t left join student s on t.id = s.t_id
+		
+	</select>
+```
+    
+In above sql, columns t.id and t.name are properties of teacher bean, while s.id, s.name and s.age are properties of student bean, therefore their mappings have to be defined.
+
+column value is case insensitive, column="id" is the same as column="ID", while property value are case sensitive
