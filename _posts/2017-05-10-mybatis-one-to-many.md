@@ -134,15 +134,17 @@ However, if in one sql, some columns belong to one bean, some columns are anothe
 
 For example, 
 ```XML
+<select id="selectCourse" resultType="course"> select id, course_name from course</select>
+
 <resultMap id="studentResultMap" type="student">
-	
+  <association .... select="selectCourse" />	
 </resultMap>
 <select id="selectStudent" resultMap = "studentResultMap" >
 select id, name, age from student where id = #{id};
 </select>
 ```
 
-columns id, name and age are properties of student, thus developr can ignore the mapping in resultMap.
+for `selectStudent` sql, the columns id, name and age are properties of student, thus developr can ignore the mapping in resultMap.
 
 But for follwing sql:
  
