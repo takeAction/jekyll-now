@@ -226,57 +226,6 @@ mapper.deleteAuthor(10);
 session.commit();
 ```
 
-### Auto Mapping
-
-```XML
-<resultMap id="studentResultMap" type="student">
-	
-	</resultMap>
-	<select id="selectStudent" resultMap = "studentResultMap" >
-		select id, name, age from student where id = #{id};
-	</select>
-```
-
-this can return a student object and its id, name, age have value, we don't need to define id/result in resultMap
- 
-```XML
-   <resultMap id="studentResultMap" type="student">
-		<id property="id" column="id" />
-	</resultMap>
-	<select id="selectStudent" resultMap = "studentResultMap" >
-		select id, name, age from student where id = #{id};
-	</select>
-```
-
-also can return a student object and its id, name, age have value, even we only define <id> in resultMap
-    
-column value is case insensitive, column="id" is the same as column="ID", while property value are case sensitive
- 
-```XML
-    <resultMap id="selectTeacherResultMap" type="teacher">
-		<id property="id" column="id" />
-		<result property="name" column="t_name" />
-		<collection property="students" ofType="student">
-			<id property="id" column="s_id" />
-			<result property="name" column="s_name" />
-			<result property="age" column="age" />
-		</collection>
-	</resultMap>
-	<select id="selectTeacher" resultMap="selectTeacherResultMap">
-		select 
-			t.id,
-			t.name as t_name,
-			s.id as s_id,
-			s.name as s_name,
-			s.age
-		from
-			teacher t left join student s on t.id = s.t_id
-		
-	</select>
-```
-    
-here, age has to be defined under `<collection>`, otherwise student.getAge() return null even all fields of teacher and student are different, they all have to be defined in resultMap, otherwise their values are null in this case
-
 ### Use sql of another xml file
 
   For instance, there are two sql xml files sql1.xml and sql2.xml
