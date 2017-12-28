@@ -159,8 +159,8 @@ in this case, configuration looks like:
   
   This is caused by `<if test="..">`.
 	
-  The solution is change `column="card_id"` to **column="{card_id}"** in `association` or `collection` or remove the `<if>` in nested 
-  select.
+  The solution is change `column="card_id"` to **column="{card_id=card_id}"** in `association` or `collection` or remove the `<if>` in 
+  nested select.
   
 ### Lazy load
   
