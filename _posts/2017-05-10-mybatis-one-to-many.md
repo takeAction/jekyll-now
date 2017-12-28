@@ -4,6 +4,8 @@ title: mybatis-one-to-many
 categories: mybatis
 ---
 
+## One-to-Many
+
 There are two implementations for one-to-many relationship, one is nested result, another is nested select.
 
 Take teacher and student for example,
@@ -85,8 +87,7 @@ public class Student {
 in this case, configuration looks like:
 ```
 <resultMap id="tResult" type="teacher">
-    <collection property="students" ofType="student" select="selectStudents4Teacher" 
-	column="id" />
+    <collection property="students" ofType="student" select="selectStudents4Teacher" column="id" />
 </resultMap>
 	
 <select id="selectTeacher" resultMap="tResult">
@@ -102,7 +103,16 @@ in this case, configuration looks like:
   
   In `<resultMap>`, there is no necessary to define `<id>` or `<result>`.
   
-  In `<collection>`, value of select is the id of nested select, 
+  In `<collection>`, value of select is the id of nested select.
+  
+ > column
+ > 
+ > The column name from the database, or the aliased column label that holds the value that will be passed to the nested   statement as 
+  an input parameter. This is the same string that would normally be passed to resultSet.getString(columnName). Note: To deal with 
+  composite keys, you can specify multiple column names to pass to the nested select statement by using the syntax column="
+  {prop1=col1,prop2=col2}". This will cause prop1 and prop2 to be set against the parameter object for the target nested select 
+  statement.
+  
   and **column** is the column name or column alias
   of outter query(here is select teacher sql) which its value need to be passed to nested query(select student sql).
   And if this column not in the outer query, then nested query will not be executed.
@@ -125,8 +135,14 @@ in this case, configuration looks like:
        <setting name="lazyLoadingEnabled" value="true"/>
    </settings>
    ```
+   
+## One-to-One
 
-### Auto Mapping
+   Mybatis use `<association property=".." javaType=".." column=".." select=".." />` to represent has one relationship.
+   
+   Others are similar with one-to-many.
+
+## Auto Mapping
 
 Auto mapping means mybatis can auto map the db columns to properties of java bean, such that there is no need for developer to define the mapping between column and property, this works if all columns of one sql belongs to one bean.
 
