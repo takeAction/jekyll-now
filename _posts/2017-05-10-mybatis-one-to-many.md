@@ -98,20 +98,27 @@ in this case, configuration looks like:
     select * from student where teacher_id = #{id}
 </select>
   ```
+  
   unlike nested result for collection, it has 2 sqls, one is used to get teachers, and another is for students
-  base on teacher id.
+  base on teacher id. 
   
-  In `<resultMap>`, there is no necessary to define `<id>` or `<result>`.
-  
+#### select
+
   In `<collection>`, value of select is the id of nested select.
+  
+  If nested select statement is in another xml file, then developer can reference it by qualified name, that is **namesapce+select id**
+  
+#### column
   
  > column
  > 
- > The column name from the database, or the aliased column label that holds the value that will be passed to the nested   statement as 
-  an input parameter. This is the same string that would normally be passed to resultSet.getString(columnName). Note: To deal with 
-  composite keys, you can specify multiple column names to pass to the nested select statement by using the syntax column="
-  {prop1=col1,prop2=col2}". This will cause prop1 and prop2 to be set against the parameter object for the target nested select 
-  statement.
+ > The column name from the database, or the aliased column label that holds the value that will be passed to the nested statement as 
+  an input parameter. This is the same string that would normally be passed to resultSet.getString(columnName). 
+ > 
+ > Note: To deal with 
+  composite keys, you can specify multiple column names to pass to the nested select statement by using the syntax 
+  **column="{prop1=col1,prop2=col2}"**. 
+  This will cause prop1 and prop2 to be set against the parameter object for the target nested select statement.
   
   and **column** is the column name or column alias
   of outter query(here is select teacher sql) which its value need to be passed to nested query(select student sql).
