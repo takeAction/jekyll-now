@@ -157,9 +157,10 @@ in this case, configuration looks like:
   
   When execute `getCar` select, error **There is no getter for property named 'card_id' in 'class java.lang.Integer'** will be thrown.
   
-  This is caused by **<if test="..">**.
+  This is caused by `<if test="..">`.
 	
-  The solution is change `column="card_id"` to **column="{card_id}"** in `association` or `collection`.
+  The solution is change `column="card_id"` to **column="{card_id}"** in `association` or `collection` or remove the `<if>` in nested 
+  select.
   
 ### Lazy load
   
