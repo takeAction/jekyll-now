@@ -120,16 +120,46 @@ in this case, configuration looks like:
   **column="{prop1=col1,prop2=col2}"**. 
   This will cause prop1 and prop2 to be set against the parameter object for the target nested select statement.
   
-  and **column** is the column name or column alias
-  of outter query(here is select teacher sql) which its value need to be passed to nested query(select student sql).
-  And if this column not in the outer query, then nested query will not be executed.
+  If this column is not in the outer query, then nested query will not be executed.
   
-  For example, if sql is `select id, name from teacher`, then the value of `column` in `<collection>` should be **id**.
+  Let's have a look an example, if sql is `select id, name from teacher`, then the value of `column` in `<collection>` 
+  should be **id**.
   While if sql is `select id as t_id, name from teacher`, then the value of `column` in `<collection>` should be **t_id**.
   
   **Even there is no id property in java bean Teacher, only it is in select sql, then it can be passed to select student**
   
   In select student sql, the `#{id}` can be any name, e.g. `#{teacher_id}`, it is not necessary to match value of `column`  of `<collection>`
+  
+#### _Note_
+
+  ```
+  <resultMap id="teacherResultMap" type="teacher" >
+	
+      <id property="id" column="id" />		
+      
+      <association property="idCard" javaType="IDCard" column="card_id" select="getCar" />
+  </resultMap>
+  
+  <select id="getCar" resultType="IDCard">
+      SELECT
+          *
+      FROM
+          ....
+     <where>
+         <if test="card_id != null">
+	     card_id = #{card_id}
+	 </if>
+	 <if test="card_no != null">
+	     AND card_no = #{card_no}
+	 </if>
+     </where>
+  ```
+  
+  When execute `getCar` select, error **There is no getter for property named 'card_id' in 'class java.lang.Integer'** will be thrown.
+  
+  This is caused by **<if test="..">**.
+	
+  The solution is change `column="card_id"` to **column="{card_id}"** in `association` or `collection`.
   
 ### Lazy load
   
