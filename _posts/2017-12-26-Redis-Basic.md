@@ -187,7 +187,7 @@ valueops.set(user.getId(), user);
 
 　　　　2.不在redistemplate中配置Serializer，而是在Service的实现类中单独指定Serializer。就如同UserOperationsServiceImpl.java注释的代码：
 
-复制代码
+
 1 boolean result = redisTemplate.execute(new RedisCallback<Boolean>() {
 2      public Boolean doInRedis(RedisConnection redisConnection) throws DataAccessException { 
 3          RedisSerializer<String> redisSerializer = redisTemplate .getStringSerializer(); 
@@ -196,4 +196,15 @@ valueops.set(user.getId(), user);
 6          return redisConnection.setNX(key, value); } }); 
 7     return result;
 8 }
+
+在spring中进行redis存储，如果没有对key和value进行序列化，保存到redis中会出现乱码
+
+redis会周期性的把更新的数据写入磁盘或者把修改操作写入追加的记录文件，并且在此基础上实现了master-slave(主从)同步
+
+2.jedis
+jedis是Redis的Java版客户端实现，也是官方推荐的Java版客户端。它封装了对Redis的各种操作，并且支持事务、管道及有jedis自身实现的分布式。
+
+3.Spring Data Redis
+Spring Data是Spring框架中的一个主要项目，目的是为了简化构建基于Spring框架应用的数据访问，包括非关系数据库、Map-Reduce框架、云数据服务等，另外也包含对关系数据库的访问支持。
+Spring Data Redis是Spring Data项目中的一个主要模块，实现了对jedis客户端API的高度封装，使对Redis的操作更加便捷。
 
