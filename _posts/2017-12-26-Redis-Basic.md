@@ -67,6 +67,7 @@ categories : Redis
   - DEL, deletes the key if it exists
   - EXPIRE, sets the expiry of the key after the specified time
   - TYPE, returns the data type of the value stored in the key
+  - AUTH password, use password to enter redis
   
 #### Publish/Subscribe
 
@@ -96,15 +97,66 @@ categories : Redis
   ```
   
   Transaction begins with `MULTI`, ends with `EXEC`
+  
+#### Backup
+
+  Redis backup is done by command `SAVE`, **dump.rdp** file will be created in your redis directory.
+  
+  ```
+  127.0.0.1:6379> SAVE  
+  OK 
+  ```
+  
+  To restore redis data, make sure redis backup file (dump.rdp) is in your redis install directory, then start the server.
+  
+  Command `CONFIG get dir` will show your redis directory.
+  
+#### Pipelining
+
+  Pipelining means client can send multiple requests to the server without waiting for the replies at all, and finally
+  read the replies in a single step.
+  
+#### Partitioning
+
+  It means split data into multiple redis instances.
+  
+  There are two types:
+  
+  - Range partitioning, e.g. user 1 -10 will go into instance 1, user 11-20 go into instance 2.
+  - Hash partitioning, a hash function is used to convert the key into a number and then the data stored in different 
+    instances.
 
 ### Clients
 
-  Redis has some clients for Java, such as Jedis, JRedis
+  Redis has some clients for Java, such as Jedis, JRedis. Take Jedis for example,
+  
+  ```Java
+  //Connecting to Redis server on localhost 
+  Jedis jedis = new Jedis("localhost");  
+  jedis.set("mykey", "Hello World"); 
+  System.out.println(jedis.get("mykey")); 
+  ```
+  
+  `JedisPool pool = new JedisPool(new JedisPoolConfig(), "localhost")`, JedisPool is a threadsafe pool.
+  
+  ```
+  Jedis jedis = null;
+  try {
+      jedis = pool.getResource();
+      .....
+   } finally {
+      // You have to close jedis object. If you don't close then
+      // it doesn't release back to pool and you can't get a new
+      // resource from pool.
+      if (jedis != null) {
+          jedis.close();
+      }
+   }
+   /// ... when closing your application:
+   pool.close();
+  ```
 
 ### Spring Data Redis
 
-  It aslo called SDR.
-  
-
-
-  
+  It aslo called SDR which is a part of spring data, provides easy configuration and access to redis from spring 
+  application. It offers both low level and high level abstractions for interacting with the store.
