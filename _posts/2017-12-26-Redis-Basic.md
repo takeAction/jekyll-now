@@ -12,6 +12,10 @@ categories : Redis
   - It is written in C.
   - All redis operations are atomic
   
+#### Persistence
+
+  Redis provides two persistence modes RDB and AOF, please refer to this for detail.
+  
 #### Data Types
 
   Redis supports 5 data types :
@@ -20,8 +24,7 @@ categories : Redis
   - Hash, is map between the string field and string value
   
   ```Shell
-  HMSET mykey name "student1" 
-  age 20 
+  HMSET mykey name "student1" age 20 
   OK 
   redis 127.0.0.1:6379> HGETALL mykey  
   1) "name" 
