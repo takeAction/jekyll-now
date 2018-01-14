@@ -43,6 +43,6 @@ categories : Spring
   `@Scope( value= WebApplicationContext. SCOPE_ SESSION, proxyMode= ScopedProxyMode. INTERFACES )` 
   
   or
-  `< bean id=".." class=".." scope="session"> < aop: scoped- proxy /> </ bean>`, this will create proxy base on class.
+  `< bean id=".." class=".." scope="session"> < aop: scoped-proxy /> </ bean>`, this will create proxy base on class.
   
-  While `< aop: scoped- proxy proxy- target- class=" false" />` will create proxy base on interface.
+  While `< aop: scoped-proxy proxy-target-class="false" />` will create proxy base on interface.
