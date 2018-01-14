@@ -1,4 +1,28 @@
+---
+layout : post
+title : Spring Bean
+categories : Spring
+---
+
 ## Bean Life Cycle
+
+  Spring defines following bean scopes:
+  
+  - Singleton
+  - Prototype, 每次注入或者通过Spring应用上下文获取的时候，都会创建一个新的bean实例
+  - Session
+  - Request
+  
+  By default, spring bean is singleton.
+  
+#### Define scope
+  
+  `@Scope( ConfigurableBeanFactory. SCOPE_ PROTOTYPE)` or `@Scope("prototype")`, former is better, because it is safer and
+  not easy be wrong.
+  
+  or `<bean id="..." class="..." scope="prototype" />`
+  
+  `Session` and `Request` scopes are in `WebApplicationContext`
 
 ## Config Bean
 
