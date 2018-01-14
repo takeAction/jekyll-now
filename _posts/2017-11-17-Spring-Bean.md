@@ -10,7 +10,7 @@ categories : Spring
   
   - Singleton
   
-  - abc每次注入或者通过Spring应用上下文获取的时候，都会创建一个新的bean实例
+  - abc
   
   - Session
   
