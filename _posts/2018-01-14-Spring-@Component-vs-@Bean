@@ -1,0 +1,30 @@
+---
+layout : post
+title : Spring @Component vs @Bean
+categories : Spring
+---
+
+1. `@Component` is class level, while `@Bean` is method level
+
+2. Generally, the methods annotated with `@Bean` are declared within `@Configuration` class
+
+```
+public class Car { 
+  .....
+}
+
+@Configuration
+public class AppConfig { 
+  @Bean
+  public Car getCar() { 
+    return new Car(); 
+  } 
+} 
+
+@Autowired
+private Car car; 
+```
+
+3. `@Bean` decouples the declaration of the bean from the class definition
+
+4. `@Component` class will be registered as a bean by auto scan component
