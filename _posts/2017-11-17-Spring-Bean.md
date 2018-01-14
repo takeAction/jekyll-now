@@ -9,7 +9,7 @@ categories : Spring
   Spring defines following bean scopes:
   
   - Singleton
-  - abc
+  - Prototype
   - Session
   - Request
   
