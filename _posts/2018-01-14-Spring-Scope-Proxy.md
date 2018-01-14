@@ -41,6 +41,7 @@ categories : Spring
 ### Usage
 
   `@Scope( value= WebApplicationContext. SCOPE_ SESSION, proxyMode= ScopedProxyMode. INTERFACES )` 
+  
   or
   `< bean id=".." class=".." scope="session"> < aop: scoped- proxy /> </ bean>`, this will create proxy base on class.
   
