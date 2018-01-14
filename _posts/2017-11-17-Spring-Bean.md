@@ -9,11 +9,8 @@ categories : Spring
   Spring defines following bean scopes:
   
   - Singleton
-  
-  - abc
-  
+  - abc
   - Session
-  
   - Request
   
   By default, spring bean is singleton.
