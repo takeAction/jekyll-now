@@ -9,8 +9,11 @@ categories : Spring
   Spring defines following bean scopes:
   
   - Singleton
+  
   - Prototype, 每次注入或者通过Spring应用上下文获取的时候，都会创建一个新的bean实例
+  
   - Session
+  
   - Request
   
   By default, spring bean is singleton.
