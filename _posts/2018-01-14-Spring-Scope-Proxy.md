@@ -6,9 +6,9 @@ categories : Spring
 
 ### Scope Proxy
 
-  Following content is from **Craig Walls 沃尔斯. Spring实战（第4版） (Kindle Locations 2372-2375). 人民邮电出版社.**
+  Following content is from **Craig Walls 沃尔斯. Spring实战（第4版）. 人民邮电出版社.**
 
-  > 我们 先来 看一下 proxyMode 所 解决问题 的 场景。 假设 我们 要将 ShoppingCart bean 注入 到 单 例 StoreService bean 的 Setter 方法 中， 
+  > 我们先来看一下 proxyMode 所 解决问题 的 场景。 假设 我们 要将 ShoppingCart bean 注入 到 单 例 StoreService bean 的 Setter 方中， 
   > 如下 所示：
   > @Component 
   > public class StoreService { 
@@ -40,7 +40,8 @@ categories : Spring
 
 ### Usage
 
-  `@Scope( value= WebApplicationContext. SCOPE_ SESSION, proxyMode= ScopedProxyMode. INTERFACES )` or
+  `@Scope( value= WebApplicationContext. SCOPE_ SESSION, proxyMode= ScopedProxyMode. INTERFACES )` 
+  or
   `< bean id=".." class=".." scope="session"> < aop: scoped- proxy /> </ bean>`, this will create proxy base on class.
   
   While `< aop: scoped- proxy proxy- target- class=" false" />` will create proxy base on interface.
