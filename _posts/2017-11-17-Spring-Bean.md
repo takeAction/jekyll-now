@@ -4,7 +4,7 @@ title : Spring Bean
 categories : Spring
 ---
 
-## Bean Life Cycle
+## Bean Scope
 
   Spring defines following bean scopes:
   
