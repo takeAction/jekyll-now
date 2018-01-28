@@ -12,7 +12,9 @@ categories : [cache, Ehcache]
 
   In order to use Ehcache, developer need to configure **CacheManager** and initialize it, then create **Cache**.
   
-  This can be achieved by programmatic configuration or xml
+  This can be achieved by programmatic configuration or xml.
+  
+  Ehcache version is 3.4 in this post.
   
 #### By XML
 
@@ -21,26 +23,26 @@ categories : [cache, Ehcache]
 	xmlns='http://www.ehcache.org/v3'
 	xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core.xsd">
 
-	<cache alias="foo">
-		<key-type>java.lang.String</key-type>
-		<value-type>java.lang.String</value-type>
-		<resources>
-			<heap unit="entries">2000</heap>
-			<offheap unit="MB">500</offheap>
-		</resources>
-	</cache>
+    <cache alias="foo">
+        <key-type>java.lang.String</key-type>
+	<value-type>java.lang.String</value-type>
+	<resources>
+	    <heap unit="entries">2000</heap>
+	    <offheap unit="MB">500</offheap>
+	</resources>
+    </cache>
 
-	<cache-template name="numberTemplate">
-		<key-type>java.lang.Integer</key-type>
-		<value-type>java.lang.Integer</value-type>
-		<heap unit="entries">10</heap>
-	</cache-template>
+    <cache-template name="numberTemplate">
+	<key-type>java.lang.Integer</key-type>
+	<value-type>java.lang.Integer</value-type>
+	<heap unit="entries">10</heap>
+    </cache-template>
   
   <cache alias="bar" uses-template="numberTemplate"> 
     <key-type>java.lang.Number</key-type>
   </cache>
 
-	<cache alias="simpleCache" uses-template="numberTemplate" />
+  <cache alias="simpleCache" uses-template="numberTemplate" />
 
 </config>
 
@@ -54,13 +56,13 @@ categories : [cache, Ehcache]
 
 ```Java
     URL myUrl = Test.class.getResource("/ehcache.xml");
-		XmlConfiguration xmlConfig = new XmlConfiguration(myUrl); 
-		CacheManager myCacheManager = CacheManagerBuilder.newCacheManager(xmlConfig);
+    XmlConfiguration xmlConfig = new XmlConfiguration(myUrl); 
+    CacheManager myCacheManager = CacheManagerBuilder.newCacheManager(xmlConfig);
 		
-		myCacheManager.init();
+    myCacheManager.init();
 		
-		Calculator calculator = new Calculator();
-		calculator.setCache(myCacheManager.getCache("simpleCache", Integer.class, Integer.class));
+    Calculator calculator = new Calculator();
+    calculator.setCache(myCacheManager.getCache("simpleCache", Integer.class, Integer.class));
 ```
 
 #### By program
@@ -68,18 +70,18 @@ categories : [cache, Ehcache]
 ```Java
 public class CacheHelper {
 
-	private CacheManager cacheManager;
-	private Cache<Integer, Integer> cache;
+    private CacheManager cacheManager;
+    private Cache<Integer, Integer> cache;
 
-	public CacheHelper() {
+    public CacheHelper() {
 		
-		cacheManager = CacheManagerBuilder.newCacheManagerBuilder().build();
+	cacheManager = CacheManagerBuilder.newCacheManagerBuilder().build();
     
-		cacheManager.init();
+	cacheManager.init();
 
-		cache = cacheManager.createCache("simpleCache", CacheConfigurationBuilder
+	cache = cacheManager.createCache("simpleCache", CacheConfigurationBuilder
 				.newCacheConfigurationBuilder(Integer.class, Integer.class, ResourcePoolsBuilder.heap(10)));
-	}
+    }
 
   //setter and getter
 }
@@ -88,22 +90,23 @@ public class CacheHelper {
 ```Java
 public class Calculator {
 
-	private Cache<Integer, Integer> cache;
+    private Cache<Integer, Integer> cache;
 
-	public int getResult(int input) {
+    public int getResult(int input) {
 		
-		if (cache.containsKey(input)) {
+        if (cache.containsKey(input)) {
 			
-			return (int) cache.get(input);
-		}
+	    return (int) cache.get(input);
+        }
 
-		System.out.println("Calculating value of " + input + " and caching result.");
+        System.out.println("Calculating value of " + input + " and caching result.");
 
-		int result = input * 2;
-		cache.put(input, result);
+        int result = input * 2;
+	
+        cache.put(input, result);
 
-		return result;
-	}
+        return result;
+    }
 
   .....
 }
