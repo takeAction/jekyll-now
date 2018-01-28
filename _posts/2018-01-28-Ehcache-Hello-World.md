@@ -6,7 +6,7 @@ categories : [cache, Ehcache]
 
 ### What is Ehcache
 
-  > Ehcache is an open source, standards-based cache that boosts performance, offloads your database, and simplifies scalability.
+  > Ehcache is an open source, standards-based cache that boosts performance, offloads your database, and simplifies scalability.  It's Java-based.
   
 ### Usage
 
