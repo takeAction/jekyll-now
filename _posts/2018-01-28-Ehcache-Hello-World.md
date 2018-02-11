@@ -116,5 +116,7 @@ public class Calculator {
 
   1. Ehcache is java-based, while redis is c-based
   2. Redis can be accessed using the network and from a lot of programming language, while Ehcache cannot
+  3. Ehcache can be setup by simply including the jar, no additional installation steps are required, which Redis not.
+  4. Ehcache runs in the same process with the application, so it's fast, no additional service is required to run.
   
 About the performance, please refert to this [article](https://blog.nomissolutions.com/labs/2015/03/10/evaluation-of-caching-frameworks/)
