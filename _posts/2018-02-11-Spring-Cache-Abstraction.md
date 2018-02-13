@@ -108,3 +108,59 @@ categories : [Spring]
   `condition` attribute takes SpringEL expression that is evaluated to either true or false. If true, the method is cached.
   `unless` expression is evaluated after method executed, above example means only paperback books will be cached.
   
+### @CachePut
+
+  It is similar `@Cacheable`, the difference is that `@CachePut` always lets the method be executed and its result placed
+  into the cache.
+  
+  While for `@Cacheable`, its method won't be run if cache key is the same until cache expires or gets flushed.
+  
+### @CacheEvict
+
+  Remove data from cache. One can also indicate whether the eviction should occur after(the default) or before method
+  execution through the `beforeInvocation` attribute.
+  
+### @Caching
+
+  `@Caching` allows multiple nested `@Cacheable`, `@CachePut` and `@CacheEvict` to be used on the same method.
+
+### @CacheConfig
+
+  It is a class-level annotation that allows to share the cache names, the custom key generator, the custom cache manager
+  and custom cache resolver.
+  But it does not turn on any cache operation.
+  
+### @EnableCaching
+
+  To enable above annotations work, one need to 
+  - add `@EnableCaching` to one of your `@Configuration` class
+  - or add `<cache:annotation-driven />` to your spring xml file
+  
+  > The default advice mode for processing caching annotations is "proxy" which allows for interception of calls through
+  > the proxy only. Local calls within the same class cannot get intercepted thay way.
+  > For a more advanced mode of interception, switch to "aspectj" mode in combination with compile-time or load-time
+  > weaving.
+  
+  > `<cache:annotation-driven />` only looks for @Cacheable/@CachePut/@CacheEvict/@Caching on beans in the same application
+  > context it is defined in. This means that, if you put `<cache:annotation-driven />` in a WebApplicationContext for a
+  > DispatcherServlet, it only checks for beans in your controllers, not your services.
+  
+## Method visibility and cache annotation
+
+  When using proxy, you should apply the cache annotations only to methods with `public` visibility. If you do annotate them
+  on non-public method, no error is raised, but the annotated method does not exhibit the configured caching settings.
+  Consider AspectJ if you want use them on non-public method.
+  
+  > Spring recommends that you only annotate concerete class and methods of concerete class. 
+  > You certainly can place the @Cache* annotation on an interface (or an interface method), but this works only as 
+  > you would expect it to if you are using interface-based proxies. The fact that Java annotations are not inherited 
+  > from interfaces means that if you are using class-based proxies ( proxy-target-class="true") or the weaving-based 
+  > aspect ( mode="aspectj"), then the caching settings are not recognized by the proxying and weaving infrastructure, 
+  > and the object will not be wrapped in a caching proxy, which would be decidedly bad.
+  
+  > In proxy mode (which is the default), only external method calls coming in through the proxy are intercepted. 
+  > This means that self-invocation, in effect, a method within the target object calling another method of 
+  > the target object, will not lead to an actual caching at runtime even if the invoked method is marked with 
+  > @Cacheable - considering using the aspectj mode in this case. Also, the proxy must be fully initialized to 
+  > provide the expected behaviour so you should not rely on this feature in your initialization code, 
+  > i.e. @PostConstruct.
