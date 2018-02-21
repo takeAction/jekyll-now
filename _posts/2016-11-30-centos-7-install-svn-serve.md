@@ -116,11 +116,11 @@ categories: [linux]
    * = rw
    ```
    
-   This means all user can read and write all repositories.
+   This means all user can read and write all repositories, this suit for most case.
    
-   Following config called path-based authorization which used to restrict the access to svn files. You need to ask yourself 
-   that do you really need it before using it or it's just something that sounds good, because there are often invisible or 
-   visible costs associated with this feature.
+   However, following config called path-based authorization which used to restrict the access to svn files. You need to ask 
+   yourself that do you really need it before using it or it's just something that sounds good, because there are often 
+   invisible or visible costs associated with this feature.
 
    ```
    [groups]
