@@ -101,13 +101,26 @@ categories: [linux]
 
 6. set permission for users
 
+   ```
+   sudo cp /svn/test/conf/authz /svn/authz
+
+   sudo vi /svn/authz
+   ```
+   
+   **test** is the repository name which created on step 4.
+   
+   In this file, add follwing content:
+   
+   ```
+   [/]
+   * = rw
+   ```
+   
+   This means all user can read and write all repositories.
+   
    Following config called path-based authorization which used to restrict the access to svn files. You need to ask yourself 
    that do you really need it before using it or it's just something that sounds good, because there are often invisible or 
    visible costs associated with this feature.
-
-   `sudo cp /svn/repo1/conf/authz /svn/authz`
-
-   `sudo vi /svn/authz`
 
    ```
    [groups]
@@ -137,18 +150,11 @@ categories: [linux]
    them, a section such as `[/some/dir]` will match the path /some/dir in every repository. If you're using the SVNPath 
    directive, however, it's fine to provide only paths in your sections—after all, there's only one repository.
 
-   ```
-   [/]
-   * = r
-   ```
-
-   This makes all repositories world-readable to all users.
-
 7. change selinux security context if selinux enabled
 
    403 forbidden will be thrown withoud next modification.
 
-   `sudo chcon -Rv –type=httpd_sys_content_t /svn`
+   `sudo chcon -R -v –-type=httpd_sys_content_t /svn`
 
 8. start appache
 
