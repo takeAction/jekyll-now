@@ -5,14 +5,19 @@ categories: [linux]
 ---
 
 1. install httpd(apache)
+
 `sudo yum install httpd`
+
 **Logs files are in /var/log/httpd**
 
 2. install svn and apache module mod_dav_svn to make svn work with apache
+
 `sudo yum install subversion mod_dav_svn`
 
 3. modify svn configuration file
+
 `sudo vi /etc/httpd/conf.modules.d/10-subversion.conf`
+
 append the following content
 
 ```
@@ -62,28 +67,38 @@ AuthType specifies the type of authentication to use.
 
 AuthUserFile specifies the location of the password file to use.
 
-AuthzSVNAccessFile specifies a file containing the permissions policy for paths within your repositories.</blockquote>
+AuthzSVNAccessFile specifies a file containing the permissions policy for paths within your repositories.
 
 4. create svn repo
-`sudo mkdir /svn`
-`cd /svn`
-`sudo svnadmin create test`
-`sudo chown -R apache:apache test`
+
+```
+sudo mkdir /svn
+cd /svn
+sudo svnadmin create test
+sudo chown -R apache:apache test
+```
 
 5. add svn user
-`sudo mkdir /etc/svn`
-`sudo htpasswd -cm /etc/svn/svn-auth admin`
-`sudo chown root:apache /etc/svn/svn-auth`
-`sudo chmod 640 /etc/svn/svn-auth</blockquote>`
+
+```
+sudo mkdir /etc/svn
+sudo htpasswd -cm /etc/svn/svn-auth admin
+sudo chown root:apache /etc/svn/svn-auth
+sudo chmod 640 /etc/svn/svn-auth
+```
 
 if you want to add second user
+
 `sudo htpasswd -m /etc/svn/svn-auth user1`
+
 remove c flag, just use -m from second user
 
 6. set permission for users
 
 Following config called path-based authorization which used to restrict the access to svn files. You need to ask yourself that do you really need it before using it or it's just something that sounds good, because there are often invisible or visible costs associated with this feature.
+
 `sudo cp /svn/repo1/conf/authz /svn/authz`
+
 `sudo vi /svn/authz`
 
 ```
@@ -119,17 +134,23 @@ This makes all repositories world-readable to all users.
 7. change selinux security context if selinux enabled
 
 403 forbidden will be thrown withoud next modification.
+
 `sudo chcon -Rv –type=httpd_sys_content_t /svn`
 
-8. start appache<
+8. start appache
+
 `sudo systemctl start httpd.service`
+
 if you want apache start automatically when system boot, then we can use
 
 `sudo systemctl enable httpd.service`
 
 9. modify firewall such that other computers can access the svn
-`sudo firewall-cmd --zone=public --permanent --add-service=http`
-`sudo firewall-cmd --reload`
+
+```
+sudo firewall-cmd --zone=public --permanent --add-service=http
+sudo firewall-cmd --reload
+```
 
 Finally, we can access svn from browser by http://svn/test.
 
