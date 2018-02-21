@@ -53,13 +53,16 @@ categories: [linux]
    ```
 
    DAV svn
+   
    Must be included in any Directory or Location block for a Subversion repository. It tells httpd to use the Subversion   
    backend for mod_dav to handle all requests.
 
    SVNParentPath directory-path
+   
    Specifies the location in the filesystem of a parent directory whose child directories are Subversion repositories. In a    configuration block for a Subversion repository, either this directive or SVNPath must be present, but not both.
 
    SVNPath directory-path
+   
    Specifies the location in the filesystem for a Subversion repository's files. In a configuration block for a Subversion  
    repository, either this directive or SVNParentPath must be present, but not both.
 
