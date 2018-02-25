@@ -10,7 +10,7 @@ categories : [Project Management]
 
    **Deploy to container** plugin must be installed by youself.
 
-3. Install Maven
+3. Install Maven and SVN
 
 4. Install Tomcat, make sure tomcat has **host-manager** and **manager** app, otherwise war cannot be deployed.
 
