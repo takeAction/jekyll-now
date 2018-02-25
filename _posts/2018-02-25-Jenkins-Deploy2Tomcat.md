@@ -28,11 +28,14 @@ categories : [Project Management]
    ![_config.yml]({{ site.baseurl }}/images/jenkins-2.png)
    
 7. Config **Source Code Management**, you can check `Git` or `Subversion`.
-   For `Subversion`, input `Repository URL` and `Credentials` which is user name and password to check out source code from svn. 
+   
+   For `Subversion`, input `Repository URL` and `Credentials` which is user name and password to check out source code from 
+   svn. 
    Then choose the `repository depth`.
    
-   If `Repository URL` is `http://192.168.2.102:8090/svn/test/JenkinTest`, then Jenkins will create a folder named `JenkinTest`
-   under `/var/lib/jenkins/workspace/<your project name>/`, the source code check out from svn is placed in this folder.
+   If `Repository URL` is `http://192.168.2.102:8090/svn/test/JenkinTest`, then Jenkins will create a folder named 
+   `JenkinTest` under `/var/lib/jenkins/workspace/<your project name>/`, 
+   the source code check out from svn is placed in this folder.
    
    ![_config.yml]({{ site.baseurl }}/images/jenkins-3.png)
    
@@ -50,8 +53,9 @@ categories : [Project Management]
    
 10. **Add post build action** to deploy war to tomcat if build success. `deploy war/ear to a container` should be selected.
     
-    value of `war/ear files` should be `<your svn project folder name>/target/*.war`, if this value is wrong, then Jenkins
-    cannot run this depoly action, there is no error message on console output and `/var/log/jenkins/jenkins.log`.
+    value of `war/ear files` should be `<your svn project folder name>/target/*.war` or `*/target/*.war`
+    if this value is wrong, then Jenkins cannot run this depoly action, there is no error message in console output 
+    and `/var/log/jenkins/jenkins.log`.
     
     In this section, `Context Path` is your web app name in tomcat, you can leave it empty.
     
