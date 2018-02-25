@@ -1,0 +1,62 @@
+---
+layout : post
+title : Jenkins Deploy2Tomcat
+categories : [Project Management]
+---
+
+1. Install JDK
+
+2. Install Jenkins, you can add `restart` after your jenkins url to restart jenkins.
+
+   **Deploy to container** plugin must be installed by youself.
+
+3. Install Maven
+
+4. Install Tomcat, make sure tomcat has **host-manager** and **manager** app, otherwise war cannot be deployed.
+
+   Also edit `tomcat-users.xml`, add `<user username="deployer" password="deployer" roles="manager-script" />`, this
+   user name/password is used to connect to tomcat for Jenkins, this user role should contain `manager-script`.
+
+5. Create a Jenkins project, enter a project name then choose **Freestyle project**, if project name is `HelloWorld`, then
+   Jenkins will create a `HelloWorld` folder under `/var/lib/jenkins/workspace/`
+   
+   ![_config.yml]({{ site.baseurl }}/images/jenkins-1.png)
+   
+6. In **General** tab, you can check `Discard old builds`, strategy is `Log rotation`, then input `max # of builds to keep`,
+   this is optional.
+   
+   ![_config.yml]({{ site.baseurl }}/images/jenkins-2.png)
+   
+7. Config **Source Code Management**, you can check `Git` or `Subversion`.
+   For `Subversion`, input `Repository URL` and `Credentials` which is user name and password to check out source code from svn. 
+   Then choose the `repository depth`.
+   
+   If `Repository URL` is `http://192.168.2.102:8090/svn/test/JenkinTest`, then Jenkins will create a folder named `JenkinTest`
+   under `/var/lib/jenkins/workspace/<your project name>/`, the source code check out from svn is placed in this folder.
+   
+   ![_config.yml]({{ site.baseurl }}/images/jenkins-3.png)
+   
+8. Config **Build Triggers**, that is when to trigger the build automatically.
+   
+   If you check `Poll SCM` and `Schedule` is `H/5 * * * *`, it means Jenkins will check svn every 5 minutes, if code has
+   change, then it will run the build process.
+
+   ![_config.yml]({{ site.baseurl }}/images/jenkins-4.png)
+   
+9. **Add Build Step**, if you use Maven to build, you can select `Invoke top-level Maven targets`, then input maven goals
+   to build.
+   
+   ![_config.yml]({{ site.baseurl }}/images/jenkins-5.png)
+   
+10. **Add post build action** to deploy war to tomcat if build success. `deploy war/ear to a container` should be selected.
+    
+    value of `war/ear files` should be `<your svn project folder name>/target/*.war`, if this value is wrong, then Jenkins
+    cannot run this depoly action, there is no error message on console output and `/var/log/jenkins/jenkins.log`.
+    
+    In this section, `Context Path` is your web app name in tomcat, you can leave it empty.
+    
+    Then select container and input the user name/password to connect it.
+    
+    Input `Tomcat URL`, like `http://192.168.2.102:8181/`
+    
+    ![_config.yml]({{ site.baseurl }}/images/jenkins-6.png)
