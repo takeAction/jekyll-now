@@ -34,8 +34,8 @@ categories : [Project Management]
    Then choose the `repository depth`.
    
    If `Repository URL` is `http://192.168.2.102:8090/svn/test/JenkinTest`, then Jenkins will create a folder named 
-   `JenkinTest` under `/var/lib/jenkins/workspace/<your project name>/`, 
-   the source code check out from svn is placed in this folder.
+   `JenkinTest` under `/var/lib/jenkins/workspace/<your project name>/`.
+   If it detects svn has changes, then it will check out source code from svn to this folder and build it.
    
    ![_config.yml]({{ site.baseurl }}/images/jenkins-3.png)
    
