@@ -30,7 +30,7 @@ pageEncoding="ISO-8859-1"%>;
 <title>Insert title here</title>
 </head>
 <body>
-<h1>Hello World from Struts2&lt;/h1>
+<h1>Hello World from Struts2</h1>
 <!-- if we want to use DMI, then the action name can be hello!nonExecute.action or hello!nonExecute here--&gt;
 <form action="hello">
 Please enter your name :<br>
