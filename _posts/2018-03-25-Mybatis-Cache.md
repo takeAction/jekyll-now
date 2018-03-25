@@ -8,7 +8,7 @@ categories : Mybatis
 
 ![_config.yml]({{ site.baseurl }}/images/mybatis-cache.png)
 
-### Second Cache
+### Second Level Cache
 
 1. Cached object has to be implemented Serializable
 2. add `<cache />` in sql xml file
@@ -33,3 +33,10 @@ this statement. `<select>` has `useCache="false"` to desiable cache this select 
 3. `<cache type="...ehcache.."/>`
 
 Note : mybatis-ehcache-1.1.0 not support ehcache 3.X
+
+#### 2nd Cache Risk
+
+  Second level cache has risk at multiple tables query, please refer to [this](https://blog.csdn.net/isea533/article/details/44566257) and [this](https://www.jianshu.com/p/c553169c5921) in Chinese.
+  Even developer can use `<cach-ref />` to avoid this risk, but 2nd level cache become more meaningless in this case because operation of multiple namespace will affect cache.
+  
+  Therefore, it is a good practice to use cache in business service layer without mybatise cache.
