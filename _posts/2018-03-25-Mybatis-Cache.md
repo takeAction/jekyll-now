@@ -8,6 +8,8 @@ categories : Mybatis
 
 ![_config.yml]({{ site.baseurl }}/images/mybatis-cache.png)
 
+**Note : For spring and mybatis integration, mybatis session is tied to spring transaction**
+
 ### Second Level Cache
 
 1. Cached object has to be implemented Serializable
