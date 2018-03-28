@@ -68,9 +68,12 @@ categories : [Project Management]
 ### Problems
     
    Jenkins installation successfully base on above steps in my pc. However it failed in another linux pc.
+   
    Jenkins is **2.108** in my pc, **2.107.1** in failed pc. I have no idea that why they are different because I installed it
    base on same instruction of jenkins doc.
+   
    both they are centos 7 and have same jdk version 1.8.
+   
    Maven is installed local in both pc.
       
 #### Cannot run program "mvn" (in directory ...):error=2, No such file or directory
