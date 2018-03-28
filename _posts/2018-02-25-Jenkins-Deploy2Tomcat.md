@@ -74,7 +74,7 @@ categories : [Project Management]
    
    both they are centos 7 and have same jdk version 1.8.
    
-   Maven is installed local in both pc.
+   Maven is installed local in them.
       
 #### Cannot run program "mvn" (in directory ...):error=2, No such file or directory
    
