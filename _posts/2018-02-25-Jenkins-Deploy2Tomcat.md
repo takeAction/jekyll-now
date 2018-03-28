@@ -64,3 +64,34 @@ categories : [Project Management]
     Input `Tomcat URL`, like `http://192.168.2.102:8181/`
     
     ![_config.yml]({{ site.baseurl }}/images/jenkins-6.png)
+    
+### Problems
+    
+   Jenkins installation successfully base on above steps in my pc. However it failed in another linux pc.
+   Jenkins is **2.108** in my pc, **2.107.1** in failed pc. I have no idea that why they are different because I installed it
+   base on same instruction of jenkins doc.
+   both they are centos 7 and have same jdk version 1.8.
+   Maven is installed local in both pc.
+      
+#### Cannot run program "mvn" (in directory ...):error=2, No such file or directory
+   
+  Specify maven installation in Jenkins:
+  Jenkins -> Global Tool Configuration -> Maven, input maven name and maven home, uncheck `Install automatically`.
+  Then in `Build` section of project config, select maven version instead default.
+     
+  ![_config.yml]({{ site.baseurl }}/images/jenkins-maven.PNG)
+     
+  ![_config.yml]({{ site.baseurl }}/images/jenkins-build.PNG)
+   
+#### JAVA_HOME is not defined correctly
+   
+  Go to Manage Jenkins -> Configure System -> Global Properties -> Check `Environment variables` -> input `JAVA_HOME` and JAVA_HOME
+  PATH.
+     
+   ![_config.yml]({{ site.baseurl }}/images/jenkins-jdk.PNG)
+   
+#### Cannot delete `*.pom` in jenkins workspace
+   
+  ![_config.yml]({{ site.baseurl }}/images/jenkins-build-env.PNG)
+  
+  or change permission manually.
