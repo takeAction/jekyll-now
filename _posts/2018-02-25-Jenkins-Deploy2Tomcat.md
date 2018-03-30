@@ -6,9 +6,16 @@ categories : [Project Management]
 
 1. Install JDK
 
-2. Install Jenkins, you can add `restart` after your jenkins url to restart jenkins.
-
-   **Deploy to container** plugin must be installed by youself.
+2. Install Jenkins, you can add `restart` after your jenkins url to restart jenkins.  
+   
+   It consist of following default folder:
+   
+   ```
+   /usr/lib/jenkins
+   /var/lib/jenkins
+   /etc/sysconfig/jenkins
+   /var/log/jenkins/jenkins.log
+   ```
 
 3. Install Maven and SVN
 
@@ -51,7 +58,9 @@ categories : [Project Management]
    
    ![_config.yml]({{ site.baseurl }}/images/jenkins-5.png)
    
-10. **Add post build action** to deploy war to tomcat if build success. `deploy war/ear to a container` should be selected.
+10. **Add post build action** to deploy war to tomcat after install **Deploy to container** plugin. 
+
+    `deploy war/ear to a container` should be selected.
     
     value of `war/ear files` should be `<your svn project folder name>/target/*.war` or `*/target/*.war`
     if this value is wrong, then Jenkins cannot run this depoly action, there is no error message in console output 
@@ -98,3 +107,21 @@ categories : [Project Management]
   ![_config.yml]({{ site.baseurl }}/images/jenkins-build-env.PNG)
   
   or change permission manually.
+  
+#### Failed to undeploy
+
+  The Tomcat Manager responded "FAIL - Context [/Test] is defined in server.xml and may not be undeployed.
+  
+  As the error message implies, there is context Test defined in server.xml which cause this problem.
+  
+  Go to tomcat -> conf -> server.xml, find out like:
+  
+  ```XML
+  <Host name="localhost"  appBase="/var/www/webapps" unpackWARs="true" autoDeploy="true">
+      <Context docBase="/var/www/webapps/Test" path="/Test" reloadable="false" />  
+  ```
+  delete context definition.
+  
+  **Note: If you change webapp directory, like above, then the manager and host-manager should be moved, in this case, they should
+  be in /var/www/webapps/**
+  
