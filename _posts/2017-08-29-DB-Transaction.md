@@ -4,11 +4,15 @@ title: DB Transaction
 categories: database
 ---
 
+#### Diagram
+
 ![_config.yml]({{ site.baseurl }}/images/db-transaction.png)
 
 ![_config.yml]({{ site.baseurl }}/images/lock-mode.png)
 
 ![_config.yml]({{ site.baseurl }}/images/lock.png)
+
+#### Record/Update Lock
 
 In MySQL InnoDB(from official document):
 
@@ -22,6 +26,8 @@ Record locks always lock index records, even if a table is defined with no index
 
 For such cases, InnoDB creates a hidden clustered index and uses this index for record locking. 
 
+#### Gap/Range Lock
+
 Gap/Range Lock
 
 A gap lock is a lock on a gap between index records, or a lock on the gap before the first or after the last index record. 
@@ -34,8 +40,9 @@ because the gaps between all existing values in the range are locked.
 
 A gap might span a single index value, multiple index values, or even be empty.
 
+#### Select lock
 
-SELECT ... LOCK IN SHARE MODE
+##### SELECT ... LOCK IN SHARE MODE
 
 Sets a shared mode lock on any rows that are read. Other sessions can read the rows, 
 
@@ -43,7 +50,7 @@ but cannot modify them until your transaction commits. If any of these rows were
 
 that has not yet committed, your query waits until that transaction ends and then uses the latest values.
 
-SELECT ... FOR UPDATE
+##### SELECT ... FOR UPDATE
 
 For index records the search encounters, locks the rows and any associated index entries, 
 
