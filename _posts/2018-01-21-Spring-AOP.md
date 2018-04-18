@@ -12,59 +12,59 @@ categories : Spring
 ```Java
 public class PaymentApply {
 	
-	public void apply() {
+    public void apply() {
 		
-		String user = "user1";
-		String payment = "pay for dinner";
+	String user = "user1";
+	String payment = "pay for dinner";
 		
-		System.out.println(user+","+payment);
-	}
+	System.out.println(user+","+payment);
+   }
 }
 ```
 
 ```Java
 public class Notification {
 	
-	public void sendNotification() {
+    public void sendNotification() {
 		
-		System.out.println("send message to : ");
-	}
+        System.out.println("send message to : ");
+    }
 }
 ```
 
 ```XML
 <bean id="paymentApply" class="example.my.spring.aop.PaymentApply" />
 	
-	<bean id="notification" class="example.my.spring.aop.Notification" />
+    <bean id="notification" class="example.my.spring.aop.Notification" />
 	
-	<aop:config>
-		<aop:aspect id="myAspect" ref="notification" >
-			<aop:pointcut id="afterPointCut" expression="execution(* example.my.spring.aop.PaymentApply.*(..))" />
-			<aop:after method="sendNotification" pointcut-ref="afterPointCut" />
-		</aop:aspect>
-	</aop:config>
+    <aop:config>
+	<aop:aspect id="myAspect" ref="notification" >
+		<aop:pointcut id="afterPointCut" expression="execution(* example.my.spring.aop.PaymentApply.*(..))" />
+		<aop:after method="sendNotification" pointcut-ref="afterPointCut" />
+	</aop:aspect>
+    </aop:config>
 ```
 
 #### By annotation
 
-```Java
+```XML
 <aop:aspectj-autoproxy/>
 <bean id="paymentApply" class="example.my.spring.aop.PaymentApply" />
 <bean id="notification" class="example.my.spring.aop.Notification" />
 ```
 
-```
+```Java
 @Aspect
 public class Notification {
 	
-	@Pointcut("execution(* example.my.spring.aop.PaymentApply.apply(..))")
-	private void beforePointCunt() {}
+    @Pointcut("execution(* example.my.spring.aop.PaymentApply.apply(..))")
+    private void beforePointCunt() {}
 	
-	@Before("beforePointCunt()")
-	public void sendNotification() {
+    @Before("beforePointCunt()")
+    public void sendNotification() {
 		
-		System.out.println("send message to in aop annotation ");
-	}
+	System.out.println("send message to in aop annotation ");
+    }
 	
 }
 ```
