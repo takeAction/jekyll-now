@@ -22,6 +22,7 @@ public class PaymentApply {
 }
 ```
 
+
 ```Java
 public class Notification {
 	
@@ -31,6 +32,7 @@ public class Notification {
     }
 }
 ```
+
 
 ```XML
 <bean id="paymentApply" class="example.my.spring.aop.PaymentApply" />
@@ -52,6 +54,7 @@ public class Notification {
 <bean id="paymentApply" class="example.my.spring.aop.PaymentApply" />
 <bean id="notification" class="example.my.spring.aop.Notification" />
 ```
+
 
 ```Java
 @Aspect
