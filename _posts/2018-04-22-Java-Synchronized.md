@@ -12,3 +12,5 @@ From https://www.javamex.com/tutorials/synchronization_concurrency_synchronized1
 > (either because the code finishes normally or abnormally). Between acquiring the lock and releasing it, 
 > a thread is said to "own" the lock. At the point of Thread A wanting to acquire the lock, 
 > if Thread B already owns the it, then Thread A must wait for Thread B to release it.
+
+Java provides the synchronized keyword that operates on the default lock of a class. This default lock is called intrinsic lock which belongs to every Java object.
