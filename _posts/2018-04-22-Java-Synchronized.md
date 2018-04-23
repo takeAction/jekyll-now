@@ -4,6 +4,13 @@ title : Java Synchronized
 categories : Java
 ---
 
+### Multithreading in OS
+
+  A single cpu with single core only can handle one thread/process at a time, the OS will switch different processes/threads
+  to support multi process/threads such that they look like running concurrently.
+  
+  Multi cpu or one cpu with multi cores can run multi processes/threads simultanously at a time on different cores.
+
 From https://www.javamex.com/tutorials/synchronization_concurrency_synchronized1.shtml:
 
 > Every Java object created, including every Class loaded, has an associated lock or monitor. 
