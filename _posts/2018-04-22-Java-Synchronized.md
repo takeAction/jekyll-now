@@ -105,11 +105,12 @@ class Clazz {
    
 ### Implicit Lock
 
-  A piece of code marked with `synchronized` is used to avoid race conditions in a multi-threaded environment in Java.
+  A piece of code marked with `synchronized` is the implementation of implicit lock.
   
   Internally java use a monitor also known as monitor lock or intrinsic lock to provide synchronization. 
   
-  These monitors are bound to an object, thus only one thread can execute these code for same lock object at any given time.
+  Every java object has an associated intrinsic lock, only one thread can execute `synchronized` code for same lock object 
+  at any given time.
    
 
 From https://www.javamex.com/tutorials/synchronization_concurrency_synchronized1.shtml:
@@ -127,7 +128,7 @@ Java provides the synchronized keyword that operates on the default lock of a cl
 
   `wait()`, `notify()` and `notifyAll()` are the same as `await()`, `signal()` and `signalAll()` of `Lock` object.
 
-### Synchronization type
+#### Synchronization type
 
   1. synchronized method, add `synchronized` keyword at method declaration
      
@@ -147,13 +148,14 @@ Java provides the synchronized keyword that operates on the default lock of a cl
      
      `public synchronized void update(){}` is the same as `public void update(){synchronized(this){}}`.
   
-### Synchronization level
+#### Synchronization level
 
   1. instance level - synchronized method
   2. class level - synchronized on static method, `public static synchronized void update(){}` is equivalent to 
      `public static void update(){synchronized(xx.class){}}`
      
    So when a thread is executing a synchronized static method, it also blocks access to all other synchronized static methods. The synchronized non-static methods are still executable by other threads. It’s because synchronized static methods and synchronized non-static methods work on different locks: class lock and instance lock.
+   
 In other words, a synchronized static method and a non-static synchronized method will not block each other. They can run at the same time.
   
 Java synchronized keyword is re-entrant which means if a java synchronized method call another synchronized method which 
@@ -162,3 +164,27 @@ requires the same lock then the current thread which is holding lock can enter t
 synchronized only be used for the shared object within the same jvm.
 
 https://wiki.sei.cmu.edu/confluence/display/java/LCK01-J.+Do+not+synchronize+on+objects+that+may+be+reused
+
+Lock will be released if synchronized code finished or there is exception, `Thread.sleep()` not release lock.
+
+### Dead lock
+
+### Happends-before
+
+  ```
+  public synchronized void increment() {
+      counter++;
+  }
+
+  public synchronized int read() {
+      return counter;
+  }
+  ```
+
+  By synchronizing both increment and read methods we are establishing a happens-before relationship between the two 
+  methods. If a given thread acquires the lock and increments the counter, any other thread that subsequently acquires the 
+  lock and reads the counter will read the value that was written by the previous thread.
+
+  If the methods were not synchronized and a given thread increments the counter, when a second thread reads the counter 
+  value it is not guaranteed that the second thread will read the value that was written by the first thread, even if the 
+  write happens before the read at wall clock time. This behaviour is due to the Java Memory Model specification.
