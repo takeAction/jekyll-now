@@ -111,6 +111,8 @@ class Clazz {
   
   Every java object has an associated intrinsic lock, only one thread can execute `synchronized` code for same lock object 
   at any given time.
+  
+  `synchronized` can only be used in same jvm
    
 
 From https://www.javamex.com/tutorials/synchronization_concurrency_synchronized1.shtml:
