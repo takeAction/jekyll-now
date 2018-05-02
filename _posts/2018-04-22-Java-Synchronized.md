@@ -119,6 +119,13 @@ class Clazz {
 #### Lock Condition
 
   `wait()`, `notify()` and `notifyAll()` are the same as `await()`, `signal()` and `signalAll()` of `Lock` object.
+  
+  A thread cannot call wait(), notify() or notifyAll() without holding the lock on the object the method is called on.
+  
+  The methods notify() and notifyAll() do not save the method calls to them in case no threads are waiting when they are called. 
+  The notify signal is then just lost. Therefore, if a thread calls notify() before the thread to signal has called wait(), 
+  the signal will be missed by the waiting thread. This may or may not be a problem, 
+  but in some cases this may result in the waiting thread waiting forever, never waking up, because the signal to wake up was missed.
 
 #### Synchronization type
 
