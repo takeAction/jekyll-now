@@ -43,7 +43,7 @@ In mybatis config file, there are three elements about lazy fetch:
    not call these methods, especially for 3rd framework/utility/implementation. 
    
    For instance, there is object `Teacher`, its field `address` is defined as lazy load. 
-   In a struts program, if developer use `${teacher.id}` in jsp page, then it will trigger lazy load even there is not call about `address`.
+   In a struts program, if developer use `${teacher.id}` in jsp page, then it will trigger lazy load even there is no call about `address`.
    
    Thus, `lazyLoadTriggerMethods` should be set empty like `<setting name="lazyLoadTriggerMethods" value=""/>`
    
