@@ -206,3 +206,110 @@ https://wiki.sei.cmu.edu/confluence/display/java/LCK01-J.+Do+not+synchronize+on+
   If the methods were not synchronized and a given thread increments the counter, when a second thread reads the counter 
   value it is not guaranteed that the second thread will read the value that was written by the first thread, even if the 
   write happens before the read at wall clock time. This behaviour is due to the Java Memory Model specification.
+  
+### Read/Write Lock
+
+  To allow multiple readers but only one writer, you will need a read / write lock.
+
+  Read Access   	If no threads are writing, and no threads have requested write access.
+  Write Access   	If no threads are reading or writing.
+  
+  If a thread wants to read the resource, it is okay as long as no threads are writing to it, and no threads have requested write access to the resource.
+
+### Blocking Queue
+
+  A blocking queue is a queue that blocks when you try to dequeue from it and the queue is empty, or if you try to enqueue items to it and the queue is already full. 
+  
+  A thread trying to dequeue from an empty queue is blocked until some other thread inserts an item into the queue. 
+  
+  A thread trying to enqueue an item in a full queue is blocked until some other thread makes space in the queue, either by dequeuing one or more items or clearing the queue completely.
+  
+### Example
+
+```
+public class MyService {	
+	
+	public void testA(Integer i) {
+		
+		synchronized(i) {
+			...
+		}
+		
+	}	
+
+}
+	
+public class MyThread implements Runnable {
+	
+	private MyService service;
+	private Integer i;
+	
+	public MyThread(MyService service, int i) {
+		this.service = service;
+		this.i = i;
+	}
+
+	@Override
+	public void run() {		
+				
+					service.testA(i);			
+	}	
+
+}
+
+public class Test {
+
+    public static void main(String[] args) {
+        
+        MyService service = new MyService();
+	      MyService service2 = new MyService();		
+	
+	      Integer i1 = new Integer(1);
+	      Integer i2 = new Integer(1);
+		
+	      Thread t1 = new Thread(new MyThread(service, i1));
+	      Thread t2 = new Thread(new MyThread(service, i2));		
+	   
+	      t1.start();
+	      t2.start();
+    }
+}
+```
+
+  If in constructor of MyThread, it is : `public MyThread(MyService service, int i)`, then testA() of MyService will be run sequence in multiple threading.
+  However if it is : public MyThread(MyService service, Integer i), then multiple threads can enter testA() at the same time.
+
+  Another example is:
+  
+  ```
+  public class MyWaitNotify{
+
+  String myMonitorObject = "";
+  boolean wasSignalled = false;
+
+  public void doWait(){
+    synchronized(myMonitorObject){
+      while(!wasSignalled){
+        try{
+          myMonitorObject.wait();
+         } catch(InterruptedException e){...}
+      }
+      //clear signal and continue running.
+      wasSignalled = false;
+    }
+  }
+
+  public void doNotify(){
+    synchronized(myMonitorObject){
+      wasSignalled = true;
+      myMonitorObject.notify();
+    }
+  }
+  }
+  ```
+  
+  The problem with calling wait() and notify() on the empty string, or any other constant string is, that the JVM/Compiler internally translates constant strings into the same object. 
+
+  That means, that even if you have two different MyWaitNotify instances, they both reference the same empty string instance. 
+  
+  This also means that threads calling doWait() on the first MyWaitNotify instance risk being awakened by doNotify() calls on the second MyWaitNotify instance.
