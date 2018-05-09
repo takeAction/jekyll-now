@@ -99,6 +99,11 @@ Spring has following transaction propagation behaviors:
    
    However if there is exception after `service2.updateStudent()`(e.g. add `int i = 1/0` after `service2.updateStudent()`)
    both `this.dao.testA` and `service2.updateStudent()` roll back.
+   
+   > A savepoint will be taken at the start of the nested transaction. 
+   > Íf the nested transaction fails, we will roll back to that savepoint. 
+   > The nested transaction is part of of the outer transaction, so it will only be committed 
+   > at the end of of the outer transaction.
 
 4. MANDATORY
 
