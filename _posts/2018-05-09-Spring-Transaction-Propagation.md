@@ -6,7 +6,7 @@ categories : Spring
 
 Spring has following transaction propagation behaviors:
 
-1. REQUIRED
+1. REQUIRED - default behavior
 
    The same transaction will be used if there is an already opened transaction in the current bean method execution context. 
    If there is no existing transaction the Spring will create a new one.
@@ -15,18 +15,18 @@ Spring has following transaction propagation behaviors:
    and will also rollback the transaction.
    
    ```Java
-	 @Transactional(propagation=Propagation.REQUIRED)
-	 public void test1(Teacher t) {
+   @Transactional(propagation=Propagation.REQUIRED)
+   public void test1(Teacher t) {
 		
-		       this.dao.testA(t);		
-		       service2.updateStudent();
-	 }   
+	this.dao.testA(t);		
+        service2.updateStudent();
+    }   
 	
-	 @Transactional(propagation=Propagation.REQUIRES_REQUIRED)
-	 public void updateStudent() {
+    @Transactional(propagation=Propagation.REQUIRES_REQUIRED)
+    public void updateStudent() {
 		
-		       throw new RuntimeException("Rollback!");
-	 } 
+	throw new RuntimeException("Rollback!");
+    } 
    ```
    
    **Note : - The only exceptions that set a transaction to rollback state by default are the unchecked exceptions 
@@ -41,39 +41,76 @@ Spring has following transaction propagation behaviors:
 
    Spring will create a new physical transaction. That is outter transaction will not be affected by inner transaction result.
    
-   ```
+   ```Java
    @Transactional(propagation=Propagation.REQUIRED)
-	 public void test1(Teacher t) {
+   public void test1(Teacher t) {
 		
-	     this.dao.testA(t);	
+       this.dao.testA(t);	
        try {   
-		       service2.updateStudent();
+           service2.updateStudent();
        }catch(Exception e) {
            //handle exception
        }
-	 }   
+       
+   //    int i = 1/0;
+   }   
 	
-	 @Transactional(propagation=Propagation.REQUIRES_NEW)
-	 public void updateStudent() {
+    @Transactional(propagation=Propagation.REQUIRES_NEW)
+    public void updateStudent() {
 		
-	     throw new RuntimeException("Rollback!");
-	 } 
+	throw new RuntimeException("Rollback!");
+   } 
    ```
    
    The outer transaction is paused when the inner transaction starts and then resumes after the inner transaction is finished.
+   
+   If there is exception after executing `service2.updateStudent`, then `service2.updateStudent` can commit success while
+   `this.dao.testA` will rolle back.
    
    **Note : try-catch has to be added when calling inner transaction method, otherwise outter transaction still can be roll back **
    
 3. NESTED
 
+   Execute within a nested transaction if a current transaction exists, otherwise create a new one.
+   
+   ```Java
+   @Transactional(propagation=Propagation.REQUIRED)
+   public void test1(Teacher t) {
+		
+       this.dao.testA(t);	
+       try {   
+           service2.updateStudent();
+       }catch(Exception e) {
+           //handle exception
+       }
+       
+   //    int i = 1/0;
+   }   
+	
+    @Transactional(propagation=Propagation.NESTED)
+    public void updateStudent() {
+		
+	throw new RuntimeException("Rollback!");
+   } 
+   ```
+   
+   if there is exception in `service2.updateStudent()`, its behavior is the same as `REQUIRES_NEW`.
+   
+   However if there is exception after `service2.updateStudent()`(e.g. add `int i = 1/0` after `service2.updateStudent()`)
+   both `this.dao.testA` and `service2.updateStudent()` roll back.
+
 4. MANDATORY
 
-   An existing opened transaction must already exist. If not an exception will be thrown.
+   Support a current transaction, throw an exception if none exists.
 
 5. NEVER
 
-   An existing opened transaction must not already exist. If exists an exception will be thrown.
+   Execute non-transactionally, throw an exception if a transaction exists.
 
 6. NOT_SUPPORTED
 
+   Execute non-transactionally, suspend the current transaction if one exists.
+
 7. SUPPORTS
+
+   Support a current transaction, execute non-transactionally if none exists.
