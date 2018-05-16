@@ -69,11 +69,13 @@ This post is for MySQL 5.7 InnoDB.
   > transaction_characteristic [, transaction_characteristic] ...
   > 
   > transaction_characteristic:
+  >
   > ISOLATION LEVEL level
   >   | READ WRITE
   >   | READ ONLY
   > 
   > level:
+  >
   >   REPEATABLE READ
   >   | READ COMMITTED
   >   | READ UNCOMMITTED
@@ -107,5 +109,6 @@ This post is for MySQL 5.7 InnoDB.
 
 **References:**
 
-[MySQL](https://dev.mysql.com/doc/refman/5.7/en/set-transaction.html).
+[MySQL](https://dev.mysql.com/doc/refman/5.7/en/set-transaction.html)
+
 [Understanding MySQL Isolation Levels: Repeatable-Read](https://blog.pythian.com/understanding-mysql-isolation-levels-repeatable-read/)
