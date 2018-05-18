@@ -24,6 +24,15 @@ MySQL 5.7 InnoDB
 
   ![_config.yml]({{ site.baseurl }}/images/lock-compatibility.png)
   
+  ```
+  T1                                                   T2
+  SELECT * FROM A where id = 1 for update;
+                                                       SELECT * FROM test.test where id = 1 for update;
+  ```
+  
+  `select for update` of T2 blocked. But `select for update` sets `IX` lock and according to above diagram, we can see that
+  `IX` is compatiable with `IX`, thus why there is lock wait in this case?  
+  
 #### Row-level lock
 
 #### Table-level lock
