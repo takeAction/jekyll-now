@@ -4,6 +4,12 @@ title : MySQL Lock
 categories : MySQL
 ---
 
+<style>
+.tablelines table, .tablelines td, .tablelines th {
+        border: 1px solid black;
+        }
+</style>
+
 MySQL 5.7 InnoDB
 
 ### Lock Type
@@ -121,6 +127,7 @@ MySQL 5.7 InnoDB
 | ------------- | ------------- |
 | Content Cell  | Content Cell  |
 | Content Cell  | Content Cell  |
+{: .tablelines}
   
   1. SELECT ... FROM is a consistent read, reading a snapshot of the database and setting no locks unless the transaction isolation level is set to SERIALIZABLE. For SERIALIZABLE level, the search sets shared next-key locks on the index records it encounters. However, only an index record lock is required for statements that lock rows using a unique index to search for a unique row.
 
