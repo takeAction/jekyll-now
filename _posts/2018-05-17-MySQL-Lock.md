@@ -4,7 +4,6 @@ title : MySQL Lock
 categories : MySQL
 ---
 
-**Draft**
 MySQL 5.7 InnoDB
 
 ### Lock Type
@@ -40,108 +39,61 @@ MySQL 5.7 InnoDB
 
 ### Consistent Read
 
-A read operation that uses snapshot information to present query results based on a point in time, regardless of changes performed by other transactions running at the same time. If queried data has been changed by another transaction, the original data is reconstructed based on the contents of the undo log. This technique avoids some of the locking issues that can reduce concurrency by forcing transactions to wait for other transactions to finish.
+  Consistent read is the default mode in which InnoDB processes plain SELECT statements in `READ COMMITTED` and `REPEATABLE READ` 
+  isolation levels. 
 
-With REPEATABLE READ isolation level, the snapshot is based on the time when the first read operation is performed. With READ COMMITTED isolation level, the snapshot is reset to the time of each consistent read operation.
+  In `REPEATABLE READ`, consistent read means the plain select statement only read the snapshot established by the first such read
+  (first read snapshot, not the snapshot of first read finished) in that transaction or the changes made by earlier statements within 
+  the same transaction. It will not see changes made by other committed transaction.
+  
+  In `READ COMMITTED`, each consistent read sees the changes made by other committed transaction or the 
+  changes made by earlier statements within the same transaction. 
+  
+#### Exception
 
-Consistent read is the default mode in which InnoDB processes SELECT statements in READ COMMITTED and REPEATABLE READ isolation levels. Because a consistent read does not set any locks on the tables it accesses, other sessions are free to modify those tables while a consistent read is being performed on the table.
+  Consistent read does not work over certain DDL statements:
 
-------------
+  1. DROP TABLE, because MySQL cannot use a table that has been dropped and InnoDB destroys the table.
 
-A consistent read means that InnoDB uses multi-versioning to present to a query a snapshot of the database at a point in time. The query sees the changes made by transactions that committed before that point of time, and no changes made by later or uncommitted transactions. The exception to this rule is that the query sees the changes made by earlier statements within the same transaction. This exception causes the following anomaly: If you update some rows in a table, a SELECT sees the latest version of the updated rows, but it might also see older versions of any rows. If other sessions simultaneously update the same table, the anomaly means that you might see the table in a state that never existed in the database.
-
-If the transaction isolation level is REPEATABLE READ (the default level), all consistent reads within the same transaction read the snapshot established by the first such read in that transaction. You can get a fresher snapshot for your queries by committing the current transaction and after that issuing new queries.
-
-With READ COMMITTED isolation level, each consistent read within a transaction sets and reads its own fresh snapshot.
-
-Consistent read is the default mode in which InnoDB processes SELECT statements in READ COMMITTED and REPEATABLE READ isolation levels. A consistent read does not set any locks on the tables it accesses, and therefore other sessions are free to modify those tables at the same time a consistent read is being performed on the table.
-
-Suppose that you are running in the default REPEATABLE READ isolation level. When you issue a consistent read (that is, an ordinary SELECT statement), InnoDB gives your transaction a timepoint according to which your query sees the database. If another transaction deletes a row and commits after your timepoint was assigned, you do not see the row as having been deleted. Inserts and updates are treated similarly.
-
-Note
-The snapshot of the database state applies to SELECT statements within a transaction, not necessarily to DML statements. If you insert or modify some rows and then commit that transaction, a DELETE or UPDATE statement issued from another concurrent REPEATABLE READ transaction could affect those just-committed rows, even though the session could not query them. If a transaction does update or delete rows committed by a different transaction, those changes do become visible to the current transaction. For example, you might encounter a situation like the following:
-
-SELECT COUNT(c1) FROM t1 WHERE c1 = 'xyz';
--- Returns 0: no rows match.
-DELETE FROM t1 WHERE c1 = 'xyz';
--- Deletes several rows recently committed by other transaction.
-
-SELECT COUNT(c2) FROM t1 WHERE c2 = 'abc';
--- Returns 0: no rows match.
-UPDATE t1 SET c2 = 'cba' WHERE c2 = 'abc';
--- Affects 10 rows: another txn just committed 10 rows with 'abc' values.
-SELECT COUNT(c2) FROM t1 WHERE c2 = 'cba';
--- Returns 10: this txn can now see the rows it just updated.
-You can advance your timepoint by committing your transaction and then doing another SELECT or START TRANSACTION WITH CONSISTENT SNAPSHOT.
-
-This is called multi-versioned concurrency control.
-
-In the following example, session A sees the row inserted by B only when B has committed the insert and A has committed as well, so that the timepoint is advanced past the commit of B.
-
-             Session A              Session B
-
-           SET autocommit=0;      SET autocommit=0;
-time
-|          SELECT * FROM t;
-|          empty set
-|                                 INSERT INTO t VALUES (1, 2);
-|
-v          SELECT * FROM t;
-           empty set
-                                  COMMIT;
-
-           SELECT * FROM t;
-           empty set
-
-           COMMIT;
-
-           SELECT * FROM t;
-           ---------------------
-           |    1    |    2    |
-           ---------------------
-If you want to see the “freshest” state of the database, use either the READ COMMITTED isolation level or a locking read:
-
-SELECT * FROM t FOR SHARE;
-With READ COMMITTED isolation level, each consistent read within a transaction sets and reads its own fresh snapshot. With LOCK IN SHARE MODE, a locking read occurs instead: A SELECT blocks until the transaction containing the freshest rows ends (see Section 14.5.2.4, “Locking Reads”).
-
-Consistent read does not work over certain DDL statements:
-
-Consistent read does not work over DROP TABLE, because MySQL cannot use a table that has been dropped and InnoDB destroys the table.
-
-Consistent read does not work over ALTER TABLE, because that statement makes a temporary copy of the original table and deletes the original table when the temporary copy is built. When you reissue a consistent read within a transaction, rows in the new table are not visible because those rows did not exist when the transaction's snapshot was taken. In this case, the transaction returns an error: ER_TABLE_DEF_CHANGED, “Table definition has changed, please retry transaction”.
-
-The type of read varies for selects in clauses like INSERT INTO ... SELECT, UPDATE ... (SELECT), and CREATE TABLE ... SELECT that do not specify FOR UPDATE or LOCK IN SHARE MODE:
-
-By default, InnoDB uses stronger locks and the SELECT part acts like READ COMMITTED, where each consistent read, even within the same transaction, sets and reads its own fresh snapshot.
-
-To use a consistent read in such cases, enable the innodb_locks_unsafe_for_binlog option and set the isolation level of the transaction to READ UNCOMMITTED, READ COMMITTED, or REPEATABLE READ (that is, anything other than SERIALIZABLE). In this case, no locks are set on rows read from the selected table.
+  2. ALTER TABLE, because that statement makes a temporary copy of the original table and deletes the original table when the temporary 
+     copy is built. When you reissue a consistent read within a transaction, rows in the new table are not visible because those rows 
+     did not exist when the transaction's snapshot was taken. In this case, the transaction returns an error: ER_TABLE_DEF_CHANGED, 
+     “Table definition has changed, please retry transaction”.
 
 #### Undo log
 
-A storage area that holds copies of data modified by active transactions. If another transaction needs to see the original data (as part of a consistent read operation), the unmodified data is retrieved from this storage area.
+  A storage area that holds copies of data modified by active transactions. If another transaction needs to see the original data (as 
+  part of a consistent read operation), the unmodified data is retrieved from this storage area.
 
-In MySQL 5.6 and higher, you can use the innodb_undo_tablespaces to create undo logs in undo tablespaces, optionally stored on another storage device such as an SSD. In MySQL 8.0, undo logs reside in undo tablespaces by default.
+  In MySQL 5.6 and higher, you can use the `innodb_undo_tablespaces` to create undo logs in undo tablespaces, optionally stored on 
+  another storage device such as an SSD. In MySQL 8.0, undo logs reside in undo tablespaces by default.
 
-The undo log is split into separate portions, the insert undo buffer and the update undo buffer.
+  The undo log is split into separate portions, the insert undo buffer and the update undo buffer.
   
 ### Locking reads
 
   - SELECT ... LOCK IN SHARE MODE
 
-    Sets a shared mode lock on any rows that are read. Other sessions can read the rows, but cannot modify them until your transaction commits. If any of these rows were changed by another transaction that has not yet committed, your query waits until that transaction ends and then uses the latest values.
+    Sets `IS` lock on table first, then sets a shared mode lock on any rows that are read. 
+    
+    Other sessions can read the rows, but cannot modify them until your transaction commits. If any of these rows were changed by 
+    another transaction that has not yet committed, your query waits until that transaction ends and then uses the latest values.
 
   - SELECT ... FOR UPDATE
 
-    For index records the search encounters, locks the rows and any associated index entries, the same as if you issued an UPDATE statement for those rows. Other transactions are blocked from updating those rows, from doing SELECT ... LOCK IN SHARE MODE, or from reading the data in certain transaction isolation levels. Consistent reads ignore any locks set on the records that exist in the read view. (Old versions of a record cannot be locked; they are reconstructed by applying undo logs on an in-memory copy of the record.)
-
-    These clauses are primarily useful when dealing with tree-structured or graph-structured data, either in a single table or split across multiple tables. You traverse edges or tree branches from one place to another, while reserving the right to come back and change any of these “pointer” values.
-
-    All locks set by LOCK IN SHARE MODE and FOR UPDATE queries are released when the transaction is committed or rolled back.
-
-    Note
-    Locking of rows for update using SELECT FOR UPDATE only applies when autocommit is disabled (either by beginning transaction with START TRANSACTION or by setting autocommit to 0. If autocommit is enabled, the rows matching the specification are not locked.
+    Sets `IX` lock on table first, then for index records the search encounters, locks the rows and any associated index entries, the 
+    same as if you issued an UPDATE statement for those rows. 
     
-    A SELECT ... FOR UPDATE reads the latest available data, setting exclusive locks on each row it reads. Thus, it sets the same locks a searched SQL UPDATE would set on the rows.
+    Other transactions are blocked from updating those rows, from doing `SELECT ... LOCK IN SHARE MODE`, or from reading the data in 
+    certain transaction isolation levels. 
+    
+    Consistent reads ignore any locks set on the records that exist in the read view. (Old versions of a record cannot be locked; they 
+    are reconstructed by applying undo logs on an in-memory copy of the record.)
+    
+    **All locks set by LOCK IN SHARE MODE and FOR UPDATE queries are released when the transaction is committed or rolled back.**
+
+    > Locking of rows for update using SELECT FOR UPDATE only applies when autocommit is disabled (either by beginning transaction with 
+    > START TRANSACTION or by setting autocommit to 0. If autocommit is enabled, the rows matching the specification are not locked.    
     
 ### Locks set by different sql
 
