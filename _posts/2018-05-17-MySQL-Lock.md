@@ -88,21 +88,27 @@ MySQL 5.7 InnoDB
     certain transaction isolation levels. 
     
     Consistent reads ignore any locks set on the records that exist in the read view. (Old versions of a record cannot be locked; they 
-    are reconstructed by applying undo logs on an in-memory copy of the record.)
-    
-    **All locks set by LOCK IN SHARE MODE and FOR UPDATE queries are released when the transaction is committed or rolled back.**
+    are reconstructed by applying undo logs on an in-memory copy of the record.)    
 
     > Locking of rows for update using SELECT FOR UPDATE only applies when autocommit is disabled (either by beginning transaction with 
-    > START TRANSACTION or by setting autocommit to 0. If autocommit is enabled, the rows matching the specification are not locked.    
+    > START TRANSACTION or by setting autocommit to 0. If autocommit is enabled, the rows matching the specification are not locked. 
+    
+  **All locks set by LOCK IN SHARE MODE and FOR UPDATE queries are released when the transaction is committed or rolled back.**
+  
+### Secondary index
+
+### Clustered index
     
 ### Locks set by different sql
 
   A locking read, an UPDATE, or a DELETE generally set record locks on every index record that is scanned in the processing of 
   the SQL statement. It does not matter whether there are WHERE conditions in the statement that would exclude the row. 
-  InnoDB does not remember the exact WHERE condition, but only knows which index ranges were scanned. 
-  The locks are normally next-key locks that also block inserts into the “gap” immediately before the record. 
-  However, gap locking can be disabled explicitly, which causes next-key locking not to be used.
   
+  InnoDB does not remember the exact WHERE condition, but only knows which index ranges were scanned. 
+  
+  The locks are normally next-key locks that also block inserts into the “gap” immediately before the record. 
+  However, gap locking can be disabled explicitly, which causes next-key locking not to be used.  
+ 
   If a secondary index is used in a search and index record locks to be set are exclusive, InnoDB also retrieves the corresponding 
   clustered index records and sets locks on them.
 
@@ -110,7 +116,13 @@ MySQL 5.7 InnoDB
   every row of the table becomes locked, which in turn blocks all inserts by other users to the table. 
   It is important to create good indexes so that your queries do not unnecessarily scan many rows.
   
-  SELECT ... FROM is a consistent read, reading a snapshot of the database and setting no locks unless the transaction isolation level is set to SERIALIZABLE. For SERIALIZABLE level, the search sets shared next-key locks on the index records it encounters. However, only an index record lock is required for statements that lock rows using a unique index to search for a unique row.
+  
+| First Header  | Second Header |
+| ------------- | ------------- |
+| Content Cell  | Content Cell  |
+| Content Cell  | Content Cell  |
+  
+  1. SELECT ... FROM is a consistent read, reading a snapshot of the database and setting no locks unless the transaction isolation level is set to SERIALIZABLE. For SERIALIZABLE level, the search sets shared next-key locks on the index records it encounters. However, only an index record lock is required for statements that lock rows using a unique index to search for a unique row.
 
 For SELECT ... FOR UPDATE or SELECT ... LOCK IN SHARE MODE, locks are acquired for scanned rows, and expected to be released for rows that do not qualify for inclusion in the result set (for example, if they do not meet the criteria given in the WHERE clause). However, in some cases, rows might not be unlocked immediately because the relationship between a result row and its original source is lost during query execution. For example, in a UNION, scanned (and locked) rows from a table might be inserted into a temporary table before evaluation whether they qualify for the result set. In this circumstance, the relationship of the rows in the temporary table to the rows in the original table is lost and the latter rows are not unlocked until the end of query execution.
 
