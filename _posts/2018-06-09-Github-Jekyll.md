@@ -79,29 +79,29 @@ table tr th :last-child, table tr td :last-child {
      shortname: <your disqus short name>
      ```
      
-  5. Make sure there is `disqus.html`under `_includes` and it looks like:
-  
-     > {% if page.comments %}
-     > 
-     > <div class="comments">
-     >
-     > <div id="disqus_thread"></div>
-     > 
-     > <script type="text/javascript">
-     > 
-     > var disqus_shortname = '{{ site.disqus.shortname }}';
-     > 
-     > (function() {
-     > var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-     > dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-     > (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-     > })();
-     > </script>
-     > <noscript>Please enable JavaScript to view the <a href=\"http://disqus.com/?ref_noscript\">comments powered by Disqus.
-     > </a></noscript>
-     > </div>
-     > {% endif %}
-    
+  5. Make sure there is `disqus.html` under `_includes` and it looks like:
+     ```HTML
+     {% if page.comments %}
+     
+     <div class="comments">
+     
+     <div id="disqus_thread"></div>
+     
+     <script type="text/javascript">
+     
+     var disqus_shortname = '{{ site.disqus.shortname }}';
+     
+     (function() {
+     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+     })();
+     </script>
+     <noscript>Please enable JavaScript to view the <a href=\"http://disqus.com/?ref_noscript\">comments powered by Disqus.
+     </a></noscript>
+     </div>
+     {% endif %}
+     ```
   6. Include `disqus.html` in `_layouts/post.html`
   
      ```
