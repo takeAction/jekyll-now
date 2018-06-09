@@ -20,8 +20,6 @@ MySQL 5.7 InnoDB
   10. Predicate lock for spatial indexes
     
 #### Lock compatibility
-
-  ![_config.yml]({{ site.baseurl }}/images/lock-compatibility.png)
   
   ```
   T1                                                   T2
