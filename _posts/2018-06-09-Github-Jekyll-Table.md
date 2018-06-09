@@ -1,6 +1,7 @@
 ---
 layout : post
 title : Github Jekyll Table
+comments:false
 categories : Other
 ---
 
