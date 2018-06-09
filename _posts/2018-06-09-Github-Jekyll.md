@@ -81,7 +81,7 @@ table tr th :last-child, table tr td :last-child {
      
   5. Make sure there is `disqus.html`under `_includes` and it looks like:
      
-    ```
+    ```html
     {% if page.comments %}
         <div class="comments">
 	    <div id="disqus_thread"></div>
