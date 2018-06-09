@@ -80,9 +80,9 @@ table tr th :last-child, table tr td :last-child {
      ```
      
   5. Make sure there is `disqus.html`under `_includes` and it looks like:
-     
-    ```html
-    {% if page.comments %}
+  
+     ```
+     {% if page.comments %}
         <div class="comments">
 	    <div id="disqus_thread"></div>
 	    <script type="text/javascript">
@@ -95,7 +95,7 @@ table tr th :last-child, table tr td :last-child {
 	    </script>
 	    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.        </a></noscript>
      </div>
-    {% endif %}
+     {% endif %}
     ```
   6. Include `disqus.html` in `_layouts/post.html`
   
