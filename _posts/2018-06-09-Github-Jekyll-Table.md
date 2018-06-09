@@ -32,7 +32,8 @@ table tr {
     margin: 0;
     padding: 0; 
 }
-    
+
+//show different color between rows
 table tr:nth-child(2n) {
     background-color: #D0E4F5; 
 }
