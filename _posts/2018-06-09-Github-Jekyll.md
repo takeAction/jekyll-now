@@ -104,7 +104,7 @@ table tr th :last-child, table tr td :last-child {
      ```
   6. Include `disqus.html` in `_layouts/post.html`
   
-     ```XML
+     ```Shell
          ....
 
          {% include disqus.html %}
