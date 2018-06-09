@@ -97,14 +97,14 @@ table tr th :last-child, table tr td :last-child {
      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
      })();
      </script>
-     <noscript>Please enable JavaScript to view the <a href=\"http://disqus.com/?ref_noscript\">comments powered by Disqus.
+     <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.
      </a></noscript>
      </div>
      {% endif %}
      ```
   6. Include `disqus.html` in `_layouts/post.html`
   
-     ```
+     ```HTML
      ---
      layout: default
      ---
