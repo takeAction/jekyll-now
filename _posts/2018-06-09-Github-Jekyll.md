@@ -111,6 +111,8 @@ table tr th :last-child, table tr td :last-child {
      </article>
      ```
      
+     **Please ignore \ above**
+     
    7. To enable comment, add `comments:true` on your post yaml front matter:
    
       ```
