@@ -15,7 +15,7 @@ categories : Spring
   
   By default, spring bean is singleton.
   
-#### Define scope
+### Define scope
   
   `@Scope( ConfigurableBeanFactory. SCOPE_ PROTOTYPE)` or `@Scope("prototype")`, former is better, because it is safer and
   not easy be wrong.
@@ -70,7 +70,7 @@ public class SUV implements Car {
 - With these annotation, spring is able to import beans into the container so that developer don't have to define them
   explicitly in xml after enabling component scan. These annotations are called stereotype annotation as well.
   
-- @Controller, @Service and @Repository are annotaed with @Component, e.g.
+- `@Controller`, `@Service` and `@Repository` are annotaed with `@Component`, e.g.
 
 ```
 @Target({ElementType.TYPE})
@@ -106,7 +106,7 @@ public @interface Repository {
 **A good practice is using @Controller, @Service and @Repository at most of the time, @Component should be used when your class
 does not fall into either of controller, service or DAO**
 
-When component scan is declared, developer no longer need to declare context:annotation-config, because autowiring is implicitly
+When component scan is declared, developer no longer need to declare `context:annotation-config`, because autowiring is implicitly
 enabled in this case.
 
 **Always use these annotations over concrete classes rather than interfaces**
@@ -195,3 +195,40 @@ For above two methods, the web.xml is suppose to be
     <param-value>classpath:beans.xml</param-value>
 </context-param>
 ```
+
+### @Autowired
+
+  The `@Autowired` annotation can be used to autowire bean on the setter method, constructor, a property or methods.
+  
+  - `@Autowired` is placed on setter methods to get rid of the `<property>` element in XML configuration file.
+  
+  - Get rid of the setter methods when it is on properties. 
+  
+  - Annotate it on constructors indicates that the constructor should be autowired when creating the bean, even if no `<constructor-arg>` elements are used while configuring the bean in XML file.
+  
+#### required attribute
+
+  By default, the `@Autowired` annotation implies the dependency is required.
+  
+  However, developer can use `@Autowired(required=false)` to turn off this feature.
+  
+#### autowired in multiple implementations
+
+  `@Qualifier` can be used to indicate using which concerete implementation class.
+
+  ```Java
+  @Autowired
+  @Qualifier("implementation1")
+  private MyInterface myInterface
+  ```
+  
+  or
+  
+  ```Java
+  @Resource(name="implementation1")
+  private MyInterface myInterface
+  ```
+  
+  `@Inject` is similar `@Autowired` just it is JSR-330 standard not Spring-specific.
+  
+  `@Resource` is part of the JSR-250.
