@@ -223,6 +223,8 @@ categories : Java
   }
   ```
   
+  **Therefore, at execution time, a List\<String> and a List\<Date> are exactly the same.**
+  
 ### Bridge method
 
   Take following code for example:
@@ -339,6 +341,10 @@ categories : Java
     A generic class cannot extend the Throwable class directly or indirectly.
   - Cannot Overload a Method Where the Formal Parameter Types of Each Overload Erase to the Same Raw Type
   - Cannot Instantiate Generic Types with Primitive Types
+  
+## How to see the code after erasure
+
+  You can see what the code looks like after generic type erasure by `javac -XD-printflat -d output_dir SomeFile.java`
   
 ## References
 
