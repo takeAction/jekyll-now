@@ -65,7 +65,7 @@ table tr th :last-child, table tr td :last-child {
 }
 ```
 
-  This css file is included in `_layouts/default.html`, so you can write the table css in a separate file, then just include it in this html file.
+  This css file is included in `_layouts/default.html`, or you can write the table css in a separate file, then just include it in this html file.
 
 ### Add comment section on your post
 
