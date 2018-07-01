@@ -123,3 +123,35 @@ table tr th :last-child, table tr td :last-child {
       ```
       
       Disable it by setting `comments: false` or by not including the comments option at all.
+      
+### Code highlight
+
+  Jekyll 3 and GitHub Pages now only support rouge for syntax highlighting.
+  
+  Your `_config.yml` contains next content :
+  
+  > # Jekyll 3 now only supports Kramdown for Markdown
+  > 
+  > kramdown:
+  > 
+  > # Use GitHub flavored markdown, including triple backtick fenced code blocks
+  > 
+  > input: GFM
+  > 
+  > # Jekyll 3 and GitHub Pages now only support rouge for syntax highlighting
+  > 
+  > syntax_highlighter: rouge
+  > 
+  > syntax_highlighter_opts:
+  > 
+  >  # Use existing pygments syntax highlighting css
+  > 
+  >  css_class: 'highlight'
+  
+  In order to highlight the code your specified, just write like :
+  
+  /```java
+    //your code
+  /```
+  
+  the language code is from https://github.com/jneen/rouge/wiki/List-of-supported-languages-and-lexers
