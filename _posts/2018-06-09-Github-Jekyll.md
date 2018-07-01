@@ -142,10 +142,10 @@ table tr th :last-child, table tr td :last-child {
   
   In order to highlight the code your specified, just write like :
   
-  ```
-  ```java
-  //your code
-  ```
-  ```
+  > ```java
+  > 
+  > //your code
+  > 
+  > ```
   
   the language code is from https://github.com/jneen/rouge/wiki/List-of-supported-languages-and-lexers
