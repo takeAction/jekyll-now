@@ -27,23 +27,23 @@ categories : SQL
 
   During the parsing stage, the database performs the following checks.
   
-  #### Syntax Check
+#### Syntax Check
   
-  #### Semantic Check
+#### Semantic Check
   
-    The semantics of a statement are its meaning. A semantic check determines whether a statement is meaningful, 
-    for example, whether the objects and columns in the statement exist.
+  The semantics of a statement are its meaning. A semantic check determines whether a statement is meaningful, 
+  for example, whether the objects and columns in the statement exist.
     
-  #### Shared Pool Check
+#### Shared Pool Check
   
-    The database uses a hashing algorithm to generate a hash value for every SQL statement, this value also called SQL ID. 
+  The database uses a hashing algorithm to generate a hash value for every SQL statement, this value also called SQL ID. 
      
-    The same statement in a single instance or in different instances has the same Shash value.
+  The same statement in a single instance or in different instances has the same Shash value.
 
-    When a user submits a SQL statement, the database searches the shared SQL area to see 
-    if an existing parsed statement has the same hash value. 
+  When a user submits a SQL statement, the database searches the shared SQL area to see 
+  if an existing parsed statement has the same hash value. 
 
-    A SQL statement can have multiple plans in the shared pool. Typically, each plan has a different hash value. 
+  A SQL statement can have multiple plans in the shared pool. Typically, each plan has a different hash value. 
      
 ### Optimization
 
