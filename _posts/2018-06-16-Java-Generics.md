@@ -158,8 +158,6 @@ categories : Java
   
   Type erasure ensures that no new classes are created for parameterized types; consequently, generics incur no runtime overhead.
   
-  During the type erasure process, the Java compiler erases all type parameters and replaces each with its first bound if the type parameter is bounded, or Object if the type parameter is unbounded.
-  
   For example,
   
   ```java
