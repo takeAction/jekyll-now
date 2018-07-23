@@ -40,7 +40,7 @@ public class ComputerFacade {
     private Memory memory;
     private HardDrive hardDrive;
  
-    public Computer() {
+    public ComputerFacade() {
         this.cpu = new CPU();
         this.memory = new Memory();
         this.hardDrive = new HardDrive();
