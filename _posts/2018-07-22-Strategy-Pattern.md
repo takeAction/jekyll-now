@@ -25,3 +25,5 @@ public class Demo {
     }
 }
 ```
+
+`Collections.sort(List<T> list, Comparator<? super T> c)` is an example of strategy pattern.
