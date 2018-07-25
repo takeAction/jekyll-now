@@ -8,7 +8,7 @@ categories : Java
 ### Decorator Pattern
 
 Decorator pattern is used to add extension(additional features) to an existing object dynamically 
-without modifying its structure.
+without modifying its structure. This follows the Open-Closed principle.
 
 If one object that requires the extension but that is not suitable by design, then go for decoration.
 
