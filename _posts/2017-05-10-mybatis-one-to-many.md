@@ -1,7 +1,7 @@
 ---
 layout: post
 title: mybatis-one-to-many
-categories: mybatis
+categories: Mybatis
 ---
 
 ## One-to-Many
@@ -9,7 +9,8 @@ categories: mybatis
 There are two implementations for one-to-many relationship, one is nested result, another is nested select.
 
 Take teacher and student for example,
-```
+
+```java
 public class Teacher {
 
   private Integer id;
@@ -20,7 +21,8 @@ public class Teacher {
   //setter and getter
 }
 ```
-```
+
+```java
 public class Student {
   
   private Integer id;
@@ -34,7 +36,7 @@ public class Student {
 
 ### Nested result for collection
 
-```
+```xml
 <resultMap id="teacherResultMap" type="teacher">
 
   <id property="id" column="t_id" />
@@ -47,7 +49,8 @@ public class Student {
 
 </resultMap>
 ```
-```
+
+```xml
 <select id="getTeacher" resultMap="teacherResultMap">
   select
     t.id as t_id,
@@ -60,6 +63,7 @@ public class Student {
     student s on t.id = s.teacher_id
 </select>
 ```
+
 - resultMap is used in `<select>` rather than resultType
 - join sql to select all teacher and their students
 - in `<resultMap>`, attribute type means return which type of java bean
@@ -85,7 +89,8 @@ public class Student {
 ### Nested select for collection
 
 in this case, configuration looks like:
-```
+
+```xml
 <resultMap id="tResult" type="teacher">
     <collection property="students" ofType="student" select="selectStudents4Teacher" column="id" />
 </resultMap>
@@ -132,7 +137,7 @@ in this case, configuration looks like:
   
 #### _Note_
 
-  ```
+  ```xml
   <resultMap id="teacherResultMap" type="teacher" >
 	
       <id property="id" column="id" />		
@@ -187,7 +192,8 @@ Auto mapping means mybatis can auto map the db columns to properties of java bea
 However, if in one sql, some columns belong to one bean, some columns are another bean's, then developer has to define all what you need columns in **resultMap**.
 
 For example, 
-```XML
+
+```xml
 <select id="selectCourse" resultType="course"> select id, course_name from course</select>
 
 <resultMap id="studentResultMap" type="student">
@@ -202,7 +208,7 @@ for `selectStudent` sql, the columns id, name and age are properties of student,
 
 But for follwing sql:
  
-```XML
+```xml
     <resultMap id="selectTeacherResultMap" type="teacher">
 		<id property="id" column="id" />
 		<result property="name" column="t_name" />
