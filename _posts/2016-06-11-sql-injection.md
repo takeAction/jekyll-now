@@ -4,7 +4,7 @@ title: Sql injection
 date: 2016-06-11 10:48
 author: 2freesky
 comments: true
-categories: [mybatis, Sql]
+categories: [Mybatis, SQL]
 ---
 <h3>1.What is sql injection</h3>
 Take following code for example,
