@@ -4,9 +4,10 @@ title: mybatis transaction
 date: 2016-08-21 21:59
 author: 2freesky
 comments: true
-categories: [mybatis]
+categories: [Mybatis]
 ---
-1.Mybatis only
+
+### Mybatis only
 
 Developers need to call commit() explicitly such that changes can be stored in DB.  While for rollback(), we don't have to call it in most of the time as mybatis will do that for us if we don't call commit.
 
@@ -19,9 +20,9 @@ Mybatis-spring allows mybatis to participate in spring transactions.
 In this case, there is no need to call commit or rollback explicitly and UnsupportedOperationException will thrown if we do that.
 
 In order to use spring transaction, the additional changes as follows :
-<ul>
-	<li>add annotation @Transactional on the method which be used in transaction</li>
-	<li>add following content which highlighted in red in spring config file</li>
+
+- add annotation @Transactional on the method which be used in transaction</li>
+- add following content which highlighted in red in spring config file</li>
 </ul>
 <blockquote>&lt;beans xmlns="http://www.springframework.org/schema/beans"
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
