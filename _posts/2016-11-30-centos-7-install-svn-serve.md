@@ -1,7 +1,7 @@
 ---
 layout: post
 title: centos 7 install svn server
-categories: [linux]
+categories: [Linux]
 ---
 
 1. install httpd(apache)
