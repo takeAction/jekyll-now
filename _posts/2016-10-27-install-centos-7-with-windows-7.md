@@ -4,7 +4,7 @@ title: install centos 7 with windows 7
 date: 2016-10-27 00:23
 author: 2freesky
 comments: true
-categories: [linux]
+categories: [Linux]
 ---
 <ol>
 	<li><span style="color:#333333;"><span style="font-family:Georgia, 'Times New Roman', 'Bitstream Charter', Times, serif;"><span style="font-size:medium;">For my laptop, I need to change UEFI to Legacy in BIOS setup such that it is able to use usb bootable to install OS.</span></span></span></li>
