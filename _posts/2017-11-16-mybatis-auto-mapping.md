@@ -1,8 +1,9 @@
 ---
 layout: post
 title: mybatis-auto-mapping
-categories: mybatis
+categories: Mybatis
 ---
+
 ### Auto mapping
 
 As the name implies, when do auto mapping, mybatis will get the column name and look for a property with the same name ignoring case.
@@ -13,7 +14,7 @@ you need to build a result map by youself, or mix both strategies.
 
 For instance, 
 
-```
+```xml
 <resultMap id="rm" type="student">
 
 </resultMap>
@@ -29,7 +30,7 @@ In this case, we can leave <resultMap> empty, just have the definition, then myb
 
 However, for 
 
-```
+```xml
     <resultMap id="rm" type="teacher">
         <id ...>
         <result ...>
@@ -48,7 +49,7 @@ Mix strategy : all columns that are present in the ResultSet that have not a man
 then manual mappings will be processed. 
 In the following sample id and userName columns will be auto-mapped and hashed_password column will be mapped
 
-```
+```xml
 <select id="selectUsers" resultMap="userResultMap">
   select
     user_id             as "id",
@@ -73,7 +74,7 @@ There are three auto mapping levels:
 
 Developer can set this level in mybatis config via `autoMappingBehavior` like:
 
-```
+```xml
 <settings>
  
   <setting name="autoMappingBehavior" value="PARTIAL"/>
@@ -95,7 +96,8 @@ of automatic mapping target.  It has three values:
 its default value is none.
 
 --Note, full is used at risk--, take following to illustrate the risk:
-```
+
+```xml
 <select id="selectBlog" resultMap="blogResult">
   select
     B.id,
