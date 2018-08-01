@@ -1,7 +1,7 @@
 ---
 layout : post
 title : Ehcache Hello World
-categories : [cache, Ehcache]
+categories : Cache
 ---
 
 ### What is Ehcache
