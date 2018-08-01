@@ -4,10 +4,13 @@ title: struts interceptor
 date: 2016-05-29 16:23
 author: 2freesky
 comments: true
-categories: [struts]
+categories: [Struts2]
 ---
-<h1>1.what is interceptor</h1>
-struts interceptor is used for doing additional handling before/after calling action method.
+
+### what is interceptor
+
+ Interceptor is used for doing additional handling before/after calling action method.
+ 
 <h1>2.config struts.xml</h1>
 there are two ways to define interceptors :
 <h2>2.1.</h2>
