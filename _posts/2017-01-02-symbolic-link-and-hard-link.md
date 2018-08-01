@@ -4,8 +4,9 @@ title: symbolic link and hard link
 date: 2017-01-02 22:52
 author: 2freesky
 comments: true
-categories: [linux]
+categories: [Linux]
 ---
+
 Symbolic link or called soft link, is a file which points to another file or directory, just like a pointer.
 
 It does not contain data of target file, while hard link does.
