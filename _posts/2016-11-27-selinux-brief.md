@@ -4,8 +4,9 @@ title: SELinux brief
 date: 2016-11-27 23:30
 author: 2freesky
 comments: true
-categories: [linux]
+categories: [Linux]
 ---
+
 <ul>
 	<li>Security Enhanced Linux which is a mandatory access control(MAC) security mechanism which based on defined policies.  User can disable it.</li>
 </ul>
