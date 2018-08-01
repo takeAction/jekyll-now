@@ -1,7 +1,7 @@
 ---
 layout: post
 title: mybatis hello world
-categories: [mybatis]
+categories: [Mybatis]
 ---
 
 mybatis : 3.3.1
@@ -18,7 +18,7 @@ In this example, the steps as follows :
 
 ### Mybatis configuration xml file
 
-```XML
+```xml
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <!-- doctype is required and has to the same as following for configuration file -->
@@ -90,7 +90,7 @@ of settings and typeAliases, then there is error tip.
   
 ### mapper interface
 
-```Java
+```java
 public interface AddressMapper {
 
 public void insertAddress(String zipCode);
@@ -114,7 +114,7 @@ public void insertAddress(Address a);
 
 with mapper configuration xml file :
 
-```XML
+```xml
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <!-- doctype is required and has to the same as following for mapper file -->
@@ -184,7 +184,7 @@ With the help of `<where>`, if id and name are null, then the sql be `select * f
 
 or for annotation without mapper configuration:
 
-```Java
+```java
 public interface AuthorMapper {
 
 @Select("select * from author where id=#{id} and name=#{name}")
@@ -212,7 +212,7 @@ public void deleteAuthor(int id);
 
 ### Test Class
 
-```Java
+```java
 InputStream is = Resources.getResourceAsStream("mybatis-config.xml");
 
 SqlSessionFactory factory = new SqlSessionFactoryBuilder().build(is);
@@ -230,7 +230,7 @@ session.commit();
 
   For instance, there are two sql xml files sql1.xml and sql2.xml
   
-```XML
+```xml
 <mapper namespace="sql1">
     
     <select id="select1" resultType="student">
@@ -239,7 +239,7 @@ session.commit();
 </mapper>
 ```
 
-```XML
+```xml
 <mapper namespace="sql2">
     
     <select id="select2" resultType="student">
