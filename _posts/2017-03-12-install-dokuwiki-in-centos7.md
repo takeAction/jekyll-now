@@ -1,3 +1,9 @@
+---
+layout: post
+title: Install Dokuwiki
+categories: [Linux]
+---
+
 ## What is dokuwiki
    As its name implies, it is a wiki which can be used in a company to share knowldege.  
    It's web-based and database is not required.
