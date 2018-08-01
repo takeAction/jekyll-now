@@ -1,9 +1,11 @@
 ---
 layout: post
 title: Mybatis Pagination
-categories: mybatis
+categories: Mybatis
 ---
+
 Pagination consist of logical and physical.
+
 1. logical means get all data first then page them in memory
 2. physical represents database level subset query, e.g. mysql limit
 
@@ -13,7 +15,8 @@ developer can implement it by mybatis interceptor manually or use 3rd party.
 PageHelper is a mybatis plugin which is used for paging.
 
 Maven dependency is:
-```
+
+```xml
 <dependency>
     <groupId>com.github.pagehelper</groupId>
     <artifactId>pagehelper</artifactId>
@@ -22,7 +25,8 @@ Maven dependency is:
 ```
 
 In mybatis-config.xml, its configuration looks like:
-```
+
+```xml
 <plugins>
     <plugin interceptor="com.github.pagehelper.PageInterceptor">
         <property name="helperDialect" value="mysql"/>
@@ -35,7 +39,8 @@ In mybatis-config.xml, its configuration looks like:
 ```
 
 or in spring application.xml :
-```
+
+```xml
 <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
   <!-- other configuration -->
   <property name="plugins">
@@ -56,15 +61,3 @@ or in spring application.xml :
 and     `PageRowBounds`     is required instead of     `RowBounds` .   **
 
 For more usages, please refer to its [document](https://github.com/pagehelper/Mybatis-PageHelper/blob/master/wikis/en/HowToUse.md)
-
-<div class="post-categories">
-  {% if post %}
-    {% assign categories = post.categories %}
-  {% else %}
-    {% assign categories = page.categories %}
-  {% endif %}
-  {% for category in categories %}
-  <a href="{{site.baseurl}}/categories/#{{category|slugize}}">{{category}}</a>
-  {% unless forloop.last %}&nbsp;{% endunless %}
-  {% endfor %}
-</div>
