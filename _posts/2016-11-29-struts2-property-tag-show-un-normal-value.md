@@ -4,8 +4,9 @@ title: struts2 property tag show un-normal value
 date: 2016-11-29 22:31
 author: 2freesky
 comments: true
-categories: [struts]
+categories: Struts2
 ---
+
 struts 2.0.9
 
 The value is
