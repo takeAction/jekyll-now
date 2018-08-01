@@ -4,8 +4,9 @@ title: spring mvc
 date: 2016-04-10 17:55
 author: 2freesky
 comments: true
-categories: [spring, spring]
+categories: Spring
 ---
+
 1.Flow
 
 <a href="https://2freesky.files.wordpress.com/2016/04/spring_mvc.png" rel="attachment wp-att-132"><img class="alignnone size-medium wp-image-132" src="https://2freesky.files.wordpress.com/2016/04/spring_mvc.png?w=300" alt="spring_mvc" width="300" height="174" /></a>
@@ -15,7 +16,8 @@ categories: [spring, spring]
 2.code
 
 2.1 web.xml
-```
+
+```xml
 <display-name>springMVCExample</display-name>
 <welcome-file-list>
 <welcome-file>index.jsp</welcome-file>
@@ -36,8 +38,10 @@ categories: [spring, spring]
 <url-pattern>/</url-pattern>
 </servlet-mapping>
 ```
+
 2.2 spring mvc config xml
-```
+
+```xml
 <beans xmlns="http://www.springframework.org/schema/beans"
 xmlns:mvc="http://www.springframework.org/schema/mvc"
 xmlns:context="http://www.springframework.org/schema/context"
@@ -73,8 +77,10 @@ ExceptionPage
 
 </beans>
 ```
+
 2.3 controller class
-```
+
+```xml
 @Controller
 public class HelloWorldController {
 
@@ -111,8 +117,10 @@ return "result";
 
 }
 ```
+
 2.4 view (jsp page)
-```
+
+```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -125,6 +133,7 @@ ${message}
 </body>
 </html>
 ```
+
 2.5 custom exception
 
 - define an exception which extending RuntimeException
