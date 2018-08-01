@@ -4,8 +4,9 @@ title: struts2 helloworld
 date: 2016-05-08 11:57
 author: 2freesky
 comments: true
-categories: [struts]
+categories: Struts2
 ---
+
 struts version is 2.3.28
 
 1.project structure
@@ -18,7 +19,7 @@ create a dynamic web project in Eclipse, then convert it to maven project and ad
 
 2.1.index.jsp
 
-```
+```jsp
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 pageEncoding="ISO-8859-1"%>;
 <%-- the taglib directive tells the Servlet container that this page will be using the struts2 tags and that these tags will be preceded by s.--%>
@@ -45,7 +46,7 @@ DMI(dynamic method invocation) means run non-execute method of action class, the
 
 2.2.result page
 
-```
+```jsp
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
@@ -65,7 +66,7 @@ Struts2 Hello World, <s:property value="name" />
 
 3.action class
 
-```
+```java
 public class HelloWorldAction {
 
 private String name;
@@ -95,8 +96,7 @@ return "fail";
 
 4.1.struts.xml
 
-```
-
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- next statement is required otherwise there is error when start tomcat -->
 <!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
@@ -124,7 +124,7 @@ return "fail";
 		
 4.2.web.xml
 
-```
+```xml
 <filter>
 <filter-name>struts2</filter-name>
 <!-- <filter-class>org.apache.struts2.dispatcher.FilterDispatcher</filter-class> -->
