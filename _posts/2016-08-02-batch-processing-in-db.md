@@ -4,36 +4,26 @@ title: Batch processing in DB
 date: 2016-08-02 16:11
 author: 2freesky
 comments: true
-categories: [mybatis]
+categories: [Mybatis]
 ---
-<ol>
-	<li>
-<pre class="western"><span style="font-family:Arial, sans-serif;"><span style="font-size:large;">What</span></span></pre>
-</li>
-</ol>
-<p class="western"><span style="font-family:Arial, sans-serif;">           G</span><span style="font-family:Arial, sans-serif;">roup sql statements into a batch and submit them with one call to DB, rather than </span></p>
-<p class="western"><span style="font-family:Arial, sans-serif;">            send each statement one by one, this is batch processing.</span></p>
 
-<ol start="2">
-	<li>
-<pre class="western"><span style="font-family:Arial, sans-serif;"><span style="font-size:large;">Why</span></span></pre>
-</li>
-</ol>
-<p class="western"><span style="font-family:Arial, sans-serif;">           Batch processing can reduce the amount of communication overhead, </span></p>
-<p class="western"><span style="font-family:Arial, sans-serif;">           thereby </span><span style="font-family:Arial, sans-serif;">improving  performance. </span></p>
-<p class="western"><span style="font-family:Arial, sans-serif;">           It is faster than sending them one by one without waiting for each one to finish, and </span><span style="font-family:Arial, sans-serif;">the DB may be</span></p>
-<p class="western">            <span style="font-family:Arial, sans-serif;">execute some of them in parallel.</span></p>
+### What
 
-<ol start="3">
-	<li>
-<pre class="western"><span style="font-family:Arial, sans-serif;"><span style="font-size:large;">How</span></span></pre>
-</li>
-</ol>
-<p class="western"><span style="font-family:Arial, sans-serif;">           In mybatis, we have two approaches to implement batch processing:</span></p>
+  Group sql statements into a batch and submit them with one call to DB, rather than send each statement one by one, 
+  this is batch processing.
 
-<ul>
-	<li>
-<p class="western"><span style="font-family:Arial, sans-serif;">if integrate mybatis and spring</span></p>
+### Why
+
+  Batch processing can reduce the amount of communication overhead, thereby improving  performance. 
+  
+  It is faster than sending them one by one without waiting for each one to finish, and the DB may be 
+  execute some of them in parallel.
+  
+### How
+
+  In mybatis, we have two approaches to implement batch processing:
+  
+  1. if integrate mybatis and spring</span></p>
 </li>
 </ul>
 <blockquote>
