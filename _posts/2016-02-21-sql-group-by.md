@@ -4,7 +4,7 @@ title: sql group by
 date: 2016-02-21 15:20
 author: 2freesky
 comments: true
-categories: [Sql]
+categories: [SQL]
 ---
 <h4>1.group by</h4>
 The group by statement is used to group the result-set by one or more columns, e.g.
