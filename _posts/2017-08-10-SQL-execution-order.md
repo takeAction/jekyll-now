@@ -1,7 +1,7 @@
 ---
 layout: post
 title: SQL execution order
-categories: database
+categories: Database
 ---
 
 1. Logical processing order
