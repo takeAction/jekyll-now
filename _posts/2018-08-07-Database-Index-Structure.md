@@ -1,9 +1,9 @@
 ---
-layout: post
-title: Database Index Structure
-comments:true
-categories: Database
-—--
+layout : post
+title : Database Index Structure
+comments: true
+categories : Database
+---
 
 As we know, the index is used to provide an ordered indexed data.
 
