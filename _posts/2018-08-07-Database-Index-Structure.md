@@ -49,26 +49,38 @@ In order to solve this problem, database use doubly linked list and search tree.
   The process of searching indexed data in B-Tree looks like:
 
   ![_config.yml]({{ site.baseurl }}/images/b-tree-traversal.png)
+  
+  For instance, we need to find data which column2 = 79(column2 is an index data)
 
   ```java
-for (Entry rootNodeEntry : rootNode) {
+  for (Entry rootNodeEntry : rootNode) {
 
-  if( rootNodeEntry.value >= searchedData ) {
+  if( rootNodeEntry.value >= 79 ) {
     
     BranchNode matchedBranchNode = get matched branch node;
 
     for( Entry branchNodeEntry : matchedBranchNode ) {
     
-      if( branchNodeEntry.value >= searchedData ) {
+      if( branchNodeEntry.value >= 79 ) {
       
         LeafNode matchedLeafNode = get matched leaf node;
 
         for ( Entry leafNodeEntry : matchedLeafNode ) {
 
-          if( leafNodeEntry.value == searchedData ) {
+          if( leafNodeEntry.value == 79 ) {
           
             Get leaf node entry;
-             break;
+             
+          }
+        }
+        
+        LeafNode nextLeafNode = get next leaf node;
+        for ( Entry leafNodeEntry : nextLeafNode ) {
+
+          if( leafNodeEntry.value == 79 ) {
+          
+            Get leaf node entry;
+             
           }
         }
       }
