@@ -159,3 +159,27 @@ For nested result map, this attribute has no effect on an external resultMap.
 With this result map and if level is full, then both Blog and Author will be auto-mapped, but Author and Blog have id property, and there is a column named id in the result set, so this id value will be mapped to Author id and Blog id, 
 and that is not what we expect.
 
+### Note
+
+  For following sql:
+  
+  ```xml
+  <resultMap id="billingResultMap" type="billing" autoMapping="true">
+	
+	  <id property="id" column="BILLING_ID" />
+      <collection property="billingChargeList" ofType="billingCharge" fetchType="lazy" column="{billing_id=billing_id,address_id=address_id}" select=listBillingCharge" />
+  </resultMap>
+  <sql id="getBilling" restulMap="billingResultMap">
+    SELECT
+			BB.ID AS BILLING_ID,
+			BB.BILLING_TYPE,
+			BB.BOOKING_ID,
+			BB.BILLING_NO,			
+			BB.BILL_TITLE,
+			BB.ADDRESS,	
+			BB.ADDRESS_ID,		
+    ........
+  </sql>
+  ```
+  
+  **As of mybatis 3.4.0, the address_id of billing will be null, because there is address_id in column="{billing_id=billing_id,address_id=address_id}", this bug is fixed in 3.4.6**
