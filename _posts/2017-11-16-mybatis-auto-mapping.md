@@ -182,4 +182,4 @@ and that is not what we expect.
   </sql>
   ```
   
-  **As of mybatis 3.4.0, the address_id of billing will be null, because there is address_id in column="{billing_id=billing_id,address_id=address_id}", this bug is fixed in 3.4.6**
+  **As of mybatis 3.4.0, the address_id of billing will be null, because there is address_id in column="{billing_id=billing_id,address_id=address_id}", this bug is fixed in latter version, e.g. 3.4.5**
