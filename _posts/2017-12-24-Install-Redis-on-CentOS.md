@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Redis
+title: Install Redis
 categories: [Redis, Linux]
 ---
 
@@ -14,7 +14,9 @@ categories: [Redis, Linux]
   
 #### Start Redis on boot
 
+  ```shell_session
   sudo systemctl enable redis
+  ```
   
 ### Verify Installation
 
@@ -26,11 +28,11 @@ categories: [Redis, Linux]
   
 ### Restart redis
 
-  sudo systemctl restart redis
+  ```shell_sessionsudo systemctl restart redis```
   
 ### Set key-value to redis
 
-  ```
+  ```shell_session
   root@redis-node:~# redis-cli
   127.0.0.1:6379> set besthost "Globo.Tech"
   OK
@@ -74,7 +76,7 @@ categories: [Redis, Linux]
 
   1. run following commands
   
-  ```
+  ```shell_session
   firewall-cmd --add-port=6379/tcp --permanent
   firewall-cmd --reload
   ```
