@@ -28,16 +28,18 @@ categories: [Redis, Linux]
   
 ### Restart redis
 
-  ```shell_sessionsudo systemctl restart redis```
+  ```shell_session sudo systemctl restart redis```
   
 ### Set key-value to redis
 
   ```shell_session
+  
   root@redis-node:~# redis-cli
   127.0.0.1:6379> set besthost "Globo.Tech"
   OK
   127.0.0.1:6379> get besthost
   "Globo.Tech"
+  
   ```
   
 ### Config redis
@@ -74,16 +76,18 @@ categories: [Redis, Linux]
   
 ### Access redis from other computer
 
-  1. run following commands
+  1. modify firewall to make it allow redis port
   
-  ```shell_session
-  firewall-cmd --add-port=6379/tcp --permanent
-  firewall-cmd --reload
-  ```
+     ```shell_session
+     firewall-cmd --add-port=6379/tcp --permanent
+     firewall-cmd --reload
+     ```
   
   2. modify redis conf file
   
-   set `protected-mode no` and comment `bind 127.0.0.1` in `/etc/redis.conf`, restart redis
+     set `protected-mode = no` and comment `bind 127.0.0.1` in `/etc/redis.conf`, restart redis
    
   3. use `nc` command at other linux based computer
-   **nc -v --ssl redis.mydomain.com 6379** or **nc -v redis.mydomain.com 6379**
+     **nc -v --ssl redis.mydomain.com 6379** 
+     or 
+     **nc -v redis.mydomain.com 6379**
