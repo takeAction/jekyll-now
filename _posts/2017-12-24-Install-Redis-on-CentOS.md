@@ -10,25 +10,25 @@ categories: [Redis, Linux]
   2. sudo yum install epel-release
   3. sudo yum update
   4. sudo yum install redis
-  5. start redis by `sudo systemctl start redis`
+  5. start redis by **sudo systemctl start redis**
   
 #### Start Redis on boot
 
-  ```shell_session
-  sudo systemctl enable redis
-  ```
+  **sudo systemctl enable redis**
   
 ### Verify Installation
 
-  Run the command `redis-cli ping` in terminal, if redis is running, it will return **PONG**.
+  Run the command **redis-cli ping** in terminal, if redis is running, it will return **PONG**.
   
 ### View redis status
 
-  sudo systemctl status redis.service
+  **sudo systemctl status redis.service**
   
 ### Restart redis
 
-  ```shell_session sudo systemctl restart redis```
+  ```shell_session 
+  sudo systemctl restart redis
+  ```
   
 ### Set key-value to redis
 
@@ -77,14 +77,12 @@ categories: [Redis, Linux]
 ### Access redis from other computer
 
   1. modify firewall to make it allow redis port
-  
      ```shell_session
      firewall-cmd --add-port=6379/tcp --permanent
      firewall-cmd --reload
      ```
   
   2. modify redis conf file
-  
      set `protected-mode = no` and comment `bind 127.0.0.1` in `/etc/redis.conf`, restart redis
    
   3. use `nc` command at other linux based computer
