@@ -77,15 +77,18 @@ categories: [Redis, Linux]
 ### Access redis from other computer
 
   1. modify firewall to make it allow redis port
+  
      ```shell_session
      firewall-cmd --add-port=6379/tcp --permanent
      firewall-cmd --reload
      ```
   
   2. modify redis conf file
+  
      set `protected-mode = no` and comment `bind 127.0.0.1` in `/etc/redis.conf`, restart redis
    
   3. use `nc` command at other linux based computer
+  
      **nc -v --ssl redis.mydomain.com 6379** 
      or 
      **nc -v redis.mydomain.com 6379**
