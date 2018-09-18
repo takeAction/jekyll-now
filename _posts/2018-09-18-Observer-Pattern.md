@@ -34,7 +34,7 @@ Some of it’s implementations are;
 
 ### Code
 
-Following code is from (programcreek)[https://www.programcreek.com/2011/01/an-java-example-of-observer-pattern/]:
+Following code is from [programcreek](https://www.programcreek.com/2011/01/an-java-example-of-observer-pattern/):
 
 ```java
 public interface Subject {
