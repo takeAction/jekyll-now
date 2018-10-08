@@ -90,6 +90,12 @@ categories : SQL
   
 #### MYSQL execution plan
 
+  ![_config.yml]({{ site.baseurl }}/images/mysql-ep.png)
+  
+  In MYSQL, the order is from higest id to lowest id. 
+  
+  If their id are the same, then the order is from top to bottom in same id.
+
 #### ORACLE execution plan
 
 take following plan for example:
