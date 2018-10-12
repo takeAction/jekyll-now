@@ -2,7 +2,7 @@
 layout : post
 title : Command Pattern
 comments: true
-categories : Java
+categories : Design Pattern
 ---
 
 ### Problem
