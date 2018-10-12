@@ -2,7 +2,7 @@
 layout : post
 title : Decorator Pattern
 comments: true
-categories : Java
+categories : Design Pattern
 ---
 
 ### Decorator Pattern
