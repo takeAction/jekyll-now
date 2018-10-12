@@ -2,7 +2,7 @@
 layout : post
 title : Strategy Pattern
 comments: true
-categories : Java
+categories : Design Pattern
 ---
 
 ![_config.yml]({{ site.baseurl }}/images/strategy-pattern.png)
