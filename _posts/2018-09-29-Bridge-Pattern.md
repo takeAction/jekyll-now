@@ -2,7 +2,7 @@
 layout : post
 title : Bridge Pattern
 comments: true
-categories : Java
+categories : Design Pattern
 ---
 
 ### Bridge Pattern
