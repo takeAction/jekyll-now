@@ -14,7 +14,7 @@ categories : Design Pattern
   
   The builder has 4 main parts: a `Builder`, `Concrete Builders`, a `Director`, and a `Product`.
   
-  From (JournalDev)[https://www.journaldev.com/1425/builder-design-pattern-in-java]:
+  From [JournalDev](https://www.journaldev.com/1425/builder-design-pattern-in-java):
   
   > Builder pattern was introduced to solve some of the problems with Factory and Abstract Factory design patterns 
   > when the Object contains a lot of attributes.
@@ -38,7 +38,7 @@ categories : Design Pattern
   
 ### Difference with Factory
 
-  From (HowToDoInJava)[https://howtodoinjava.com/design-patterns/creational/builder-pattern-in-java/]
+  From [HowToDoInJava](https://howtodoinjava.com/design-patterns/creational/builder-pattern-in-java/)
   
   > The only big difference between this builder pattern and abstract factory pattern is that, 
   > builder provides you more control over the object creation process and that’s it. 
@@ -52,7 +52,7 @@ categories : Design Pattern
   
 ### Code
 
-  From (programcreek)[https://www.programcreek.com/2013/02/java-design-pattern-builder/]
+  From [programcreek](https://www.programcreek.com/2013/02/java-design-pattern-builder/)
 
 ```java
 public class Starbucks {
