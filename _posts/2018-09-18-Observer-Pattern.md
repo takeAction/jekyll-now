@@ -2,7 +2,7 @@
 layout : post
 title : Observer Pattern
 comments: true
-categories : Java
+categories : Design Pattern
 ---
 
 ### Observer Pattern
