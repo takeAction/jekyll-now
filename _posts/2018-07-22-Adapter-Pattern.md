@@ -2,7 +2,7 @@
 layout : post
 title : Adapter Pattern
 comments: true
-categories : Java
+categories : Design Pattern
 ---
 
 Adapter pattern works as a bridge between two incompatible/unrelated interfaces/classes.
