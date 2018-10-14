@@ -10,7 +10,7 @@ categories : Design Pattern
   A request from client is passed to a chain of handler to process them. 
 	
   Later, the handler in the chain will decide who will process the request 
-	and whether send the request to next handler in the chain.
+  and whether send the request to next handler in the chain.
 
   Please note that a request is not handled by any handler is a valid use case.
 
@@ -21,9 +21,7 @@ categories : Design Pattern
 
 #### Disadvantages
 
-  It comes with the trade-off of having a lot of implementation classes 
-	and maintenance problems if most of the code is common 
-	in all the implementations.
+  It comes with the trade-off of having a lot of implementation classes and maintenance problems if most of the code is common in all the implementations.
 
 #### Example in JDK
 
@@ -51,11 +49,12 @@ public class NegativeProcessor implements Chain {
 	}
 
 	public void process(int request) {
-		if (request < 0) {
-			System.out.println("NegativeProcessor : " + request.getNumber());
-		} else {
-			nextInChain.process(request);
-		}
+	
+	    if (request < 0) {
+		System.out.println("NegativeProcessor : " + request.getNumber());
+	    } else {
+		nextInChain.process(request);
+	    }
 	}
 }
 
@@ -68,11 +67,12 @@ public class ZeroProcessor implements Chain {
 	}
 
 	public void process(int request) {
-		if (request == 0) {
-			System.out.println("ZeroProcessor : " + request.getNumber());
-		} else {
-			nextInChain.process(request);
-		}
+	
+	    if (request == 0) {
+		System.out.println("ZeroProcessor : " + request.getNumber());
+	    } else {
+		nextInChain.process(request);
+	    }
 	}
 }
 
@@ -85,11 +85,12 @@ public class PositiveProcessor implements Chain {
 	}
 
 	public void process(int request) {
-		if (request > 0) {
-			System.out.println("PositiveProcessor : " + request.getNumber());
-		} else {
-			nextInChain.process(request);
-		}
+	
+	    if (request > 0) {
+		System.out.println("PositiveProcessor : " + request.getNumber());
+	    } else {
+		nextInChain.process(request);
+	    }
 	}
 }
 
@@ -97,7 +98,7 @@ public class Test {
 
     public static void main(String[] args) {
 		
-		    Chain c1 = new NegativeProcessor(); 
+        Chain c1 = new NegativeProcessor(); 
         Chain c2 = new ZeroProcessor(); 
         Chain c3 = new PositiveProcessor(); 
         c1.setNext(c2); 
@@ -107,7 +108,7 @@ public class Test {
         c1.process(-50); 
         c1.process(0); 
       
-	}
+    }
 
 }
 ```
