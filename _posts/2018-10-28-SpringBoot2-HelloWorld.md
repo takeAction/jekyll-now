@@ -11,7 +11,7 @@ This example is base on spring boot 2, spring mvc, mybatis, mysql.
 
 #### Project Structure
 
-![_config.yml]({{ site.baseurl }}/images/sb-project-structure.png.PNG)
+![_config.yml]({{ site.baseurl }}/images/sb-project-structure.png)
 
 #### Mave Pom
 
