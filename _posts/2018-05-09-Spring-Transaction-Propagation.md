@@ -31,7 +31,7 @@ Spring has following transaction propagation behaviors:
    
    > The only exceptions that set a transaction to rollback state by default are the unchecked exceptions 
    > (like RuntimeException). If you want checked exceptions to also set transactions to rollback 
-   > you must configure them to do so.
+   > you must configure them to do so, e.g. @Transactional(rollbackFor=Exception.class).
 	      
    > When using declarative transactions, ie by using only annotations, and calling methods from the same bean 
    > directly (self-invocation), the @Transactional annotation will be ignored by the container. 
