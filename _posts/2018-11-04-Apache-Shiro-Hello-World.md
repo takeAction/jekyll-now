@@ -51,18 +51,18 @@ This example is a hello world web application which in spring, struts and mybati
     	
     	<property name="filterChainDefinitions">
     		<value>
-    			/login.html = anon
-    			/login.action = anon
-    			/**/*.css = anon
-    			/**/*.js = anon
-    			/test2/logout = logout
-          /** = authc
+    	            /login.html = anon
+    		    /login.action = anon
+    		    /**/*.css = anon
+    		    /**/*.js = anon
+    		    /logout = logout
+                   /** = authc
     		</value>
     	</property>
 	</bean>
 	
 	<bean id="logout" class="org.apache.shiro.web.filter.authc.LogoutFilter"> 
-        <property name="redirectUrl" value="/login.jsp" /> 
+        <property name="redirectUrl" value="/login.html" /> 
         
     </bean>
 	
