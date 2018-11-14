@@ -161,3 +161,11 @@ public class UserServiceImpl implements UserService{
 
 }
 ```
+
+### Mybatis 2nd Level Cache
+
+  User also can use mybatis second level cache with redis. Please refer [it](http://www.mybatis.org/mybatis-3/sqlmap-xml.html#cache) for detail.
+  
+  Mybatis 2nd level cache is able to cache the select query result automatically as well as updating cache when data is updated.
+  
+  User can implements `org.apache.ibatis.cache.Cache` to create 2nd level cache.
