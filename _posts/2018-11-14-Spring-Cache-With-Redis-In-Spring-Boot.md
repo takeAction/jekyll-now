@@ -169,3 +169,5 @@ public class UserServiceImpl implements UserService{
   Mybatis 2nd level cache is able to cache the select query result automatically as well as updating cache when data is updated.
   
   User can implements `org.apache.ibatis.cache.Cache` to create 2nd level cache.
+  
+  However, it will remove the whole cache of same namespace if there is any update/delete.
