@@ -294,8 +294,37 @@ public class UserAction {
   }
   ```
   
-#### @Requestbody
+#### @Requestbody & @ResponseBody
 
-  If you're sending json, you have to use `@RequestBody` to get the json data. 
+  These annotations are used to convert the body of the HTTP request to java object or java object to response body.
+  
+  Both these annotations will use registered HTTP message converters in the process of converting/mapping HTTP request/response body with java objects.
+  
+  For example, If you're sending json in http request, then you have to use `@RequestBody` to convert the json to java object. 
+  
+  `@RestController` is `@Controller` + `@ResponseBody`, and it avoids the need of prefixing every method with `@ResponseBody`.
+  
+##### HTTP Message Converter
+
+  From [springbootdev](https://springbootdev.com/2017/04/12/spring-mvc-what-is-requestbody-and-responsebody/):
+  
+  > The client (web browser or REST client) cannot send the java objects (as it is) in the body of the HTTP request. 
+  > On the other hand, the server application cannot compose the body of the HTTP response with java objects (as it is).  
+  > Simply the HTTP Request and Response body cannot contains the in the form of java objects.
+  >
+  > HTTP request and response body should contain either JSON , XML or some other type of formatted data (RSS etc).   
+  > Therefore the HTTP message converters are used to convert the HTTP request body (either in JSON or XML) to the Java 
+  > objects and Java objects back to XML or JSON for embedding into the HTTP response body.
+  
+  The spring mvc will check the header of http request to pick a appropriate message converter:
+  
+  - **Content-Type**, if the `Content-Type` is `application/json`, then it will select a JSON to Java Object converter.
+  - **Accept**, if the `Accept` is `application/json` , then it will select a Java Object to JSON converter.
 
 #### @ModelAttribute
+
+  `@ModelAttribute` is used to bind a method parameter or a method return value to a named model attribute. 
+  It can be used either on methods or on method parameters.
+
+  Spring invokes all methods that have `@ModelAttribute` annotation before handler methods 
+  (i.e. methods annotated with the `@RequestMapping`) in a same controller.
