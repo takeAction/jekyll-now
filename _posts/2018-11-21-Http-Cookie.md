@@ -27,7 +27,7 @@ categories : Other
 
   When receiving an HTTP request, a server can send a `Set-Cookie` header with the response. A simple cookie is set like this:
   
-  > Set-Cookie: <cookie-name>=<cookie-value>
+  > Set-Cookie: \<cookie-name\>=\<cookie-value\>
   
   This header from the server tells the client to store a cookie.
   
@@ -85,7 +85,7 @@ categories : Other
   Someone includes an image that isn’t really an image (for example in an unfiltered chat or forum), 
   instead it really is a request to your bank’s server to withdraw money:
   
-  > <img src="http://bank.example.com/withdraw?account=bob&amount=1000000&for=mallory">
+  > \<img src="http://bank.example.com/withdraw?account=bob&amount=1000000&for=mallory">
   
 ### Third-party cookies
 
