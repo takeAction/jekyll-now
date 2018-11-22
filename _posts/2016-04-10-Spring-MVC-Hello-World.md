@@ -300,7 +300,7 @@ public class UserAction {
   
   Both these annotations will use registered HTTP message converters in the process of converting/mapping HTTP request/response body with java objects.
   
-  For example, If you're sending json in http request, then you have to use `@RequestBody` to convert the json to java object. 
+  For example, If you're sending json in http request and a java object is used as controller method parameter, then you have to use `@RequestBody` such that the json can be converted into this method parameter. 
   
   `@RestController` is `@Controller` + `@ResponseBody`, and it avoids the need of prefixing every method with `@ResponseBody`.
   
