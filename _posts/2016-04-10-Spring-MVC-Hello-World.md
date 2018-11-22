@@ -235,6 +235,15 @@ public class UserAction {
   If you do not specify any mapping this method will resolve all the http request, 
   i.e. you can send GET, POST, HEAD, OPTIONS, PUT, PATCH, DELETE, TRACE 
 	request to the specified url and it will be resolved.
+	
+##### produces and consumes
+
+  The `RequestMapping` has attributes `produces` and `consumes`, e.g. 
+  `@RequestMapping(value = "getBooking", produces = {MediaType.APPLICATION_JSON_VALUE})`
+
+  The `produces` specify the data format that will be returned to client. 
+  
+  `produces = {MediaType.APPLICATION_JSON_VALUE}` means produce a response with `content-type=application/json`.
   
 #### @RequestParam
 
@@ -294,17 +303,68 @@ public class UserAction {
   }
   ```
   
-#### @Requestbody & @ResponseBody
+#### @RestController
 
-  These annotations are used to convert the body of the HTTP request to java object or java object to response body.
-  
-  Both these annotations will use registered HTTP message converters in the process of converting/mapping HTTP request/response body with java objects.
-  
-  For example, If you're sending json in http request and a java object is used as controller method parameter, then you have to use `@RequestBody` such that the json can be converted into this method parameter. 
-  
   `@RestController` is `@Controller` + `@ResponseBody`, and it avoids the need of prefixing every method with `@ResponseBody`.
   
+  The RESTful web service controller simply returns the object and the object data is written directly to the HTTP response 
+  as JSON/XML automatically.
+  
+  Spring lets you return data directly from the controller, without looking for a view, using the `@ResponseBody` annotation on a method. 
+
+  `@Requestbody` & `@ResponseBody` annotations are used to convert the body of the HTTP request to **POJO** or **POJO** to response body.
+  
+  Both these annotations will use registered HTTP message converters in the process of converting/mapping HTTP request/response body with **POJO**.
+  
+  For example, If you're sending json in http request and a `POJO` is used as controller method parameter, then you have to use `@RequestBody` such that the json can be converted into this `POJO`.   
+
+##### return json
+
+  Every `String` will treated as a string and every other Object will get serialised/deserialised by `Jackson`. 
+
+  This allows to serialise manually (by returning String) or automatically (by returning something else) in Spring controllers.
+  
+  ```java
+  @RestController
+  @RequestMapping(value = "/booking/")
+  public class BookingAction {
+  
+    @RequestMapping("getBooking")
+    public Booking getBooking() {
+        //get booking data
+	return booking;
+    }
+  }
+  ```
+  
+  Spring boot default use `jackson`, this class is annotated with `@RestController`, 
+  and this method returns `booking` which is a `POJO`, therefore, this `POJO` will be converted into `json`.
+  
+  However, if it is :
+  
+  ```java
+   @RequestMapping("getBooking")
+    public String getBooking() {
+        //get booking data
+	return JSONObject.fromObject(booking).toString();
+    }  
+  ```
+  
+  It returns json data as raw string not `POJO`, and if the client didn't specify an `Accept` header, then Spring 
+  won't feel need to do anything with the result just return string, 
+  that is the return value will be handled by `StringHttpMessageConverter` which sets the `Content-type` header to `text/plain`.  
+  
+  In this case, there are 2 approaches to return a JSON string:
+  
+  1. In the client, set `Accept` header value as `application/json`
+  2. add `produces` to `@RequestMapping(value = "getBooking", produces = {MediaType.APPLICATION_JSON_VALUE})`
+  
 ##### HTTP Message Converter
+
+  Spring has a list of `HttpMessageConverters` registered in the background. 
+
+  Spring loops through all registered HTTPMessageConverters seeking the first that fits the given mime type and class, 
+  and then uses it for the actual conversion.
 
   From [springbootdev](https://springbootdev.com/2017/04/12/spring-mvc-what-is-requestbody-and-responsebody/):
   
@@ -318,8 +378,8 @@ public class UserAction {
   
   The spring mvc will check the header of http request to pick a appropriate message converter:
   
-  - **Content-Type**, if the `Content-Type` is `application/json`, then it will select a JSON to Java Object converter.
-  - **Accept**, if the `Accept` is `application/json` , then it will select a Java Object to JSON converter.
+  - **Content-Type**, if the `Content-Type` is `application/json`, then it will select a JSON to `POJO` converter.
+  - **Accept**, if the `Accept` is `application/json` , then it will select a `POJO` to JSON converter.
 
 #### @ModelAttribute
 
