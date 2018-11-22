@@ -23,7 +23,7 @@ categories : Spring
   Their name is in the format `application-{profile}.yml`, such as `application-dev.yml`.
   
   Spring Boot will automatically load the properties from `application.yml` file for all profiles, 
-  and the ones in profile-specific files only for the specified profile.
+  and the ones in profile-specific files only for the specified profile, that is profile-specific will override the `application.yml`.
   
   For example, the `application.yml` looks like:
   
@@ -64,3 +64,7 @@ categories : Spring
      then right click this spring boot project -> run as -> maven build -> input `spring-boot:run` as goal.
      
      In this solution, if you right click this spring boot project -> run as -> spring boot app, the specified profile will not be actived.
+     
+### References
+
+  [baeldung](https://www.baeldung.com/spring-profiles)
