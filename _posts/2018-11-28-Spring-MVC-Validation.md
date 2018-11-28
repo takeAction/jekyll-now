@@ -9,6 +9,7 @@ categories : Spring
   to make validation easier.
   
   Note: If you already depend on `spring-boot-starter-web`, then you already have Spring Validation. 
+  
   Otherwise, you’ll have to include `spring-context`.
   
 ### Code
