@@ -8,13 +8,21 @@ categories : Other
   An HTTP cookie is a small piece of data that a server sends to the user's web browser. 
   
   The browser stores it(if it is enabled) and send it back to the same server in subsequent each request
-  inside a Cookie HTTP header.  
+  inside a Cookie HTTP header, even including requests for assets like images or CSS / JavaScript files.
 
 ### Purpose
 
   1. Session management
   2. Personalization
   3. Tracking
+  
+### Restrictions of Cookie
+
+  - Cookies can only store 4KB of data
+  - Cookies are private to the domain. A site can only read the cookies it set, not other domains cookies
+  - You can have up to 20 limits of cookies per domain (but the exact number depends on the specific browser implementation)
+  - Cookies are limited in their total number (but the exact number depends on the specific browser implementation). 
+    If this number is exceeded, new cookies replace the older ones.
   
 ### Storage
 
@@ -33,9 +41,17 @@ categories : Other
   
   After that, the browser will send back all previously stored cookies to the server using the `Cookie` header.
   
+#### Valid Cookie Value
+
+  Cookie value should not contain any whitespace, comma or semicolon.
+  
+### Delete cookie
+
+  To delete a cookie, unset its value and pass a date in the past.
+  
 ### Session cookies
 
-  Session cookie will be deleted when the browser shuts down, because it didn't specify an `Expires` or `Max-Age` directive.
+  Session cookie will be deleted when the browser is closed, because it didn't specify an `Expires` or `Max-Age` directive.
   
 ### Permanent cookies
 
@@ -59,20 +75,25 @@ categories : Other
 ### Scope of cookies
 
   The `Domain` and `Path` directives define the scope of the cookie: what URLs the cookies should be sent to.
+  
+#### Domain
 
-  `Domain` specifies allowed hosts to receive the cookie. 
+  The domain can be used to specify a subdomain for your cookie.
+  
   If unspecified, it defaults to the host of the current document location, **excluding subdomains**. 
   If it is specified, then subdomains are always included.
 
   For example, if `Domain=mozilla.org` is set, then cookies are included on subdomains like `developer.mozilla.org`.
-
-  `Path` indicates a URL path that must exist in the requested URL in order to send the Cookie header. 
   
-  For example, if `Path=/docs` is set, these paths will match:
+#### Path
 
-  - `/docs`
-  - `/docs/Web/`
-  - `/docs/Web/HTTP`
+  The `path` parameter specifies a document location for the cookie, so it’s assigned to a specific path, 
+  and sent to the server only if the path matches the current document location, or a parent:
+  
+  For example, if `path=/docs` is set, this cookie is sent on `/docs`, `/docs/Web/` and other sub-urls of `/docs`.
+
+  If you don’t set a path, it defaults to the current document location. 
+  This means that to apply a global cookie from an inner page, you need to specify `path="/"`.
   
 ### Security
 
@@ -100,6 +121,20 @@ categories : Other
   The `DNT` header can be used to signal that a web application should disable either its tracking or 
   cross-site user tracking of an individual user. 
   
+### Alternatives to cookie
+
+  **JSON Web Tokens (JWT)**, which is a **Token-based Authentication**.
+  
 ### References
 
 [mozilla](https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies)
+
+[humanwhocodes](https://humanwhocodes.com/blog/2009/05/05/http-cookies-explained/)
+
+[flaviocopes](https://flaviocopes.com/cookies/)
+
+[a-few-speed-improvements](https://stackoverflow.blog/2009/08/09/a-few-speed-improvements/)
+
+[how-do-browsers-know-which-cookie-to-get](https://security.stackexchange.com/questions/33348/how-do-browsers-know-which-cookie-to-get)
+
+[cookie-attributes-and-their-importance](https://www.paladion.net/blogs/cookie-attributes-and-their-importance)
