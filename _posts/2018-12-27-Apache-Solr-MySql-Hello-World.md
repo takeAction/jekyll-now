@@ -5,6 +5,13 @@ comments: true
 categories : Java
 ---
 
+### Solr vs Lucene
+
+  Lucene is a powerful search engine framework, any application can use this library, not just Solr.
+  
+  Solr is built around Lucene. It is a web application that offers related infrastructure and 
+  a lot more features in addition to what Lucene offers. Solr is more easy to use even you don't have programming background.
+
 ### Environment
 
   Windows 10, Apache Solr 7.6.0
