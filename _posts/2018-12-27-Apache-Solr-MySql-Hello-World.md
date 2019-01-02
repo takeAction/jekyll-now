@@ -106,3 +106,10 @@ categories : Java
 
   ![_config.yml]({{ site.baseurl }}/images/solr-6.png)
   
+#### Standard Query Parser
+
+  For the detail about the query syntax, please refer the [doc](https://lucene.apache.org/solr/guide/7_6/the-standard-query-parser.html)
+  
+### Call Solr From Code
+  
+  We can call solr from our code, e.g. Java, by restful call, the url looks like: `http://localhost:8983/solr/helloworld/select?q=NAME:TW`
