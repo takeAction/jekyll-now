@@ -46,6 +46,7 @@ We call them **centos-server** and **mac-client**.
   like:
   
   > Your identification has been saved in /Users/frank/.ssh/id_rsa.
+  > 
   > Your public key has been saved in /Users/frank/.ssh/id_rsa.pub.
 
   The public key will be uploaded to the **centos-server** for allowing ssh access from **mac-client** later.
