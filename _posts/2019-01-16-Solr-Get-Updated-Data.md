@@ -32,8 +32,8 @@ Change it to following:
   <document>
   
     <entity name="CUSTOMER" pk="CUSTOMER_ID"
-            query="select CUSTOMER_ID, CUSTOMER_CODE, NAME from CUSTOMER"
-            deltaImportQuery="select CUSTOMER_ID, CUSTOMER_CODE, NAME from CUSTOMER where CUSTOMER_ID='${dih.delta.CUSTOMER_ID}'"
+            query="select CUSTOMER_ID id, CUSTOMER_ID, CUSTOMER_CODE, NAME from CUSTOMER"
+            deltaImportQuery="select CUSTOMER_ID id, CUSTOMER_ID, CUSTOMER_CODE, NAME from CUSTOMER where CUSTOMER_ID='${dih.delta.CUSTOMER_ID}'"
             deltaQuery="select CUSTOMER_ID from CUSTOMER where update_datetime &gt; '${dih.last_index_time}'"
             >      
     </entity>
@@ -150,6 +150,35 @@ It is used in `delta import` and select all the updated records according to the
 `field` elements, which map the data source field names to Solr fields, and optionally specify per-field transformations.
 
 If the column name is different from the solr field name(case does not matter), then another attribute name should be given.
+
+##### Remove old data from Solr
+
+One approach to remove old data from Solr is assign your primary key to `uniqueKey` in `query` and `deltaImportQuery` like:
+
+`query="select CUSTOMER_ID id, CUSTOMER_ID, CUSTOMER_CODE, NAME from T_CRM_CUSTOMER"`
+
+and
+
+`deltaImportQuery="select CUSTOMER_ID id, CUSTOMER_ID, CUSTOMER_CODE, NAME from T_CRM_CUSTOMER where CUSTOMER_ID='${dih.delta.CUSTOMER_ID}'"`
+
+wherein the `customer_id` is primary key of your table, `id` is the `uniqueKey` which defined in `managed-schema.xml`.
+
+Without `customer_id id` in `query` and `deltaImportQuery`, for example, there is one document in solr with 
+`name=abc and customer_id=123`, if this record is changed to `name=qwe and customer_id=123` in DB, 
+after do delta import, both `name=abc` and `name=qwe` exist is Solr.
+
+If we don't have value for unique key `id`, Solr will generate a unique value for it and update the document according to this value.
+
+### Schedule Delta Import
+
+From Solr wiki:
+
+> The dataimport scheduler is NOT included in any released Solr version. 
+> 
+> This is a proposal with a very old issue in Jira. 
+> 
+> The feature may never become real, because all modern operating systems already have scheduling capability built in, 
+> and Solr would be reinventing a very old wheel.
 
 ### References
 
