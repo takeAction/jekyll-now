@@ -37,9 +37,17 @@ In the `class` names in `managed-schema.xml`, the string `solr` is shorthand for
 
 Therefore, `solr.TextField` is really `org.apache.solr.schema.TextField`.
 
-#### _root_
+#### \_root\_
 
-#### _version_
+The `_root_` field is needed for `block-join` support.
+
+#### \_version\_
+
+> Optimistic Concurrency is a feature of Solr that can be used by client applications which update/replace documents to 
+> ensure that the document they are replacing/updating has not been concurrently modified by another client application. 
+> This feature works by requiring a _version_ field on all documents in the index, and comparing that to a _version_ specified as part 
+> of the update command. By default, Solr’s Schema includes a _version_ field, and 
+> this field is automatically added to each new document.
 
 #### uniqueKey
 
@@ -100,3 +108,9 @@ Dynamic fields allow Solr to index fields that you did not explicitly define in 
 ### Reference
 
 [Apache Solr Reference Guide](https://lucene.apache.org/solr/guide/7_6/index.html)
+
+[UniqueKey](https://wiki.apache.org/solr/UniqueKey)
+
+[SchemaXml](https://wiki.apache.org/solr/SchemaXml)
+
+[solr-block-join-support](http://blog-archive.griddynamics.com/2013/09/solr-block-join-support.html)
