@@ -388,3 +388,11 @@ public class UserAction {
 
   Spring invokes all methods that have `@ModelAttribute` annotation before handler methods 
   (i.e. methods annotated with the `@RequestMapping`) in a same controller.
+  
+### Spring MVC VS Struts2
+
+1. Struts 2 is simplier and straight forward, while we need to take more efforts to master spring mvc
+2. spring mvc use `DispatcherServlet` which is a servlet, while struts 2 use `StrutsPrepareAndExecuteFilter` which is filter
+3. Struts 2 action is initiated every time when a request is made, whereas in Spring MVC the controller is singleton
+4. Spring MVC is deeply integreated in Spring, Struts 2 is not
+5. Struts 2 couples validation and action, spring mvc decouple validation from controller
