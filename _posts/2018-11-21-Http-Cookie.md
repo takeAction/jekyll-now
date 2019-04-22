@@ -72,13 +72,13 @@ categories : Other
   
   > Set-Cookie: id=a3fWa; Expires=Wed, 21 Oct 2015 07:28:00 GMT; Secure; HttpOnly
   
-### Scope of cookies
+### Domain and Path
 
   The `Domain` and `Path` directives define the scope of the cookie: what URLs the cookies should be sent to.
   
 #### Domain
 
-  The domain can be used to specify a subdomain for your cookie.
+  The purpose of the domain is to allow cookies to cross sub-domains. 
   
   If unspecified, it defaults to the host of the current document location, **excluding subdomains**. 
   If it is specified, then subdomains are always included.
@@ -87,13 +87,19 @@ categories : Other
   
 #### Path
 
-  The `path` parameter specifies a document location for the cookie, so it’s assigned to a specific path, 
-  and sent to the server only if the path matches the current document location, or a parent:
+  The `path` gives you the chance to specify a directory where the cookie is active. 
   
   For example, if `path=/docs` is set, this cookie is sent on `/docs`, `/docs/Web/` and other sub-urls of `/docs`.
 
   If you don’t set a path, it defaults to the current document location. 
-  This means that to apply a global cookie from an inner page, you need to specify `path="/"`.
+  
+  Usually the path is set to `/`, which means the cookie is valid throughout the **entire domain**.
+  
+  Please refer [Paths and Path-Match](https://tools.ietf.org/html/rfc6265#section-5.1.4) for detail.
+  
+##### Difference between with / and without /
+
+[internet-explorer-sends-the-wrong-cookie-when-the-paths-overlap](https://stackoverflow.com/questions/8292449/internet-explorer-sends-the-wrong-cookie-when-the-paths-overlap)
   
 ### Security
 
