@@ -144,3 +144,5 @@ categories : Other
 [how-do-browsers-know-which-cookie-to-get](https://security.stackexchange.com/questions/33348/how-do-browsers-know-which-cookie-to-get)
 
 [cookie-attributes-and-their-importance](https://www.paladion.net/blogs/cookie-attributes-and-their-importance)
+
+[cookies](https://www.quirksmode.org/js/cookies.html)
