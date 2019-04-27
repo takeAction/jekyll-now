@@ -219,6 +219,9 @@ Define security logic in a xml file, it is under `src/main/resources`:
 </beans:beans>
 ```
 
+This password is encoded by `BCryptPasswordEncoder`, in this example, password is hard code in xml file with this encoder
+for the sake of simplicity.
+
 Then import this xml file in spring boot application :
 
 ```java
