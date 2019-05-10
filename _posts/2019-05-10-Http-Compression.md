@@ -1,6 +1,6 @@
 ---
 layout : post
-title : Hash vs Encryption vs Encoding
+title : Http Compression
 comments: true
 categories : [Other]
 ---
