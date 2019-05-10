@@ -5,15 +5,18 @@ comments: true
 categories : [Other]
 ---
 
-> HTTP compression is a capability that can be built into web servers and web clients to improve transfer speed and bandwidth utilization. 
+> HTTP compression is a capability that can be built into web servers and web clients to improve transfer speed and bandwidth utilization.
+> 
 > HTTP data is compressed before it is sent from the server: compliant browsers will announce what methods are supported to the server 
-> before downloading the correct format; browsers that do not support compliant compression method will download uncompressed data.
+> before downloading the correct format; 
+> browsers that do not support compliant compression method will download uncompressed data.
 > 
 > The most common compression schemes include gzip and Deflate. This means that when it is in use, 
-> your bandwidth costs for serving the site, will be lower because people visiting the site will be downloading smaller files. 
+> your bandwidth costs for serving the site, will be lower because people visiting the site will be downloading smaller files.
+> 
 > Using GZip, takes time and processor power to zip and unzip the files, but typically this is not a problem because the time it takes 
-> to do that, is often less than the time that is saved by downloading a smaller file. Therefore the overall effect is a time saving, 
-> despite the browser having to unzip the file.
+> to do that, is often less than the time that is saved by downloading a smaller file. 
+> Therefore the overall effect is a time saving, despite the browser having to unzip the file.
 
 ### Enable compression in tomcat
 
@@ -56,3 +59,9 @@ server:
     # Compress the response only if the response size is at least 1KB
     min-response-size: 1024 
 ```
+
+### References
+
+[enable-gzip-compression-apache-tomcat](https://examples.javacodegeeks.com/enterprise-java/tomcat/enable-gzip-compression-apache-tomcat/)
+
+[tomcat-9.0-doc](http://tomcat.apache.org/tomcat-9.0-doc/config/http.html#Standard_Implementation)
