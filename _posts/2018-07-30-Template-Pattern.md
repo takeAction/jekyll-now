@@ -2,7 +2,7 @@
 layout : post
 title : Template Method Pattern
 comments: true
-categories : Design Pattern
+categories : [Design Pattern]
 ---
 
 ### Template Method Pattern
