@@ -2,7 +2,7 @@
 layout : post
 title : Observer Pattern
 comments: true
-categories : Design Pattern
+categories : [Design Pattern]
 ---
 
 ### Observer Pattern
