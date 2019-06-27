@@ -1,7 +1,7 @@
 ---
 layout: post
 title: MySQL Query Cache
-categories: Database
+categories: [MySQL]
 ---
 
 > The query cache is deprecated as of MySQL 5.7.20, and is removed in MySQL 8.0.
