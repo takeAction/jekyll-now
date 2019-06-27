@@ -2,7 +2,7 @@
 layout : post
 title : Bridge Pattern
 comments: true
-categories : Design Pattern
+categories : [Design Pattern]
 ---
 
 ### Bridge Pattern
