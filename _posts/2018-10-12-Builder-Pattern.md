@@ -2,7 +2,7 @@
 layout : post
 title : Builder Pattern
 comments: true
-categories : Design Pattern
+categories : [Design Pattern]
 ---
 
 ### Builder Pattern
