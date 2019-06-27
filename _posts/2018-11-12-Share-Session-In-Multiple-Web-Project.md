@@ -2,7 +2,7 @@
 layout : post
 title : Share Session In Multiple Web Project
 comments: true
-categories : Apache Shiro
+categories : [Apache Shiro]
 ---
 
 Suppose there are two web projects: `test4` and `test5`, the login page is in `test4` and when user access resources of `test5`, he/she will
