@@ -2,7 +2,7 @@
 layout : post
 title : Facade Pattern
 comments: true
-categories : Design Pattern
+categories : [Design Pattern]
 ---
 
 According to GoF Facade design pattern is:
