@@ -2,7 +2,7 @@
 layout : post
 title : Decorator Pattern
 comments: true
-categories : Design Pattern
+categories : [Design Pattern]
 ---
 
 ### Decorator Pattern
