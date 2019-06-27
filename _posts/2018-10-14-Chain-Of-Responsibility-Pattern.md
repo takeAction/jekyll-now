@@ -2,7 +2,7 @@
 layout : post
 title : Chain of Responsibility Pattern
 comments: true
-categories : Design Pattern
+categories : [Design Pattern]
 ---
 
 ### Chain of Responsibility
