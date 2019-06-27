@@ -2,7 +2,7 @@
 layout : post
 title : MySql Master Slave
 comments: true
-categories : [MySql]
+categories : [MySQL]
 ---
 
 mysql 5.7
