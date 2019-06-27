@@ -2,7 +2,7 @@
 layout : post
 title : Command Pattern
 comments: true
-categories : Design Pattern
+categories : [Design Pattern]
 ---
 
 ### Problem
