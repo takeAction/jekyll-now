@@ -1,7 +1,7 @@
 ---
 layout: post
 title: DB Transaction
-categories: Database
+categories: [MySQL]
 ---
 
 
