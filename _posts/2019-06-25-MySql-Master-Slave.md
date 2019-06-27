@@ -40,6 +40,7 @@ GRANT REPLICATION SLAVE ON *.* TO 'replication'@'<slave-ip>';
 ```
 [mysqld]
 server-id=2
+read_only=1 # make slave server read-only
 ```
 
 ##### Config master info
@@ -50,6 +51,11 @@ server-id=2
 ```
 CHANGE MASTER TO MASTER_HOST='<master ip>', MASTER_USER='replication', MASTER_PASSWORD='<password>', MASTER_LOG_FILE='<master-bin-log-file-name>', MASTER_LOG_POS=<master bin log position>;
 ```
+
+`MASTER_LOG_POS` can be 0 which means read from the beginning of the bin log.
+
+`MASTER_LOG_FILE` has to be got from master server initially, after set, if master server restart, slave server will update this value
+automatically.
 
 ##### Start salve
 
@@ -68,6 +74,18 @@ Check `Slave_IO_State`, `Slave_IO_Running`, `Slave_SQL_Running`, `Seconds_Behind
 #### Error
 
 For replication error, please see `.err` for the detail.
+
+### Switch slave server to master server
+
+1. go to slave server
+2. `mysql> STOP SLAVE;`
+3. `mysql> RESET SLAVE ALL;` clear replication info such that it will not replicate when restart
+4. comment `read_only` if it is set
+5. restart mysql
+
+If system use IP to access db, then application need to modify the IP in this this case.
+
+A better solution is use DNS, only need to update DNS and clear DNS cache, there is no need to change application.
 
 ### How it works
 
