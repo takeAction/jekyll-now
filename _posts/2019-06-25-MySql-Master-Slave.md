@@ -71,6 +71,14 @@ show slave status;
 
 Check `Slave_IO_State`, `Slave_IO_Running`, `Slave_SQL_Running`, `Seconds_Behind_Master`
 
+##### Delay replication
+
+`CHANGE MASTER TO MASTER_DELAY = N;`
+
+`N` is in second.
+
+It only affects the **SQL thread**, `I/O thread` already write the data to relay log.
+
 #### Error
 
 For replication error, please see `.err` for the detail.
