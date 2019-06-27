@@ -2,7 +2,7 @@
 layout : post
 title : Visitor Pattern
 comments: true
-categories: [Design_Pattern]
+categories : [Design Pattern]
 ---
 
 Please refer :
