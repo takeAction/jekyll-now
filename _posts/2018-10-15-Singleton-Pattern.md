@@ -2,7 +2,7 @@
 layout : post
 title : Singleton Pattern
 comments: false
-categories : Design Pattern
+categories : [Design Pattern]
 ---
 
 ### Singleton Pattern
