@@ -1,36 +1,18 @@
 ---
 layout: post
 title: mybatis-auto-mapping
-categories: Mybatis
+categories: [Mybatis]
 ---
 
 ### Auto mapping
 
-As the name implies, when do auto mapping, mybatis will get the column name and look for a property with the same name ignoring case.
-
 That means that if a column name ID and property name id are found, mybatis will set the id property with the ID column value.
 
-In simple case, mybatis can auto-map the results for you and in other cases(e.g. nested collection/association) 
-you need to build a result map by youself, or mix both strategies.
+1. if column name are equals java bean field name ignore case, then auto mapping works
+2. for nested collection/association, we need to add `autoMapping=true` manually
+3. if column name or alias are different from java bean field name, we need to map them manually
 
-For instance, 
-
-```xml
-<resultMap id="rm" type="student">
-
-</resultMap>
-<select id="" resultMap="rm">
-    SELECT
-        ID,
-        NAME
-    FROM
-        STUDENT
-</select>
-```
-
-In this case, we can leave `<resultMap>` empty, just have the definition, then mybatis can auto map the result to java bean student.
-
-or
+For instance:
 
 ```xml
 <select id="" resultType="student">
@@ -42,30 +24,23 @@ or
 </select>
 ```
 
-However, for 
-
 ```xml
-    <resultMap id="rm" type="teacher">
-        <id ...>
-        
-        <collection property="students" ofType="student">
-            <id ...>
-            
-        </collection>
-    </resultMap>
-    <select id="" resultMap="rm">
-        ....
-    </select>
+   <resultMap id="ediBookingRM" type="ediBooking" autoMapping="true">
+	
+		<id property="booking_id" column="booking_id" />		
+		
+		<collection property="cntList" ofType="ediContainer" autoMapping="true">
+			<id property="id" column="CNT_ID" />					
+		</collection>
+		
+		<collection property="goods" ofType="ediGoods" autoMapping="true">
+			<id property="id" column="GOODS_ID" />					
+		</collection>		
+		
+	</resultMap>
 ```
 
-For above config, we only can get id from java bean, because there is no `<result>` definition so their value are null.
-
-In this case we have to define the mapping manually by default.
-
-Mix strategy : all columns that are present in the ResultSet that have not a manual mapping will be auto-mapped, 
-then manual mappings will be processed. 
-
-In the following sample id and userName columns will be auto-mapped and hashed_password column will be mapped by hand.
+In the following sample id and userName columns will be auto-mapped and hashed_password column need to be mapped by hand.
 
 ```xml
 <select id="selectUsers" resultMap="userResultMap">
@@ -137,7 +112,7 @@ For nested result map, this attribute has no effect on an external resultMap.
 
 ### Risk
 
---Note, full is used at risk--, take following to illustrate the risk:
+**Note, full is used at risk**, take following to illustrate the risk:
 
 ```xml
 <select id="selectBlog" resultMap="blogResult">
