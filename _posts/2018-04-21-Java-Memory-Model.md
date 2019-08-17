@@ -10,7 +10,7 @@ categories : Java
   
 ### Computer Memory
 
-  ![_config.yml]({{ site.baseurl }}/images/hardward-memory.png)
+  ![_config.yml]({{ site.baseurl }}/images/hardward-memory.PNG)
   
   Computer with 2 or more cpus is able to run one thread per cpu concurrently.
   
@@ -32,13 +32,13 @@ categories : Java
   
 ### JMM
   
-  ![_config.yml]({{ site.baseurl }}/images/jmm.png)
+  ![_config.yml]({{ site.baseurl }}/images/jmm.PNG)
   
   JMM consist of heap and thread stack.
   
 #### JMM Thread Stack
 
-  ![_config.yml]({{ site.baseurl }}/images/jmm2.png)
+  ![_config.yml]({{ site.baseurl }}/images/jmm2.PNG)
   
   - Each thread has its own thread stack in JMM
   - The thread stack contains the methods which the thread call and its local variables.
