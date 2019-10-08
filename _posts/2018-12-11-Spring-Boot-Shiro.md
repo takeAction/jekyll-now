@@ -239,7 +239,7 @@ public class ShiroConfig {
 
 	}
 
-	@Bean
+	@Bean("authorizer")
 	public UserRealm myShiroRealm() {
 
 		UserRealm myShiroRealm = new UserRealm();
