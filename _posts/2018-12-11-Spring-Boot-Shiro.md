@@ -9,42 +9,7 @@ Integrate Apache Shiro into spring boot 2.
 
 ### Add dependency
 
-  Add `shiro-spring-boot-web-starter` to maven pom:
-  
-```xml
-<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-			<optional>true</optional>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.shiro</groupId>
-			<artifactId>shiro-spring-boot-web-starter</artifactId>
-			<version>1.4.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-freemarker</artifactId>
-		</dependency>
-```
+  Add `shiro-spring-boot-web-starter` to maven pom.
 
 ### Shiro in yaml
 
@@ -57,178 +22,125 @@ shiro:
     sessionIdUrlRewritingEnabled: false
 ```
 
-### Custom Realm
+### Implements Custom Realm
 
 ```java
-public class MyCustomRealm extends AuthorizingRealm {
+public class UserRealm extends AuthorizingRealm {
 	
-	private Map<String, String> credentials = new HashMap<>();
-	private Map<String, Set<String>> roles = new HashMap<>();
-	private Map<String, Set<String>> perm = new HashMap<>();
-	 
-	{
-	    credentials.put("user", "password");
-	    credentials.put("user2", "password2");
-	    credentials.put("user3", "password3");
-	                                           
-	    roles.put("user", new HashSet<>(Arrays.asList("admin")));
-	    roles.put("user2", new HashSet<>(Arrays.asList("editor")));
-	    roles.put("user3", new HashSet<>(Arrays.asList("author")));
-	                                                              
-	    perm.put("admin", new HashSet<>(Arrays.asList("*")));
-	    perm.put("editor", new HashSet<>(Arrays.asList("articles:*")));
-	    perm.put("author", 
-	      new HashSet<>(Arrays.asList("articles:compose", 
-	      "articles:save")));
+	@Autowired
+	private CustomerService userService;
+
+	@Override
+	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+
+		Subject currentUser = SecurityUtils.getSubject();
+
+		User user = (User) currentUser.getSession().getAttribute("user");
+
+		if (user != null) {
+
+			SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
+
+			authorizationInfo.addRoles(user.getRoleList());
+
+			return authorizationInfo;
+
+		}
+
+		return null;
 	}
 
 	@Override
-    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-		
-        Set<String> roleNames = new HashSet<>();
-        Set<String> permissions = new HashSet<>();
-
-        String userName = (String) principals.getPrimaryPrincipal();
-        Set<String> userRoles = roles.get(userName);
-        roleNames.addAll(userRoles);
-        
-        Iterator<String> ite = userRoles.iterator();
-        while(ite.hasNext()) {
-        	String permissionId = ite.next();
-        	permissions.addAll(perm.get(permissionId));
-        }
-        
-        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo(roleNames);
-        info.setStringPermissions(permissions);
-        return info;
-    }
-
-
-	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-		
-		UsernamePasswordToken uToken = (UsernamePasswordToken) token;
-        
-	    if(uToken.getUsername() == null
-	      || uToken.getUsername().isEmpty()
-	      || !credentials.containsKey(uToken.getUsername())) {
-	          throw new UnknownAccountException("username not found!");
-	    }
-	                                         
-	    return new SimpleAuthenticationInfo(
-	      uToken.getUsername(), 
-	      credentials.get(uToken.getUsername()), 
-	      getName()); 
+
+		UsernamePasswordToken upToken = (UsernamePasswordToken) token;
+
+		User user = new User();
+
+		//set user info from token
+
+		User dbUser = this.userService.getUser(user);	
+
+		if (dbUser != null) {
+			
+			Subject currentUser = SecurityUtils.getSubject();
+
+			currentUser.getSession().setAttribute("user", dbUser);
+
+			return new SimpleAuthenticationInfo(upToken.getUsername(), dbUser.getPwd().toCharArray(), getName());
+		}
+
+		return null;
 	}
 
 }
 ```
 
-### Boot application
+### Shiro Config
 
 ```java
-@SpringBootApplication
-public class SecurityApplication {
+@Configuration
+public class ShiroConfig {
 
-	public static void main(String[] args) {
-		SpringApplication.run(SecurityApplication.class, args);
+	@ExceptionHandler(AuthorizationException.class)
+	@ResponseStatus(HttpStatus.FORBIDDEN)
+	public String handleException(AuthorizationException e, Model model) {		
+
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		map.put("status", HttpStatus.FORBIDDEN.value());
+
+		map.put("message", "No message available");
+
+		model.addAttribute("errors", map);
+
+		return "error";
+
 	}
-	
-	//If we did not define the Realm bean, ShiroAutoConfiguration will, by default, 
-	//provide an IniRealm implementation that expects to find a shiro.ini file in src/main/resources 
-	//or src/main/resources/META-INF.
+
 	@Bean
-	public Realm realm() {
-	    return (Realm) new MyCustomRealm();
+	public UserRealm myShiroRealm() {
+
+		UserRealm myShiroRealm = new UserRealm();
+
+		myShiroRealm.setCredentialsMatcher(hashedCredentialsMatcher());
+
+		return myShiroRealm;
+
 	}
-	
-	//If we do not define a ShiroFilterChainDefinition bean, the framework secures all paths and sets the login URL as login.jsp.
+
+	@Bean
+	public HashedCredentialsMatcher hashedCredentialsMatcher() {
+
+		HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
+
+		hashedCredentialsMatcher.setHashAlgorithmName("MD5");	
+
+		return hashedCredentialsMatcher;
+
+	}
+
 	@Bean
 	public ShiroFilterChainDefinition shiroFilterChainDefinition() {
-	    DefaultShiroFilterChainDefinition filter
-	      = new DefaultShiroFilterChainDefinition();
-	    //order matters
-	    filter.addPathDefinition("/", "anon");
-	    filter.addPathDefinition("/login", "anon");
-	    filter.addPathDefinition("/**", "authc");
-	 
-	    return filter;
+
+		DefaultShiroFilterChainDefinition chainDefinition = new DefaultShiroFilterChainDefinition();	
+
+		chainDefinition.addPathDefinition("/", "anon");
+		chainDefinition.addPathDefinition("/login", "anon");
+		
+		chainDefinition.addPathDefinition("/logout", "logout");
+			
+		chainDefinition.addPathDefinition("/**/*", "authc");
+
+		return chainDefinition;
 	}
-  }
+
+}
 ```
 
-### View page
+### Login
 
-index.ftl:
-
-```jsp
-<html>
-<head>
-    <title>Index</title>
-</head>
-<body>
-    <h1>Welcome Guest!</h1>
-    <br>
-    <a href="login">Login</a>
-</body>
-</html>
-```
-
-secure.ftl:
-
-```jsp
-<html>
-<head>
-    <title>Secure</title>
-</head>
-<body style="margin-left: 30px;">
-<h1>Welcome ${username}!</h1>
-<p><strong>Role</strong>: ${role}</p>
-<p><strong>Permissions</strong></p>
-<p>${permission}</p>
-<br>
-<form role="form" action="logout" method="POST">
-   <input type="Submit" value="Logout" />
-</form>
-</body>
-</html>
-```
-
-login.ftl:
-
-```jsp
-<html>
-<head>
-    <title>Login</title>
-</head>
-<body style="margin-left: 30px;">
-<h3>Login</h3>
-<br>
-<form action="login" method="post">
-    <#if (error?length > 0)??>
-        <p style="color:darkred;">${error}</p>
-    <#else>
-    </#if>
-
-    <label for="username">Username</label>
-    <br>
-    <input type="text" name="username">
-    <br><br>
-    <label for="password">Password</label>
-    <br>
-    <input type="password" name="password">
-    <br><br>
-    <input type="checkbox" name="rememberMe"> Remember Me
-    <br><br>
-    <input type="submit" value="Submit">
-</form>
-</body>
-</html>
-```
-
-### Controller
-
-  Add login/logout logic in your controller.
+  Add login logic in your controller.
   
   ```java
   @Controller
@@ -248,7 +160,7 @@ login.ftl:
 				UsernamePasswordToken token = new UsernamePasswordToken(cred.getUsername(), cred.getPassword(),
 						cred.isRememberMe());
 				try {
-					subject.login(token);
+					subject.login(token);//
 				} catch (AuthenticationException ae) {
 				
 					attr.addFlashAttribute("error", "Invalid Credentials");
@@ -259,25 +171,125 @@ login.ftl:
 			return "redirect:/secure";
 		
 	}
+}	
+```
 
-	@GetMapping("/secure")
-	public String secure(ModelMap modelMap) {
+### Shiro ajax
 
-		Subject currentUser = SecurityUtils.getSubject();
+When session timeout, if a secure resource is called by ajax, there is no any hints to user or page cannot be redirected to login page
+by default.
 
-		//get roles and permissions
+In order to handle this case, developer needs to override `onAccessDenied` of `FormAuthenticationFilter` to return specified response status when session timeout:
 
-		modelMap.addAttribute("username", currentUser.getPrincipal());
-		modelMap.addAttribute("permission", permission);
-		modelMap.addAttribute("role", role);
+```java
+public class CustomShiroAuthcFilter extends FormAuthenticationFilter{
+	
+	public CustomShiroAuthcFilter() {
+		
+		super();
+	}
+	
+	@Override
+    protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
+		
+        if (isLoginRequest(request, response)) {
+            return super.onAccessDenied(request, response);
+        } else {
+        	
+            if (isAjax((HttpServletRequest) request)) {
+                HttpServletResponse httpServletResponse = WebUtils.toHttp(response);
+                
+                httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
+            } else {
+                saveRequestAndRedirectToLogin(request, response);
+            }
+            
+            return false;
+        }
+    }
 
-		return "secure";
+    private boolean isAjax(HttpServletRequest request) {
+    	
+        String requestedWithHeader = request.getHeader("X-Requested-With");
+        return "XMLHttpRequest".equals(requestedWithHeader);
+    }
+
+}
+```
+
+and add `ShiroFilterFactoryBean` manually:
+
+```java
+@Configuration
+public class ShiroConfig {
+
+	@ExceptionHandler(AuthorizationException.class)
+	@ResponseStatus(HttpStatus.FORBIDDEN)
+	public String handleException(AuthorizationException e, Model model) {		
+
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		map.put("status", HttpStatus.FORBIDDEN.value());
+
+		map.put("message", "No message available");
+
+		model.addAttribute("errors", map);
+
+		return "error";
+
 	}
 
-	@PostMapping("/logout")
-	public String logout() {
-		Subject subject = SecurityUtils.getSubject();
-		subject.logout();
-		return "redirect:/";
+	@Bean
+	public UserRealm myShiroRealm() {
+
+		UserRealm myShiroRealm = new UserRealm();
+
+		myShiroRealm.setCredentialsMatcher(hashedCredentialsMatcher());
+
+		return myShiroRealm;
+
 	}
-  ```
+
+	@Bean
+	public HashedCredentialsMatcher hashedCredentialsMatcher() {
+
+		HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
+
+		hashedCredentialsMatcher.setHashAlgorithmName("MD5");	
+
+		return hashedCredentialsMatcher;
+
+	}
+
+	 @Bean
+	  public ShiroFilterFactoryBean shiroFilterFactoryBean(SessionsSecurityManager securityManager) {
+		
+	    ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
+	    
+	   
+	    shiroFilterFactoryBean.setSecurityManager(securityManager);
+	    
+	    shiroFilterFactoryBean.setLoginUrl("/");
+	    shiroFilterFactoryBean.setSuccessUrl("/main");
+	    shiroFilterFactoryBean.setUnauthorizedUrl("/");	    
+	   
+	    Map<String, Filter> filtersMap = new LinkedHashMap<>();
+	   
+	    filtersMap.put("authc", new CustomShiroAuthcFilter());
+	    shiroFilterFactoryBean.setFilters(filtersMap);
+	   
+	    Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
+	    filterChainDefinitionMap.put("/", "anon");
+	    filterChainDefinitionMap.put("/login", "anon");
+	    filterChainDefinitionMap.put("/css/*", "anon");
+	    filterChainDefinitionMap.put("/image/*", "anon");
+	    filterChainDefinitionMap.put("/logout", "logout");
+	    filterChainDefinitionMap.put("/index", "anon");
+	    filterChainDefinitionMap.put("/**/*", "authc");
+	    shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
+	    
+	    return shiroFilterFactoryBean;
+	  }
+
+}
+```
