@@ -51,7 +51,7 @@ public String uploadFile(@RequestParam("file") MultipartFile file) throws Illega
 	   
      // file represent the uploaded file
      Path path = Paths.get(fileUploadLocation + file.getOriginalFilename());
-     file.transferTo(path);
+     file.transferTo(path); // save file
 }
 ```
 
