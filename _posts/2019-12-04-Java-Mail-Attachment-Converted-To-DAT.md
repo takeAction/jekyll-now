@@ -28,3 +28,6 @@ The solution is : add `System.setProperty("mail.mime.encodeparameters", "false")
 
 [The attached file name is converted to .dat in outlook](https://community.oracle.com/thread/4052611)
 
+[javamail faq](https://javaee.github.io/javamail/FAQ)
+
+[javamail package summary](https://javaee.github.io/javamail/docs/api/com/sun/mail/smtp/package-summary.html)
